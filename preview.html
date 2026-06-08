@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Saturday Yard Co. | Working Saturdays for Better Weekends</title>
+  <meta name="description" content="Reliable Saturday lawn mowing for busy homeowners. Simple pricing, clean cuts, and dependable weekly service." />
+  <style>
+    :root {
+      --cream: #f6f1e7;
+      --paper: #fffaf0;
+      --black: #151613;
+      --green: #243c2a;
+      --green-2: #4f6934;
+      --gold: #b9862f;
+      --muted: #706b5e;
+      --line: rgba(21,22,19,.14);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--cream);
+      color: var(--black);
+      line-height: 1.5;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .page {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 80% 10%, rgba(185,134,47,.18), transparent 30%),
+        linear-gradient(180deg, var(--paper), var(--cream));
+    }
+
+    header {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 22px 22px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .brand img {
+      width: 220px;
+      height: auto;
+      display: block;
+    }
+
+    nav {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    nav a { opacity: .72; }
+    nav a:hover { opacity: 1; }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--black);
+      background: var(--black);
+      color: var(--paper);
+      padding: 14px 20px;
+      border-radius: 999px;
+      font-weight: 900;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      box-shadow: 0 10px 0 rgba(21,22,19,.12);
+    }
+
+    .button.secondary {
+      background: transparent;
+      color: var(--black);
+      box-shadow: none;
+    }
+
+    .hero {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 72px 22px 76px;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: .16em;
+      color: var(--green);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 44px;
+      height: 3px;
+      background: var(--gold);
+      display: inline-block;
+    }
+
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(48px, 7vw, 92px);
+      line-height: .92;
+      letter-spacing: -.055em;
+      margin: 0 0 24px;
+    }
+
+    .lead {
+      max-width: 650px;
+      font-size: clamp(18px, 2vw, 23px);
+      color: #34342e;
+      margin: 0 0 34px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .hero-card {
+      background: var(--black);
+      color: var(--paper);
+      border-radius: 30px;
+      padding: 30px;
+      min-height: 460px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 30px 80px rgba(21,22,19,.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(145deg, rgba(185,134,47,.2), transparent 45%),
+        repeating-linear-gradient(90deg, transparent, transparent 24px, rgba(255,250,240,.04) 24px, rgba(255,250,240,.04) 25px);
+      pointer-events: none;
+    }
+
+    .hero-card > * { position: relative; }
+
+    .price {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 74px;
+      line-height: 1;
+      letter-spacing: -.06em;
+      margin: 0;
+    }
+
+    .price span {
+      font-size: 18px;
+      font-family: inherit;
+      letter-spacing: 0;
+      color: rgba(255,250,240,.7);
+    }
+
+    .card-label {
+      color: var(--gold);
+      font-weight: 900;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .card-copy {
+      font-size: 22px;
+      max-width: 360px;
+      margin: 0;
+      color: rgba(255,250,240,.84);
+    }
+
+    .checklist {
+      display: grid;
+      gap: 12px;
+      padding: 0;
+      margin: 24px 0 0;
+      list-style: none;
+      color: rgba(255,250,240,.86);
+      font-weight: 700;
+    }
+
+    .checklist li::before {
+      content: "✓";
+      color: var(--gold);
+      margin-right: 10px;
+    }
+
+    section {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 72px 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 40px;
+      align-items: end;
+      margin-bottom: 34px;
+    }
+
+    h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(36px, 5vw, 64px);
+      line-height: .95;
+      letter-spacing: -.045em;
+      margin: 0;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 19px;
+      max-width: 620px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .tile {
+      background: rgba(255,250,240,.72);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 26px;
+      min-height: 240px;
+    }
+
+    .tile h3 {
+      margin: 0 0 12px;
+      font-size: 22px;
+      letter-spacing: -.02em;
+    }
+
+    .tile p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .tile strong {
+      display: block;
+      font-size: 42px;
+      letter-spacing: -.06em;
+      margin-bottom: 8px;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .route {
+      background: var(--green);
+      color: var(--paper);
+      border-radius: 32px;
+      padding: 44px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 34px;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .route::after {
+      content: "";
+      position: absolute;
+      right: -90px;
+      bottom: -90px;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: rgba(185,134,47,.24);
+    }
+
+    .route h2 { max-width: 520px; }
+    .route p { color: rgba(255,250,240,.78); font-size: 19px; margin: 18px 0 0; }
+
+    .areas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pill {
+      border: 1px solid rgba(255,250,240,.32);
+      border-radius: 999px;
+      padding: 12px 16px;
+      font-weight: 800;
+      color: rgba(255,250,240,.88);
+      background: rgba(255,250,240,.06);
+    }
+
+    .cta {
+      text-align: center;
+      padding-bottom: 90px;
+    }
+
+    .cta p {
+      color: var(--muted);
+      font-size: 20px;
+      margin: 18px auto 30px;
+      max-width: 640px;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 26px 22px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+    }
+
+
+    .lawn-log {
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .schedule-card {
+      background: var(--black);
+      color: var(--paper);
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: 0 24px 60px rgba(21,22,19,.18);
+    }
+
+    .schedule-card h3,
+    .community-card h3 {
+      font-size: 26px;
+      margin: 0 0 16px;
+      letter-spacing: -.03em;
+    }
+
+    .schedule-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .schedule-list li {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 14px;
+      border-top: 1px solid rgba(255,250,240,.16);
+      padding-top: 12px;
+      color: rgba(255,250,240,.82);
+    }
+
+    .schedule-list strong {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: 13px;
+    }
+
+    .community-card {
+      background: rgba(255,250,240,.78);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 30px;
+    }
+
+    .comment-box {
+      margin-top: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .comment-box input,
+    .comment-box textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #fffdf7;
+      border-radius: 16px;
+      padding: 14px 16px;
+      font: inherit;
+      color: var(--black);
+    }
+
+    .comment-box textarea {
+      min-height: 118px;
+      resize: vertical;
+    }
+
+    .comment-note {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .post {
+      border-top: 1px solid var(--line);
+      padding-top: 16px;
+      margin-top: 18px;
+    }
+
+    .post-meta {
+      color: var(--green);
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+
+    @media (max-width: 860px) {
+      header {
+        align-items: flex-start;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .brand img {
+        width: 190px;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 46px;
+      }
+
+      .section-head,
+      .route,
+      .lawn-log,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-card {
+        min-height: 380px;
+      }
+
+      .route {
+        padding: 30px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header>
+      <a class="brand" href="#" aria-label="Saturday Yard Co. home">
+        <img src="saturday-yard-logo.png" alt="Saturday Yard Co. logo">
+      </a>
+      <nav>
+        <a href="#services">Services</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#route">Route</a>
+        <a href="#lawn-log">Lawn Log</a>
+        <a class="button" href="#quote">Get Quote</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <div class="eyebrow">Saturday lawn service</div>
+          <h1>Your yard handled before the weekend disappears.</h1>
+          <p class="lead">Reliable mowing, trimming, edging, and cleanup for busy homeowners who want a clean yard without giving up their Saturday.</p>
+          <div class="actions">
+            <a class="button" href="#quote">Request a Saturday spot</a>
+            <a class="button secondary" href="#pricing">See simple pricing</a>
+          </div>
+        </div>
+
+        <aside class="hero-card" aria-label="Starting price card">
+          <div>
+            <div class="card-label">Starting at</div>
+            <p class="price">$45 <span>/ mow</span></p>
+          </div>
+          <div>
+            <p class="card-copy">Simple, route-based lawn care. No bloated contracts. No landscaping upsell circus.</p>
+            <ul class="checklist">
+              <li>Weekly or bi-weekly mowing</li>
+              <li>Trim, edge, blow clean</li>
+              <li>Saturday route availability</li>
+              <li>Text-based scheduling</li>
+            </ul>
+          </div>
+        </aside>
+      </section>
+
+      <section id="services">
+        <div class="section-head">
+          <h2>Keep the offer tight.</h2>
+          <p>Saturday Yard Co. is built around a focused service menu. That keeps costs low, scheduling clean, and the customer experience predictable.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="tile">
+            <h3>Weekly Mowing</h3>
+            <p>Best for homeowners who want the yard consistently maintained through the growing season.</p>
+          </article>
+          <article class="tile">
+            <h3>Bi-Weekly Mowing</h3>
+            <p>A practical option for slower-growing lawns or customers who want basic upkeep without overcommitting.</p>
+          </article>
+          <article class="tile">
+            <h3>Seasonal Cleanup</h3>
+            <p>Spring and fall cleanup add-ons when the route needs extra margin without becoming a full landscaping company.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="pricing">
+        <div class="section-head">
+          <h2>Simple pricing. No mystery.</h2>
+          <p>Final quote depends on yard size, access, slope, and condition. The business should avoid underpriced overgrown yards.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="tile">
+            <strong>$45</strong>
+            <h3>Small Yard</h3>
+            <p>Townhomes, compact lots, and straightforward mow/trim/blow service.</p>
+          </article>
+          <article class="tile">
+            <strong>$55</strong>
+            <h3>Standard Yard</h3>
+            <p>Typical suburban lots with front and back lawn service.</p>
+          </article>
+          <article class="tile">
+            <strong>$65+</strong>
+            <h3>Larger Yard</h3>
+            <p>Corner lots, bigger backyards, tricky access, or heavier trimming requirements.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="route">
+        <div class="route">
+          <div>
+            <h2>Built for neighborhood route density.</h2>
+            <p>The model works best when customers are clustered together. Less driving. More mowing. Better Saturday revenue.</p>
+          </div>
+          <div class="areas" aria-label="Service areas">
+            <span class="pill">Erie</span>
+            <span class="pill">Lafayette</span>
+            <span class="pill">Louisville</span>
+            <span class="pill">Superior</span>
+            <span class="pill">Longmont</span>
+            <span class="pill">Niwot</span>
+          </div>
+        </div>
+      </section>
+
+
+      <section id="lawn-log">
+        <div class="section-head">
+          <h2>The local lawn log.</h2>
+          <p>People already ask how the lawn stays dialed in. This gives them a place to follow the routine, ask questions, and share what is working in their own yard.</p>
+        </div>
+
+        <div class="lawn-log">
+          <article class="schedule-card">
+            <div class="card-label">Current routine</div>
+            <h3>Taylor’s weekly lawn schedule</h3>
+            <p class="card-copy">A practical Colorado routine people can copy, adjust, and discuss.</p>
+
+            <ul class="schedule-list">
+              <li><strong>Water</strong><span>Early morning cycles before heat hits. Adjust by zone, sun exposure, and restrictions.</span></li>
+              <li><strong>Mow</strong><span>Cut high enough to protect the roots. Never scalp during hot, dry weeks.</span></li>
+              <li><strong>Edge</strong><span>Clean hard edges make the whole yard look sharper, even before upgrades.</span></li>
+              <li><strong>Recover</strong><span>Spot treat dry patches, watch sprinkler coverage, and repair weak areas before they spread.</span></li>
+            </ul>
+          </article>
+
+          <article class="community-card">
+            <h3>Ask a question. Share your lawn.</h3>
+            <p>Start simple: collect questions, photos, and comments. Later this can become a private neighborhood lawn feed, paid lawn schedule, or customer-only maintenance log.</p>
+
+            <form class="comment-box">
+              <input type="text" placeholder="Name" aria-label="Name">
+              <input type="email" placeholder="Email" aria-label="Email">
+              <textarea placeholder="What are you trying to fix or improve?" aria-label="Comment"></textarea>
+              <a class="button" href="mailto:hello@saturdayyardco.com?subject=Lawn%20Log%20Question">Send lawn question</a>
+            </form>
+
+            <p class="comment-note">Prototype note: this form is visual only. Connect it to Airtable, Firebase, Supabase, Formspree, or a website CMS when ready.</p>
+
+            <div class="post">
+              <div class="post-meta">Example community post</div>
+              <p><strong>“My front yard burns out every July. Should I water longer or more often?”</strong><br>Answer: first check sprinkler coverage. Dead zones are usually coverage problems before schedule problems.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="quote" class="cta">
+        <div class="eyebrow">Now booking Saturday routes</div>
+        <h2>Get your yard on the route.</h2>
+        <p>Send your address, a few lawn photos, and whether you want weekly or bi-weekly service. You’ll get a straightforward quote back.</p>
+        <a class="button" href="mailto:hello@saturdayyardco.com?subject=Saturday%20Yard%20Co.%20Quote%20Request">Request a quote</a>
+      </section>
+    </main>
+
+    <footer>
+      © 2026 Saturday Yard Co. Working Saturdays for better weekends.
+    </footer>
+  </div>
+</body>
+</html>
