@@ -321,6 +321,53 @@
       background: rgba(255,250,240,.06);
     }
 
+    /* About section */
+    .about {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .about-photo {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 28px;
+      display: block;
+      box-shadow: 0 24px 60px rgba(21,22,19,.16);
+    }
+
+    .about-text .eyebrow {
+      margin-bottom: 16px;
+    }
+
+    .about-text h2 {
+      margin-bottom: 20px;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      font-size: 18px;
+      margin: 0 0 16px;
+      max-width: 560px;
+    }
+
+    .about-text p:last-child {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 860px) {
+      .about {
+        grid-template-columns: 1fr;
+      }
+
+      .about-photo {
+        max-width: 280px;
+        margin: 0 auto;
+      }
+    }
+
     .cta {
       text-align: center;
       padding-top: 72px;
@@ -567,6 +614,7 @@
         <a href="#pricing">Pricing</a>
         <a href="#route">Route</a>
         <a href="#lawn-log">Lawn Log</a>
+        <a href="#about">About</a>
         <a class="button" href="#quote">Get Quote</a>
       </nav>
       <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
@@ -580,6 +628,7 @@
       <a href="#pricing" class="mobile-nav-link">Pricing</a>
       <a href="#route" class="mobile-nav-link">Route</a>
       <a href="#lawn-log" class="mobile-nav-link">Lawn Log</a>
+      <a href="#about" class="mobile-nav-link">About</a>
       <a class="button" href="#quote">Get Quote</a>
     </div>
 
@@ -715,6 +764,19 @@
               <p><strong>“My front yard burns out every July. Should I water longer or more often?”</strong><br>Answer: first check sprinkler coverage. Dead zones are usually coverage problems before schedule problems.</p>
             </div>
           </article>
+        </div>
+      </section>
+
+      <section id="about">
+        <div class="about">
+          <img class="about-photo" src="taylor-headshot.jpg" alt="Taylor Dollarhide, owner of Saturday Yard Co.">
+          <div class="about-text">
+            <div class="eyebrow">About the owner</div>
+            <h2>Hi, I'm Taylor.</h2>
+            <p>Saturday Yard Co. started because I wanted a better way to spend my weekends — and I figured other homeowners did too. So I built a lawn service around a simple idea: show up every Saturday, do great work, keep it simple.</p>
+            <p>I run tight routes across Erie, Lafayette, Louisville, and the surrounding neighborhoods. No subcontractors. No surprises. Just a reliable cut, every week.</p>
+            <p>If you're tired of chasing down lawn crews or spending your Saturday behind a mower, I'd love to take that off your plate.</p>
+          </div>
         </div>
       </section>
 
