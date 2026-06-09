@@ -440,9 +440,89 @@
     }
 
 
+    /* Mobile menu button */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 44px;
+      height: 44px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 10px;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--black);
+      border-radius: 2px;
+      transition: transform .25s ease, opacity .25s ease;
+      transform-origin: center;
+    }
+
+    .menu-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .menu-toggle.open span:nth-child(2) { opacity: 0; }
+    .menu-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile nav drawer */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--paper);
+      z-index: 100;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 40px 24px;
+    }
+
+    .mobile-nav.open {
+      display: flex;
+    }
+
+    .mobile-nav a {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -.02em;
+      opacity: .8;
+      padding: 10px 0;
+    }
+
+    .mobile-nav a:hover { opacity: 1; }
+
+    .mobile-nav .button {
+      margin-top: 16px;
+      font-size: 16px;
+      padding: 16px 32px;
+    }
+
+    .mobile-nav-close {
+      position: absolute;
+      top: 22px;
+      right: 22px;
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: var(--black);
+      line-height: 1;
+      padding: 6px;
+    }
+
     @media (max-width: 860px) {
       header {
-        align-items: flex-start;
+        align-items: center;
+      }
+
+      .menu-toggle {
+        display: flex;
       }
 
       nav {
@@ -489,7 +569,19 @@
         <a href="#lawn-log">Lawn Log</a>
         <a class="button" href="#quote">Get Quote</a>
       </nav>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </header>
+
+    <div class="mobile-nav" id="mobileNav" role="dialog" aria-label="Mobile navigation">
+      <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">✕</button>
+      <a href="#services" class="mobile-nav-link">Services</a>
+      <a href="#pricing" class="mobile-nav-link">Pricing</a>
+      <a href="#route" class="mobile-nav-link">Route</a>
+      <a href="#lawn-log" class="mobile-nav-link">Lawn Log</a>
+      <a class="button" href="#quote">Get Quote</a>
+    </div>
 
     <main>
       <section class="hero">
@@ -639,5 +731,31 @@
       © 2026 Saturday Yard Co. Working Saturdays for better weekends.
     </footer>
   </div>
+  <script>
+    const toggle = document.getElementById('menuToggle');
+    const nav = document.getElementById('mobileNav');
+    const close = document.getElementById('mobileNavClose');
+
+    function openMenu() {
+      nav.classList.add('open');
+      toggle.classList.add('open');
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      nav.classList.remove('open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    toggle.addEventListener('click', () => nav.classList.contains('open') ? closeMenu() : openMenu());
+    close.addEventListener('click', closeMenu);
+
+    document.querySelectorAll('.mobile-nav-link, .mobile-nav .button').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+  </script>
 </body>
 </html>
