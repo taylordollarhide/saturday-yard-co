@@ -40,6 +40,21 @@
         linear-gradient(180deg, var(--paper), var(--cream));
     }
 
+    .header-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(246,241,231,.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      transition: transform .3s ease;
+    }
+
+    .header-wrap.hidden {
+      transform: translateY(-100%);
+    }
+
     header {
       max-width: 1180px;
       margin: 0 auto;
@@ -607,6 +622,7 @@
 
 <body>
   <div class="page">
+    <div class="header-wrap" id="headerWrap">
     <header>
       <a class="brand" href="#" aria-label="Saturday Yard Co. home">
         <img src="logo.png" alt="Saturday Yard Co. logo">
@@ -632,6 +648,7 @@
       <a href="#lawn-log" class="mobile-nav-link">Lawn Log</a>
       <a href="#about" class="mobile-nav-link">About</a>
       <a class="button" href="#quote">Get Quote</a>
+    </div>
     </div>
 
     <main>
@@ -796,6 +813,21 @@
     </footer>
   </div>
   <script>
+    // Hide header on scroll down, show on scroll up
+    const headerWrap = document.getElementById('headerWrap');
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const current = window.scrollY;
+      if (current <= 60) {
+        headerWrap.classList.remove('hidden');
+      } else if (current > lastScroll) {
+        headerWrap.classList.add('hidden');
+      } else {
+        headerWrap.classList.remove('hidden');
+      }
+      lastScroll = current;
+    }, { passive: true });
+
     const toggle = document.getElementById('menuToggle');
     const nav = document.getElementById('mobileNav');
     const close = document.getElementById('mobileNavClose');
