@@ -769,14 +769,13 @@
             <h3>Ask a question. Share your lawn.</h3>
             <p>Start simple: collect questions, photos, and comments. Later this can become a private neighborhood lawn feed, paid lawn schedule, or customer-only maintenance log.</p>
 
-            <form class="comment-box">
-              <input type="text" placeholder="Name" aria-label="Name">
-              <input type="email" placeholder="Email" aria-label="Email">
-              <textarea placeholder="What are you trying to fix or improve?" aria-label="Comment"></textarea>
-              <a class="button" href="mailto:hello@saturdayyardco.com?subject=Lawn%20Log%20Question">Send lawn question</a>
+            <form class="comment-box" name="lawn-log" method="POST" netlify>
+              <input type="hidden" name="form-name" value="lawn-log">
+              <input type="text" name="name" placeholder="Name" aria-label="Name" required>
+              <input type="email" name="email" placeholder="Email" aria-label="Email" required>
+              <textarea name="message" placeholder="What are you trying to fix or improve?" aria-label="Comment" required></textarea>
+              <button type="submit" class="button">Send lawn question</button>
             </form>
-
-            <p class="comment-note">Prototype note: this form is visual only. Connect it to Airtable, Firebase, Supabase, Formspree, or a website CMS when ready.</p>
 
             <div class="post">
               <div class="post-meta">Example community post</div>
