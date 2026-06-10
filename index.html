@@ -769,13 +769,16 @@
             <h3>Ask a question. Share your lawn.</h3>
             <p>Start simple: collect questions, photos, and comments. Later this can become a private neighborhood lawn feed, paid lawn schedule, or customer-only maintenance log.</p>
 
-            <form class="comment-box" name="lawn-log" method="POST" netlify>
+            <form class="comment-box" name="lawn-log" method="POST" netlify id="lawnLogForm">
               <input type="hidden" name="form-name" value="lawn-log">
               <input type="text" name="name" placeholder="Name" aria-label="Name" required>
               <input type="email" name="email" placeholder="Email" aria-label="Email" required>
               <textarea name="message" placeholder="What are you trying to fix or improve?" aria-label="Comment" required></textarea>
               <button type="submit" class="button">Send lawn question</button>
             </form>
+            <div id="lawnLogSuccess" style="display:none; padding: 20px; background: var(--green); color: var(--paper); border-radius: 16px; text-align: center; font-weight: 700;">
+              ✓ Question sent. We'll get back to you soon.
+            </div>
 
             <div class="post">
               <div class="post-meta">Example community post</div>
@@ -812,6 +815,19 @@
     </footer>
   </div>
   <script>
+    // Lawn log form — submit via fetch, show success message
+    const lawnForm = document.getElementById('lawnLogForm');
+    const lawnSuccess = document.getElementById('lawnLogSuccess');
+    if (lawnForm) {
+      lawnForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = new FormData(lawnForm);
+        await fetch('/', { method: 'POST', body: data });
+        lawnForm.style.display = 'none';
+        lawnSuccess.style.display = 'block';
+      });
+    }
+
     // Hide header on scroll down, show on scroll up
     const headerWrap = document.getElementById('headerWrap');
     let lastScroll = 0;
