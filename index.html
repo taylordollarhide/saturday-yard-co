@@ -550,9 +550,14 @@
     .mobile-nav {
       display: none;
       position: fixed;
-      inset: 0;
-      background: var(--paper);
-      z-index: 100;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--cream);
+      z-index: 200;
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -653,6 +658,8 @@
       </button>
     </header>
 
+    </div>
+
     <div class="mobile-nav" id="mobileNav" role="dialog" aria-label="Mobile navigation">
       <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">✕</button>
       <a href="#services" class="mobile-nav-link">Services</a>
@@ -661,7 +668,6 @@
       <a href="#lawn-log" class="mobile-nav-link">Lawn Log</a>
       <a href="#about" class="mobile-nav-link">About</a>
       <a class="button" href="#quote">Get Quote</a>
-    </div>
     </div>
 
     <main>
