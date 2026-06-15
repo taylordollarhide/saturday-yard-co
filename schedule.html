@@ -508,6 +508,17 @@
         </select>
       </div>
       <div class="field">
+        <label>Yard Size</label>
+        <select id="f-yardsize">
+          <option value="Small">Small (15–18 min)</option>
+          <option value="Standard" selected>Standard (25–30 min)</option>
+          <option value="Large">Large (45–50 min)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
         <label>Price</label>
         <input type="number" id="f-price" placeholder="55">
       </div>
@@ -618,6 +629,27 @@
     render();
   }
 
+  // ── TIMING HELPERS ──
+  const JOB_DURATION = { Small: 17, Standard: 28, Large: 48 };
+
+  function jobMins(client) {
+    return JOB_DURATION[client.yardSize] || 28;
+  }
+
+  function addMins(hhmm, mins) {
+    const [h, m] = hhmm.split(':').map(Number);
+    const total = h * 60 + m + mins;
+    const hh = Math.floor(total / 60) % 24;
+    const mm = total % 60;
+    const period = hh >= 12 ? 'PM' : 'AM';
+    const display = `${hh % 12 || 12}:${mm.toString().padStart(2, '0')} ${period}`;
+    return display;
+  }
+
+  function minsToTime(startHHMM, offsetMins) {
+    return addMins(startHHMM, offsetMins);
+  }
+
   // ── RENDER ──
   function render() {
     renderRoute();
@@ -641,15 +673,15 @@
     }
 
     const legCache = JSON.parse(localStorage.getItem('syc_leg_times') || 'null');
+    let cursor = 7 * 60; // 7:00 AM in minutes from midnight
 
     el.innerHTML = days.map(day => {
       const dayClients = clients.filter(c => c.day === day);
+      let dayCursor = cursor;
+
       return `
         <div class="day-header">${day}</div>
         ${dayClients.map((c, i) => {
-          const legMin = legCache && legCache.ids[legCache.ids.indexOf(c.id) - 1] !== undefined
-            ? null : null; // resolved below
-          const globalIdx = clients.indexOf(c);
           const driveTime = legCache && legCache.ids && legCache.mins && i > 0
             ? (() => {
                 const prevId = dayClients[i - 1].id;
@@ -658,13 +690,25 @@
               })()
             : null;
 
+          if (driveTime !== null) dayCursor += driveTime;
+          const arrivalMins = dayCursor;
+          const duration = jobMins(c);
+          const departureMins = arrivalMins + duration;
+
+          const arrival = addMins('00:00', arrivalMins);
+          const departure = addMins('00:00', departureMins);
+          dayCursor = departureMins;
+
           return `
-            ${driveTime !== null ? `<div class="drive-time-badge"><span>🚗 ${driveTime} min</span></div>` : ''}
+            ${driveTime !== null ? `<div class="drive-time-badge"><span>🚗 ${driveTime} min drive</span></div>` : ''}
             <div class="customer-card" id="card-${c.id}">
               <div class="route-num">${c.order || i + 1}</div>
               <div class="customer-info">
                 <div class="customer-name">${c.first} ${c.last}</div>
                 <div class="customer-meta">${c.address} · $${c.price}</div>
+                <div class="customer-meta" style="color:var(--green);font-weight:800;">
+                  ${arrival} — ${departure} &nbsp;·&nbsp; ${duration} min
+                </div>
               </div>
               <div class="card-actions">
                 <button class="icon-btn icon-btn-green" title="Log service" onclick="openLogModal('${c.id}')">✓</button>
@@ -764,6 +808,7 @@
     document.getElementById('f-phone').value = c.phone || '';
     document.getElementById('f-email').value = c.email || '';
     document.getElementById('f-service').value = c.service || 'Weekly';
+    document.getElementById('f-yardsize').value = c.yardSize || 'Standard';
     document.getElementById('f-price').value = c.price || '';
     document.getElementById('f-day').value = c.day || 'Saturday';
     document.getElementById('f-order').value = c.order || '';
@@ -785,6 +830,7 @@
       phone: document.getElementById('f-phone').value.trim(),
       email: document.getElementById('f-email').value.trim(),
       service: document.getElementById('f-service').value,
+      yardSize: document.getElementById('f-yardsize').value,
       price: document.getElementById('f-price').value,
       day: document.getElementById('f-day').value,
       order: parseInt(document.getElementById('f-order').value) || 99,
