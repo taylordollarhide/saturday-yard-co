@@ -815,6 +815,10 @@
     if (_routingInFlight) return;
     _routingInFlight = true;
 
+    // Wipe old array-format cache so dict format takes over
+    const existing = JSON.parse(localStorage.getItem('syc_leg_times') || 'null');
+    if (existing && !existing.map) localStorage.removeItem('syc_leg_times');
+
     try {
       const clients = getClients().sort((a, b) => {
         if (a.day < b.day) return -1;
@@ -843,7 +847,7 @@
 
       if (coordsChanged) localStorage.setItem('syc_coords', JSON.stringify(coordCache));
 
-      // Route each day separately and build a unified leg cache
+      // Route each day separately and build a keyed leg map
       const days = [...new Set(clients.map(c => c.day))];
       const legMap = {};
 
