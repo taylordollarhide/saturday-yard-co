@@ -606,7 +606,7 @@
   function unlock() {
     gate.style.display = 'none';
     app.style.display = 'block';
-    render();
+    requestAnimationFrame(() => render());
   }
 
   // ── DATA ──
