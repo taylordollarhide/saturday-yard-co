@@ -1595,7 +1595,7 @@
       const last = (c.log || []).slice().sort((a, b) => b.date.localeCompare(a.date))[0];
       const notes = last.notes ? `Notes: ${last.notes}\n\n` : '';
       const venmoUrl = venmo
-        ? `https://venmo.com/${venmo}?txn=pay&amount=${c.price}`
+        ? `venmo://paycharge?txn=pay&recipients=${venmo}&amount=${c.price}`
         : '';
       const phone = (c.phone || '').replace(/\D/g, '');
       // Build SMS body in parts so venmoUrl isn't double-encoded
