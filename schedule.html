@@ -168,6 +168,33 @@
 
     .customer-card.done { opacity: .5; }
 
+    .drive-time-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 4px 8px;
+      margin-top: -4px;
+    }
+
+    .drive-time-badge::before,
+    .drive-time-badge::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+
+    .drive-time-badge span {
+      background: var(--black);
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
     .route-num {
       width: 32px;
       height: 32px;
@@ -622,22 +649,41 @@
       return;
     }
 
-    el.innerHTML = days.map(day => `
-      <div class="day-header">${day}</div>
-      ${clients.filter(c => c.day === day).map((c, i) => `
-        <div class="customer-card" id="card-${c.id}">
-          <div class="route-num">${c.order || i + 1}</div>
-          <div class="customer-info">
-            <div class="customer-name">${c.first} ${c.last}</div>
-            <div class="customer-meta">${c.address} · $${c.price}</div>
-          </div>
-          <div class="card-actions">
-            <button class="icon-btn icon-btn-green" title="Log service" onclick="openLogModal('${c.id}')">✓</button>
-            <button class="icon-btn icon-btn-gold" title="Edit" onclick="openEditModal('${c.id}')">✎</button>
-          </div>
-        </div>
-      `).join('')}
-    `).join('');
+    const legCache = JSON.parse(localStorage.getItem('syc_leg_times') || 'null');
+
+    el.innerHTML = days.map(day => {
+      const dayClients = clients.filter(c => c.day === day);
+      return `
+        <div class="day-header">${day}</div>
+        ${dayClients.map((c, i) => {
+          const legMin = legCache && legCache.ids[legCache.ids.indexOf(c.id) - 1] !== undefined
+            ? null : null; // resolved below
+          const globalIdx = clients.indexOf(c);
+          const driveTime = legCache && legCache.ids && legCache.mins && i > 0
+            ? (() => {
+                const prevId = dayClients[i - 1].id;
+                const prevIdx = legCache.ids.indexOf(prevId);
+                return prevIdx >= 0 ? legCache.mins[prevIdx] : null;
+              })()
+            : null;
+
+          return `
+            ${driveTime !== null ? `<div class="drive-time-badge"><span>🚗 ${driveTime} min</span></div>` : ''}
+            <div class="customer-card" id="card-${c.id}">
+              <div class="route-num">${c.order || i + 1}</div>
+              <div class="customer-info">
+                <div class="customer-name">${c.first} ${c.last}</div>
+                <div class="customer-meta">${c.address} · $${c.price}</div>
+              </div>
+              <div class="card-actions">
+                <button class="icon-btn icon-btn-green" title="Log service" onclick="openLogModal('${c.id}')">✓</button>
+                <button class="icon-btn icon-btn-gold" title="Edit" onclick="openEditModal('${c.id}')">✎</button>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      `;
+    }).join('');
   }
 
   function renderClients() {
@@ -906,17 +952,22 @@
             style: { color: '#b9862f', weight: 4, opacity: .85 }
           }).addTo(mapInstance);
 
+          // Cache leg durations for the route list
+          const legMins = route.legs.map(l => Math.round(l.duration / 60));
+          localStorage.setItem('syc_leg_times', JSON.stringify({ ids: clients.map(c => c.id), mins: legMins }));
+          renderRoute();
+
           // Drive times between each leg
           const legs = route.legs;
           legs.forEach((leg, i) => {
-            const mins = Math.round(leg.duration / 60);
+            const mins = legMins[i];
             const midLat = (points[i][0] + points[i + 1][0]) / 2;
             const midLng = (points[i][1] + points[i + 1][1]) / 2;
             L.marker([midLat, midLng], {
               icon: L.divIcon({
                 className: '',
-                html: `<div style="background:#151613;color:#fffaf0;font-size:11px;font-weight:900;padding:3px 8px;border-radius:999px;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.3)">${mins} min</div>`,
-                iconAnchor: [24, 10],
+                html: `<div style="background:#b9862f;color:#151613;font-size:13px;font-weight:900;padding:5px 12px;border-radius:999px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.35);border:2px solid #151613">🚗 ${mins} min</div>`,
+                iconAnchor: [36, 14],
               }),
               interactive: false,
             }).addTo(mapInstance);
