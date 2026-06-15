@@ -1597,34 +1597,25 @@
       const venmoUrl = venmo
         ? `https://venmo.com/${venmo}?txn=pay&amount=${c.price}&note=Saturday+Yard+Co+%E2%80%94+Lawn+Service`
         : '';
-      const venmoLine = venmoUrl
-        ? `Pay now on Venmo: ${venmoUrl}`
-        : '';
-      const body = encodeURIComponent(
-`Hi ${c.first},
+      const msgBody = encodeURIComponent(
+`Hi ${c.first}, your lawn is done! 🌿
 
-Just finished up your lawn today — looks great!
+${notes}Amount due: $${c.price}${venmoUrl ? `\nPay via Venmo: ${venmoUrl}` : ''}
 
-${notes}Service: ${c.service}
-Amount due: $${c.price}
-${venmoLine}
-
-Thanks for being a Saturday Yard Co. customer.
-
-— Taylor`
+— Taylor, Saturday Yard Co.`
       );
-      const subject = encodeURIComponent(`Your lawn is done — Saturday Yard Co.`);
-      const mailto = `mailto:${c.email}?subject=${subject}&body=${body}`;
+      const phone = (c.phone || '').replace(/\D/g, '');
+      const sms = phone ? `sms:${phone}&body=${msgBody}` : '';
 
       return `
         <div style="background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
           <div>
             <div style="font-weight:800;font-size:15px;">${c.first} ${c.last}</div>
-            <div style="font-size:13px;color:var(--muted);">${c.email || 'No email on file'} · $${c.price}</div>
+            <div style="font-size:13px;color:var(--muted);">${c.phone || 'No phone on file'} · $${c.price}</div>
           </div>
-          ${c.email
-            ? `<a href="${mailto}" class="btn btn-gold" style="flex-shrink:0;text-decoration:none;"><span class="material-icons" style="font-size:16px;vertical-align:-3px">send</span> Send</a>`
-            : `<span style="font-size:12px;color:var(--muted);">No email</span>`
+          ${sms
+            ? `<a href="${sms}" class="btn btn-gold" style="flex-shrink:0;text-decoration:none;"><span class="material-icons" style="font-size:16px;vertical-align:-3px">sms</span> Text</a>`
+            : `<span style="font-size:12px;color:var(--muted);">No phone</span>`
           }
         </div>`;
     }).join('');
