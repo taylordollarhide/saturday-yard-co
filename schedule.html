@@ -442,6 +442,7 @@
     <div class="tab active" onclick="switchTab('route')">Route</div>
     <div class="tab" onclick="switchTab('clients')">Clients</div>
     <div class="tab" onclick="switchTab('stats')">Stats</div>
+    <div class="tab" onclick="switchTab('settings')">Settings</div>
   </div>
 
   <!-- ROUTE TAB -->
@@ -463,6 +464,49 @@
   <!-- STATS TAB -->
   <div id="tab-stats" class="panel">
     <div class="stats-grid" id="stats-grid"></div>
+  </div>
+
+  <!-- SETTINGS TAB -->
+  <div id="tab-settings" class="panel">
+    <div style="padding: 8px 0 16px;">
+
+      <div class="form-card">
+        <h3>Data</h3>
+        <div class="field">
+          <label>Clear all clients</label>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Permanently removes all clients and service history. Export a CSV first.</p>
+          <button class="btn btn-red" onclick="clearAllClients()">Clear All Clients</button>
+        </div>
+        <div class="field" style="margin-top:16px;">
+          <label>Clear route cache</label>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Clears cached GPS coordinates and drive times. Re-opens the map to rebuild.</p>
+          <button class="btn btn-dark" onclick="clearRouteCache()">Clear Route Cache</button>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h3>Change PIN</h3>
+        <div class="field">
+          <label>New PIN</label>
+          <input type="password" inputmode="numeric" id="new-pin" placeholder="Enter new PIN" maxlength="6">
+        </div>
+        <div class="field">
+          <label>Confirm PIN</label>
+          <input type="password" inputmode="numeric" id="confirm-pin" placeholder="Confirm new PIN" maxlength="6">
+        </div>
+        <button class="btn btn-gold" onclick="changePin()">Update PIN</button>
+      </div>
+
+      <div class="form-card">
+        <h3>Route Start Time</h3>
+        <div class="field">
+          <label>Start time</label>
+          <input type="time" id="start-time" value="07:00" onchange="saveStartTime(this.value)">
+        </div>
+        <p style="font-size:13px;color:var(--muted);">Default is 7:00 AM. Updates arrival and departure times across the route list.</p>
+      </div>
+
+    </div>
   </div>
 </div>
 
@@ -584,7 +628,7 @@
 
 <script>
   // ── PIN AUTH ──
-  const PIN = '1234'; // Change this to your PIN
+  const PIN = localStorage.getItem('syc_pin') || '1234';
   const pinInput = document.getElementById('pin-input');
   const gate = document.getElementById('gate');
   const app = document.getElementById('app');
@@ -657,6 +701,7 @@
     try { renderRoute(); } catch(e) { console.error('renderRoute:', e); }
     try { renderClients(); } catch(e) { console.error('renderClients:', e); }
     try { renderStats(); } catch(e) { console.error('renderStats:', e); }
+    try { renderSettings(); } catch(e) { console.error('renderSettings:', e); }
   }
 
   function renderRoute() {
@@ -675,10 +720,12 @@
     }
 
     const legCache = JSON.parse(localStorage.getItem('syc_leg_times') || 'null');
+    const [startH, startM] = getStartTime().split(':').map(Number);
+    const startMins = startH * 60 + startM;
     let html = '';
 
     days.forEach(day => {
-      let timeCursor = 7 * 60; // reset to 7:00 AM for each day
+      let timeCursor = startMins; // reset to start time for each day
       const dayClients = clients.filter(c => c.day === day);
       html += `<div class="day-header">${day}</div>`;
 
@@ -1023,6 +1070,48 @@
     }
 
     document.getElementById('map-loading').classList.remove('visible');
+  }
+
+  // ── SETTINGS ──
+  function clearAllClients() {
+    if (!confirm('Delete ALL clients and service history? This cannot be undone.')) return;
+    localStorage.removeItem('syc_clients');
+    localStorage.removeItem('syc_coords');
+    localStorage.removeItem('syc_leg_times');
+    render();
+    alert('All clients cleared.');
+  }
+
+  function clearRouteCache() {
+    localStorage.removeItem('syc_coords');
+    localStorage.removeItem('syc_leg_times');
+    alert('Route cache cleared. Open the map to rebuild.');
+  }
+
+  function changePin() {
+    const np = document.getElementById('new-pin').value;
+    const cp = document.getElementById('confirm-pin').value;
+    if (!np) { alert('Enter a new PIN.'); return; }
+    if (np !== cp) { alert('PINs do not match.'); return; }
+    if (np.length < 4) { alert('PIN must be at least 4 digits.'); return; }
+    localStorage.setItem('syc_pin', np);
+    document.getElementById('new-pin').value = '';
+    document.getElementById('confirm-pin').value = '';
+    alert('PIN updated.');
+  }
+
+  function getStartTime() {
+    return localStorage.getItem('syc_start_time') || '07:00';
+  }
+
+  function saveStartTime(val) {
+    localStorage.setItem('syc_start_time', val);
+    render();
+  }
+
+  function renderSettings() {
+    const t = document.getElementById('start-time');
+    if (t) t.value = getStartTime();
   }
 
   // ── CSV IMPORT ──
