@@ -1600,7 +1600,7 @@
       const phone = (c.phone || '').replace(/\D/g, '');
       // Build SMS body in parts so venmoUrl isn't double-encoded
       const bodyTop = encodeURIComponent(`Hi ${c.first}, your lawn is done! 🌿\n\n${notes}Amount due: $${c.price}`);
-      const bodyVenmo = venmoUrl ? encodeURIComponent(`\nPay via Venmo: `) + venmoUrl : '';
+      const bodyVenmo = venmoUrl ? encodeURIComponent(`\nPay via Venmo: `) + venmoUrl.replace(/&/g, '%26') : '';
       const bodyBottom = encodeURIComponent(`\n\n— Taylor, Saturday Yard Co.`);
       const msgBody = bodyTop + bodyVenmo + bodyBottom;
       const sms = phone ? `sms:${phone}&body=${msgBody}` : '';
