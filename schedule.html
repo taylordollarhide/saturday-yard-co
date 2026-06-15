@@ -1009,7 +1009,7 @@
           <div class="customer-meta">${c.address}</div>
         </div>
         <div class="card-actions">
-          <button class="icon-btn icon-btn-gold" title="Share client page" onclick="shareClient('${c.id}')"><span class="material-icons" style="font-size:18px">ios_share</span></button>
+          <a class="icon-btn icon-btn-gold" title="View service profile" href="/customer.html?id=${c.id}" target="_blank"><span class="material-icons" style="font-size:18px">person</span></a>
           <button class="icon-btn icon-btn-gold" title="Edit" onclick="openEditModal('${c.id}')"><span class="material-icons" style="font-size:18px">edit</span></button>
           <button class="icon-btn icon-btn-red" title="Delete" onclick="deleteClient('${c.id}')"><span class="material-icons" style="font-size:18px">delete</span></button>
         </div>
