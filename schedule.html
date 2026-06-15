@@ -413,6 +413,70 @@
     .stat-value.gold { color: var(--gold); }
     .stat-value.green { color: var(--green); }
 
+    .stats-section-title {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 20px 0 10px;
+    }
+
+    .stats-row {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 13px 16px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .stats-row-label { font-weight: 700; font-size: 14px; }
+    .stats-row-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    .stats-bar-wrap {
+      background: var(--line);
+      border-radius: 999px;
+      height: 6px;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+
+    .stats-bar { height: 6px; border-radius: 999px; background: var(--green); }
+    .stats-bar.gold { background: var(--gold); }
+    .stats-bar.red { background: var(--red); }
+
+    .stats-badge {
+      font-size: 12px;
+      font-weight: 900;
+      padding: 4px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .stats-badge.green { background: rgba(36,60,42,.12); color: var(--green); }
+    .stats-badge.gold { background: rgba(185,134,47,.15); color: var(--gold); }
+    .stats-badge.red { background: rgba(192,57,43,.1); color: var(--red); }
+
+    .insight-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 8px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .insight-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; color: var(--gold); }
+    .insight-title { font-size: 14px; font-weight: 800; margin-bottom: 3px; }
+    .insight-body { font-size: 13px; color: var(--muted); line-height: 1.4; }
+
     /* ── MAP ── */
     #map { height: calc(100vh - 110px); width: 100%; display: none; }
     #map.visible { display: block; }
@@ -503,6 +567,7 @@
   <!-- STATS TAB -->
   <div id="tab-stats" class="panel">
     <div class="stats-grid" id="stats-grid"></div>
+    <div id="stats-detail"></div>
   </div>
 
   <!-- SETTINGS TAB -->
@@ -863,6 +928,13 @@
 
   function renderStats() {
     const clients = getClients();
+    if (!clients.length) {
+      document.getElementById('stats-grid').innerHTML = `<div class="empty"><span class="material-icons" style="font-size:48px;color:var(--muted)">bar_chart</span><p>No clients yet.</p></div>`;
+      document.getElementById('stats-detail').innerHTML = '';
+      return;
+    }
+
+    const JOB_DUR = { Small: 17, Standard: 28, Large: 48 };
     const weekly = clients.filter(c => c.service === 'Weekly');
     const biweekly = clients.filter(c => c.service === 'Bi-Weekly');
     const weeklyRev = weekly.reduce((s, c) => s + Number(c.price || 0), 0);
@@ -870,7 +942,108 @@
     const monthlyEst = (weeklyRev * 4) + (biwRev * 2);
     const allLogs = clients.flatMap(c => c.log || []);
     const completed = allLogs.filter(l => l.status === 'Completed').length;
+    const avgPrice = clients.reduce((s, c) => s + Number(c.price || 0), 0) / clients.length;
 
+    // weekly rev per visit
+    const weeklyVisitRev = weekly.reduce((s, c) => s + Number(c.price || 0), 0);
+    const biwVisitRev = biweekly.reduce((s, c) => s + Number(c.price || 0), 0);
+
+    // revenue per hour by yard size
+    const sizeGroups = ['Small', 'Standard', 'Large'];
+    const sizeData = sizeGroups.map(size => {
+      const group = clients.filter(c => c.yardSize === size);
+      const totalRev = group.reduce((s, c) => s + Number(c.price || 0), 0);
+      const totalMins = group.length * JOB_DUR[size];
+      const rph = totalMins > 0 ? (totalRev / totalMins) * 60 : 0;
+      return { size, count: group.length, totalRev, rph };
+    }).filter(d => d.count > 0);
+
+    const maxRph = Math.max(...sizeData.map(d => d.rph), 1);
+
+    // revenue by day
+    const days = ['Saturday', 'Sunday'];
+    const dayData = days.map(day => {
+      const group = clients.filter(c => c.day === day);
+      const rev = group.reduce((s, c) => {
+        const mult = c.service === 'Weekly' ? 4 : 2;
+        return s + Number(c.price || 0) * mult;
+      }, 0);
+      return { day, count: group.length, monthlyRev: rev };
+    }).filter(d => d.count > 0);
+
+    const maxDayRev = Math.max(...dayData.map(d => d.monthlyRev), 1);
+
+    // top earners
+    const topClients = [...clients]
+      .sort((a, b) => {
+        const revA = Number(a.price || 0) * (a.service === 'Weekly' ? 4 : 2);
+        const revB = Number(b.price || 0) * (b.service === 'Weekly' ? 4 : 2);
+        return revB - revA;
+      })
+      .slice(0, 5);
+
+    const maxClientRev = Number(topClients[0]?.price || 0) * (topClients[0]?.service === 'Weekly' ? 4 : 2);
+
+    // insights
+    const insights = [];
+
+    const bestSize = sizeData.reduce((best, d) => d.rph > best.rph ? d : best, sizeData[0]);
+    const worstSize = sizeData.reduce((worst, d) => d.rph < worst.rph ? d : worst, sizeData[0]);
+    if (sizeData.length > 1 && bestSize.rph > worstSize.rph * 1.15) {
+      insights.push({
+        icon: 'trending_up',
+        title: `${bestSize.size} yards earn the most per hour`,
+        body: `$${bestSize.rph.toFixed(0)}/hr vs $${worstSize.rph.toFixed(0)}/hr for ${worstSize.size}. Prioritize ${bestSize.size} yards when adding clients.`
+      });
+    }
+
+    const biwCount = biweekly.length;
+    const wkCount = weekly.length;
+    if (biwCount > wkCount * 0.4) {
+      const lostRev = biweekly.reduce((s, c) => s + Number(c.price || 0), 0) * 2;
+      insights.push({
+        icon: 'swap_horiz',
+        title: `${biwCount} bi-weekly clients could be weekly`,
+        body: `Converting them all would add ~$${lostRev.toFixed(0)}/mo. Start by offering weekly service to your highest-paying bi-weekly accounts.`
+      });
+    }
+
+    if (avgPrice < 55) {
+      insights.push({
+        icon: 'attach_money',
+        title: 'Average price is below market',
+        body: `Your avg is $${avgPrice.toFixed(0)}/mow. Erie/Lafayette market supports $55–75 for Standard yards. Consider a rate increase on next-season renewals.`
+      });
+    }
+
+    const satClients = clients.filter(c => c.day === 'Saturday');
+    const sunClients = clients.filter(c => c.day === 'Sunday');
+    if (Math.abs(satClients.length - sunClients.length) > 3) {
+      const heavy = satClients.length > sunClients.length ? 'Saturday' : 'Sunday';
+      const light = heavy === 'Saturday' ? 'Sunday' : 'Saturday';
+      insights.push({
+        icon: 'balance',
+        title: `Route imbalance — ${heavy} is heavier`,
+        body: `${heavy} has ${Math.max(satClients.length, sunClients.length)} stops vs ${Math.min(satClients.length, sunClients.length)} on ${light}. Move clients to balance drive time and finish earlier.`
+      });
+    }
+
+    const hasAeration = clients.some(c => c.notes && /aerat/i.test(c.notes));
+    if (!hasAeration) {
+      insights.push({
+        icon: 'add_circle_outline',
+        title: 'Add aeration as a seasonal upsell',
+        body: `Fall aeration runs $75–150 per yard. With ${clients.length} clients, one round of upsells could add $${(clients.length * 90).toFixed(0)}+ in a single weekend.`
+      });
+    }
+
+    insights.push({
+      icon: 'content_cut',
+      title: 'Fertilization programs add recurring rev',
+      body: `A 4-application/year fertilization program at $60–80 per app adds predictable off-season income and increases client retention significantly.`
+    });
+
+    // render
     document.getElementById('stats-grid').innerHTML = `
       <div class="stat-card">
         <div class="stat-label">Total Clients</div>
@@ -881,13 +1054,71 @@
         <div class="stat-value gold">$${monthlyEst.toFixed(0)}</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Weekly Clients</div>
-        <div class="stat-value">${weekly.length}</div>
+        <div class="stat-label">Avg per Mow</div>
+        <div class="stat-value">$${avgPrice.toFixed(0)}</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Visits Logged</div>
         <div class="stat-value">${completed}</div>
       </div>
+    `;
+
+    document.getElementById('stats-detail').innerHTML = `
+
+      <div class="stats-section-title">Revenue per Hour by Yard Size</div>
+      ${sizeData.map(d => `
+        <div class="stats-row" style="flex-direction:column;align-items:stretch;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div class="stats-row-label">${d.size} Yards</div>
+              <div class="stats-row-sub">${d.count} client${d.count !== 1 ? 's' : ''} · $${(d.totalRev / d.count).toFixed(0)} avg/mow</div>
+            </div>
+            <span class="stats-badge ${d.rph === maxRph ? 'green' : 'gold'}">$${d.rph.toFixed(0)}/hr</span>
+          </div>
+          <div class="stats-bar-wrap"><div class="stats-bar ${d.rph === maxRph ? '' : 'gold'}" style="width:${(d.rph / maxRph * 100).toFixed(0)}%"></div></div>
+        </div>
+      `).join('')}
+
+      <div class="stats-section-title">Revenue by Day</div>
+      ${dayData.map(d => `
+        <div class="stats-row" style="flex-direction:column;align-items:stretch;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div class="stats-row-label">${d.day}</div>
+              <div class="stats-row-sub">${d.count} stops</div>
+            </div>
+            <span class="stats-badge green">$${d.monthlyRev.toFixed(0)}/mo</span>
+          </div>
+          <div class="stats-bar-wrap"><div class="stats-bar" style="width:${(d.monthlyRev / maxDayRev * 100).toFixed(0)}%"></div></div>
+        </div>
+      `).join('')}
+
+      <div class="stats-section-title">Top Earners</div>
+      ${topClients.map((c, i) => {
+        const monthRev = Number(c.price || 0) * (c.service === 'Weekly' ? 4 : 2);
+        return `
+        <div class="stats-row" style="flex-direction:column;align-items:stretch;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div class="stats-row-label">${c.first} ${c.last}</div>
+              <div class="stats-row-sub">${c.service} · ${c.yardSize} · $${c.price}/mow</div>
+            </div>
+            <span class="stats-badge gold">$${monthRev}/mo</span>
+          </div>
+          <div class="stats-bar-wrap"><div class="stats-bar gold" style="width:${(monthRev / maxClientRev * 100).toFixed(0)}%"></div></div>
+        </div>`;
+      }).join('')}
+
+      <div class="stats-section-title">Insights & Recommendations</div>
+      ${insights.map(ins => `
+        <div class="insight-card">
+          <span class="material-icons insight-icon">${ins.icon}</span>
+          <div>
+            <div class="insight-title">${ins.title}</div>
+            <div class="insight-body">${ins.body}</div>
+          </div>
+        </div>
+      `).join('')}
     `;
   }
 
