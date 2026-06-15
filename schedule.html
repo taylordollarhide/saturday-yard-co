@@ -801,12 +801,88 @@
     return addMins(startHHMM, offsetMins);
   }
 
+  // ── AUTO DRIVE TIMES ──
+  let _routingInFlight = false;
+
+  async function autoFetchDriveTimes() {
+    if (_routingInFlight) return;
+    _routingInFlight = true;
+
+    try {
+      const clients = getClients().sort((a, b) => {
+        if (a.day < b.day) return -1;
+        if (a.day > b.day) return 1;
+        return (a.order || 99) - (b.order || 99);
+      });
+      if (clients.length < 2) return;
+
+      const coordCache = JSON.parse(localStorage.getItem('syc_coords') || '{}');
+      let coordsChanged = false;
+
+      // Geocode any missing clients (rate-limited)
+      for (const c of clients) {
+        if (!coordCache[c.id] && c.address) {
+          try {
+            const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(c.address)}&countrycodes=us&viewbox=-109.05,41.00,-102.05,36.99&bounded=1&limit=1`, { headers: { 'Accept-Language': 'en' } });
+            const data = await res.json();
+            if (data[0]) {
+              coordCache[c.id] = { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+              coordsChanged = true;
+            }
+            await new Promise(r => setTimeout(r, 1100));
+          } catch(e) { /* skip */ }
+        }
+      }
+
+      if (coordsChanged) localStorage.setItem('syc_coords', JSON.stringify(coordCache));
+
+      // Route each day separately and build a unified leg cache
+      const days = [...new Set(clients.map(c => c.day))];
+      const allIds = [];
+      const allMins = [];
+
+      for (const day of days) {
+        const dayClients = clients.filter(c => c.day === day);
+        const routed = dayClients.filter(c => coordCache[c.id]);
+        if (routed.length < 2) {
+          // No legs possible for this day — push IDs with no mins
+          continue;
+        }
+
+        const coordStr = routed.map(c => `${coordCache[c.id].lng},${coordCache[c.id].lat}`).join(';');
+        try {
+          const res = await fetch(`https://router.project-osrm.org/route/v1/driving/${coordStr}?overview=false&steps=false`);
+          const data = await res.json();
+          if (data.code === 'Ok' && data.routes[0]) {
+            const legMins = data.routes[0].legs.map(l => Math.round(l.duration / 60));
+            // Store: for each consecutive pair, record prevId → leg duration
+            for (let i = 0; i < routed.length - 1; i++) {
+              allIds.push(routed[i].id);
+              allMins.push(legMins[i]);
+            }
+            // Push last client id as a terminal marker (no leg after it for this day)
+            allIds.push(routed[routed.length - 1].id);
+            allMins.push(null);
+          }
+        } catch(e) { /* skip */ }
+      }
+
+      if (allIds.length) {
+        localStorage.setItem('syc_leg_times', JSON.stringify({ ids: allIds, mins: allMins }));
+        renderRoute();
+      }
+    } finally {
+      _routingInFlight = false;
+    }
+  }
+
   // ── RENDER ──
   function render() {
     try { renderRoute(); } catch(e) { console.error('renderRoute:', e); }
     try { renderClients(); } catch(e) { console.error('renderClients:', e); }
     try { renderStats(); } catch(e) { console.error('renderStats:', e); }
     try { renderSettings(); } catch(e) { console.error('renderSettings:', e); }
+    autoFetchDriveTimes();
   }
 
   function renderRoute() {
