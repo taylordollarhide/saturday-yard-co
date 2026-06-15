@@ -750,15 +750,24 @@
           html += `<div class="drive-time-badge"><span>🚗 ${driveTime} min drive</span></div>`;
         }
 
+        const recentLog = (c.log || []).slice().sort((a, b) => b.date.localeCompare(a.date))[0];
+        const isCompletedThisWeek = recentLog && recentLog.status === 'Completed' && (() => {
+          const logDate = new Date(recentLog.date + 'T12:00:00');
+          const diffDays = (Date.now() - logDate) / 86400000;
+          return diffDays < 7;
+        })();
+        const mapsUrl = `https://maps.apple.com/?daddr=${encodeURIComponent(c.address)}`;
+
         html += `
-          <div class="customer-card" id="card-${c.id}">
-            <div class="route-num">${c.order || i + 1}</div>
+          <div class="customer-card${isCompletedThisWeek ? ' done' : ''}" id="card-${c.id}">
+            <div class="route-num">${isCompletedThisWeek ? '✓' : (c.order || i + 1)}</div>
             <div class="customer-info">
               <div class="customer-name">${c.first} ${c.last}</div>
               <div class="customer-meta">${c.address} · $${c.price}</div>
               <div class="customer-meta" style="color:var(--green);font-weight:800;">${arrival} — ${departure} · ${duration} min</div>
             </div>
             <div class="card-actions">
+              <a class="icon-btn" href="${mapsUrl}" title="Open in Apple Maps" style="background:rgba(0,122,255,.1);color:#007aff;text-decoration:none;display:flex;align-items:center;justify-content:center;">⌖</a>
               <button class="icon-btn icon-btn-green" title="Log service" onclick="openLogModal('${c.id}')">✓</button>
               <button class="icon-btn icon-btn-gold" title="Edit" onclick="openEditModal('${c.id}')">✎</button>
             </div>
@@ -988,6 +997,7 @@
 
     const coordCache = JSON.parse(localStorage.getItem('syc_coords') || '{}');
     const points = [];
+    const routedIds = [];
 
     for (let i = 0; i < clients.length; i++) {
       const c = clients[i];
@@ -1010,6 +1020,7 @@
 
       if (!coords) continue;
       points.push([coords.lat, coords.lng]);
+      routedIds.push(c.id);
 
       const icon = L.divIcon({
         className: '',
@@ -1039,7 +1050,7 @@
 
           // Cache leg durations for the route list
           const legMins = route.legs.map(l => Math.round(l.duration / 60));
-          localStorage.setItem('syc_leg_times', JSON.stringify({ ids: clients.map(c => c.id), mins: legMins }));
+          localStorage.setItem('syc_leg_times', JSON.stringify({ ids: routedIds, mins: legMins }));
           renderRoute();
 
           // Drive times between each leg
