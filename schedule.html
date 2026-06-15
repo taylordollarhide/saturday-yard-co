@@ -811,6 +811,16 @@
   // ── AUTO DRIVE TIMES ──
   let _routingInFlight = false;
 
+  function haversineMins(a, b) {
+    const R = 3958.8; // miles
+    const dLat = (b.lat - a.lat) * Math.PI / 180;
+    const dLng = (b.lng - a.lng) * Math.PI / 180;
+    const h = Math.sin(dLat/2)**2 + Math.cos(a.lat*Math.PI/180) * Math.cos(b.lat*Math.PI/180) * Math.sin(dLng/2)**2;
+    const miles = 2 * R * Math.asin(Math.sqrt(h));
+    // 30 mph average for suburban stops, 1.35 road factor, minimum 2 min
+    return Math.max(2, Math.round(miles * 1.35 / 30 * 60));
+  }
+
   async function autoFetchDriveTimes() {
     if (_routingInFlight) return;
     _routingInFlight = true;
@@ -847,26 +857,19 @@
 
       if (coordsChanged) localStorage.setItem('syc_coords', JSON.stringify(coordCache));
 
-      // Route each day separately and build a keyed leg map
+      // Build leg map using haversine distance (fast, no external API)
       const days = [...new Set(clients.map(c => c.day))];
       const legMap = {};
 
       for (const day of days) {
         const dayClients = clients.filter(c => c.day === day);
-        const routed = dayClients.filter(c => coordCache[c.id]);
-        if (routed.length < 2) continue;
-
-        const coordStr = routed.map(c => `${coordCache[c.id].lng},${coordCache[c.id].lat}`).join(';');
-        try {
-          const res = await fetch(`https://router.project-osrm.org/route/v1/driving/${coordStr}?overview=false&steps=false`);
-          const data = await res.json();
-          if (data.code === 'Ok' && data.routes[0]) {
-            const legMins = data.routes[0].legs.map(l => Math.max(1, Math.round(l.duration / 60)));
-            for (let i = 0; i < routed.length - 1; i++) {
-              legMap[`${routed[i].id}->${routed[i + 1].id}`] = legMins[i];
-            }
+        for (let i = 1; i < dayClients.length; i++) {
+          const prev = coordCache[dayClients[i - 1].id];
+          const curr = coordCache[dayClients[i].id];
+          if (prev && curr) {
+            legMap[`${dayClients[i - 1].id}->${dayClients[i].id}`] = haversineMins(prev, curr);
           }
-        } catch(e) { /* skip */ }
+        }
       }
 
       if (Object.keys(legMap).length) {
