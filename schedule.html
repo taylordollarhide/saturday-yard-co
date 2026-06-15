@@ -69,7 +69,8 @@
     }
 
     /* ── APP SHELL ── */
-    #app { display: none; }
+    html, body { overflow-x: hidden; }
+    #app { display: none; max-width: 100vw; }
 
     .topbar {
       position: sticky;
@@ -92,7 +93,12 @@
       text-transform: uppercase;
     }
 
-    .topbar-actions { display: flex; gap: 8px; }
+    .topbar-actions { display: flex; gap: 8px; flex-shrink: 0; }
+    .btn-label { display: inline; }
+    @media (max-width: 420px) {
+      .btn-label { display: none; }
+      .btn { padding: 8px 10px; }
+    }
 
     .btn {
       display: inline-flex;
@@ -436,9 +442,9 @@
   <div class="topbar">
     <img src="logo.png" alt="Saturday Yard Co." style="height: 39px; width: auto; display: block;">
     <div class="topbar-actions">
-      <button class="btn btn-dark" onclick="exportCSV()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">download</span> CSV</button>
-      <label class="btn btn-dark" style="cursor:pointer;"><span class="material-icons" style="font-size:16px;vertical-align:-3px">upload</span> Import<input type="file" accept=".csv" id="csv-import" style="display:none;" onchange="importCSV(event)"></label>
-      <button class="btn btn-gold" onclick="openAddModal()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">person_add</span> Client</button>
+      <button class="btn btn-dark" onclick="exportCSV()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">download</span><span class="btn-label"> CSV</span></button>
+      <label class="btn btn-dark" style="cursor:pointer;"><span class="material-icons" style="font-size:16px;vertical-align:-3px">upload</span><span class="btn-label"> Import</span><input type="file" accept=".csv" id="csv-import" style="display:none;" onchange="importCSV(event)"></label>
+      <button class="btn btn-gold" onclick="openAddModal()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">person_add</span><span class="btn-label"> Client</span></button>
     </div>
   </div>
 
