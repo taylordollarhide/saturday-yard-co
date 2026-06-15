@@ -433,6 +433,7 @@
     <img src="logo.png" alt="Saturday Yard Co." style="height: 39px; width: auto; display: block;">
     <div class="topbar-actions">
       <button class="btn btn-dark" onclick="exportCSV()">⬇ CSV</button>
+      <label class="btn btn-dark" style="cursor:pointer;">⬆ Import<input type="file" accept=".csv" id="csv-import" style="display:none;" onchange="importCSV(event)"></label>
       <button class="btn btn-gold" onclick="openAddModal()">+ Client</button>
     </div>
   </div>
@@ -1022,6 +1023,80 @@
     }
 
     document.getElementById('map-loading').classList.remove('visible');
+  }
+
+  // ── CSV IMPORT ──
+  function importCSV(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const lines = e.target.result.trim().split('\n');
+        const headers = parseCSVRow(lines[0]).map(h => h.trim().toLowerCase());
+        const imported = lines.slice(1).map(line => {
+          const vals = parseCSVRow(line);
+          const row = {};
+          headers.forEach((h, i) => row[h] = (vals[i] || '').trim());
+          return {
+            id: row.id || uid(),
+            first: row.first || '',
+            last: row.last || '',
+            address: row.address || '',
+            phone: row.phone || '',
+            email: row.email || '',
+            service: row.service || 'Weekly',
+            yardSize: row.yardsize || 'Standard',
+            price: row.price || '',
+            day: row.day || 'Saturday',
+            order: parseInt(row.order) || 99,
+            notes: row.notes || '',
+            log: row.log ? row.log.split('|').filter(Boolean).map(entry => {
+              const [date, status] = entry.split(':');
+              return { date, status: status || 'Completed', notes: '' };
+            }) : [],
+          };
+        }).filter(c => c.first || c.last);
+
+        const existing = getClients();
+        const existingIds = existing.map(c => c.id);
+        const merged = [...existing];
+        let added = 0, updated = 0;
+
+        imported.forEach(c => {
+          const idx = existingIds.indexOf(c.id);
+          if (idx >= 0) { merged[idx] = c; updated++; }
+          else { merged.push(c); added++; }
+        });
+
+        saveClients(merged);
+        render();
+        alert(`Import complete: ${added} added, ${updated} updated.`);
+      } catch(err) {
+        alert('Import failed. Check the CSV format and try again.');
+        console.error(err);
+      }
+      event.target.value = '';
+    };
+    reader.readAsText(file);
+  }
+
+  function parseCSVRow(row) {
+    const result = [];
+    let cur = '', inQuote = false;
+    for (let i = 0; i < row.length; i++) {
+      const ch = row[i];
+      if (ch === '"') {
+        if (inQuote && row[i+1] === '"') { cur += '"'; i++; }
+        else inQuote = !inQuote;
+      } else if (ch === ',' && !inQuote) {
+        result.push(cur); cur = '';
+      } else {
+        cur += ch;
+      }
+    }
+    result.push(cur);
+    return result;
   }
 
   // ── CSV EXPORT ──
