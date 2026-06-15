@@ -1595,7 +1595,7 @@
       const last = (c.log || []).slice().sort((a, b) => b.date.localeCompare(a.date))[0];
       const notes = last.notes ? `Notes: ${last.notes}\n\n` : '';
       const venmoUrl = venmo
-        ? `https://venmo.com/${venmo}?txn=pay&amount=${c.price}&note=Saturday+Yard+Co+%E2%80%94+Lawn+Service`
+        ? `https://venmo.com/${venmo}?txn=pay&amount=${c.price}&note=Lawn+Service+-+Saturday+Yard+Co`
         : '';
       const msgBody = encodeURIComponent(
 `Hi ${c.first}, your lawn is done! 🌿
