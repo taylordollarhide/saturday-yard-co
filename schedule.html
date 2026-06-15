@@ -549,6 +549,11 @@
     <div class="map-toggle">
       <button class="btn btn-active" id="toggle-list" onclick="showListView()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">view_list</span> List</button>
       <button class="btn btn-outline btn-dark" id="toggle-map" onclick="showMapView()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">map</span> Map</button>
+      <div id="map-day-filter" style="display:none;margin-left:auto;display:none;gap:6px">
+        <button class="btn btn-active" id="mdf-sat" onclick="setMapDay('Saturday')">Sat</button>
+        <button class="btn btn-outline btn-dark" id="mdf-sun" onclick="setMapDay('Sunday')">Sun</button>
+        <button class="btn btn-outline btn-dark" id="mdf-both" onclick="setMapDay('both')">Both</button>
+      </div>
     </div>
     <div class="map-loading" id="map-loading">Mapping your route…</div>
     <div id="map"></div>
@@ -1335,12 +1340,26 @@
   // ── MAP ──
   let mapInstance = null;
   let mapView = 'list';
+  let mapDayFilter = 'Saturday';
+
+  const DAY_COLORS = { Saturday: '#b9862f', Sunday: '#4a7a54' };
+
+  function setMapDay(day) {
+    mapDayFilter = day;
+    ['sat','sun','both'].forEach(k => {
+      const btn = document.getElementById(`mdf-${k}`);
+      const active = (k === 'sat' && day === 'Saturday') || (k === 'sun' && day === 'Sunday') || (k === 'both' && day === 'both');
+      btn.className = active ? 'btn btn-active' : 'btn btn-outline btn-dark';
+    });
+    showMapView();
+  }
 
   function showListView() {
     mapView = 'list';
     document.getElementById('map').classList.remove('visible');
     document.getElementById('map-loading').classList.remove('visible');
     document.getElementById('route-list').style.display = '';
+    document.getElementById('map-day-filter').style.display = 'none';
     document.getElementById('toggle-list').classList.add('btn-active');
     document.getElementById('toggle-list').classList.remove('btn-outline', 'btn-dark');
     document.getElementById('toggle-map').classList.remove('btn-active');
@@ -1357,6 +1376,14 @@
     document.getElementById('map-loading').classList.add('visible');
     document.getElementById('map').classList.add('visible');
 
+    // Show day filter buttons, sync active state
+    const mdf = document.getElementById('map-day-filter');
+    mdf.style.display = 'flex';
+    ['sat','sun','both'].forEach(k => {
+      const match = (k === 'sat' && mapDayFilter === 'Saturday') || (k === 'sun' && mapDayFilter === 'Sunday') || (k === 'both' && mapDayFilter === 'both');
+      document.getElementById(`mdf-${k}`).className = match ? 'btn btn-active' : 'btn btn-outline btn-dark';
+    });
+
     if (mapInstance) { mapInstance.remove(); mapInstance = null; }
 
     mapInstance = L.map('map').setView([40.05, -105.1], 11);
@@ -1364,108 +1391,109 @@
       attribution: '© OpenStreetMap contributors'
     }).addTo(mapInstance);
 
-    const clients = getClients().sort((a, b) => {
+    const allClients = getClients().sort((a, b) => {
       if (a.day < b.day) return -1;
       if (a.day > b.day) return 1;
       return (a.order || 99) - (b.order || 99);
     });
 
+    // Geocode any missing clients
     const coordCache = JSON.parse(localStorage.getItem('syc_coords') || '{}');
-    const points = [];
-    const routedIds = [];
-
-    for (let i = 0; i < clients.length; i++) {
-      const c = clients[i];
-      let coords = coordCache[c.id];
-
-      if (!coords && c.address) {
+    for (const c of allClients) {
+      if (!coordCache[c.id] && c.address) {
         try {
           const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(c.address)}&countrycodes=us&viewbox=-109.05,41.00,-102.05,36.99&limit=1`, {
             headers: { 'Accept-Language': 'en' }
           });
           const data = await res.json();
           if (data[0]) {
-            coords = { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
-            coordCache[c.id] = coords;
+            coordCache[c.id] = { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
             localStorage.setItem('syc_coords', JSON.stringify(coordCache));
           }
           await new Promise(r => setTimeout(r, 1100));
-        } catch(e) { continue; }
+        } catch(e) { /* skip */ }
       }
+    }
 
-      if (!coords) continue;
-      points.push([coords.lat, coords.lng]);
-      routedIds.push(c.id);
+    const daysToShow = mapDayFilter === 'both' ? ['Saturday', 'Sunday'] : [mapDayFilter];
+    const allRenderedPoints = [];
+    const combinedLegMap = {};
 
-      const icon = L.divIcon({
-        className: '',
-        html: `<div style="width:28px;height:28px;border-radius:50%;background:#243c2a;color:#fffaf0;font-weight:900;font-size:12px;display:flex;align-items:center;justify-content:center;border:2px solid #b9862f;box-shadow:0 2px 6px rgba(0,0,0,.3)">${c.order || i + 1}</div>`,
-        iconSize: [28, 28],
-        iconAnchor: [14, 14],
+    for (const day of daysToShow) {
+      const color = DAY_COLORS[day];
+      const dayClients = allClients.filter(c => c.day === day);
+      const points = [];
+      const routedIds = [];
+
+      dayClients.forEach((c, i) => {
+        const coords = coordCache[c.id];
+        if (!coords) return;
+        points.push([coords.lat, coords.lng]);
+        routedIds.push(c.id);
+        allRenderedPoints.push([coords.lat, coords.lng]);
+
+        const icon = L.divIcon({
+          className: '',
+          html: `<div style="width:28px;height:28px;border-radius:50%;background:#243c2a;color:#fffaf0;font-weight:900;font-size:12px;display:flex;align-items:center;justify-content:center;border:2.5px solid ${color};box-shadow:0 2px 6px rgba(0,0,0,.3)">${c.order || i + 1}</div>`,
+          iconSize: [28, 28],
+          iconAnchor: [14, 14],
+        });
+        L.marker([coords.lat, coords.lng], { icon })
+          .addTo(mapInstance)
+          .bindPopup(`<strong>${c.first} ${c.last}</strong><br><span>${c.address}</span><br><span>${c.service} · $${c.price} · ${day}</span>`);
       });
 
-      L.marker([coords.lat, coords.lng], { icon })
-        .addTo(mapInstance)
-        .bindPopup(`<strong>${c.first} ${c.last}</strong><span>${c.address}</span><br><span>${c.service} · $${c.price} · ${c.day}</span>`);
-    }
-
-    if (points.length > 1) {
-      try {
-        const locations = points.map(p => ({ lon: p[1], lat: p[0], type: 'break' }));
-        const res = await fetch('https://valhalla.openstreetmap.de/route', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ locations, costing: 'auto', directions_options: { units: 'miles' } })
-        });
-        const data = await res.json();
-
-        if (data.trip && data.trip.legs) {
-          const legs = data.trip.legs;
-
-          // Decode and draw each leg's shape
-          const allPoints = [];
-          legs.forEach(leg => {
-            const decoded = decodePolyline(leg.shape, 6);
-            decoded.forEach(p => allPoints.push(p));
+      if (points.length > 1) {
+        try {
+          const locations = points.map(p => ({ lon: p[1], lat: p[0], type: 'break' }));
+          const res = await fetch('https://valhalla.openstreetmap.de/route', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ locations, costing: 'auto', directions_options: { units: 'miles' } })
           });
-          L.polyline(allPoints, { color: '#b9862f', weight: 4, opacity: 0.85 }).addTo(mapInstance);
+          const data = await res.json();
 
-          // Cache leg durations and update route list
-          const legMins = legs.map(l => Math.max(1, Math.round(l.summary.time / 60)));
-          const mapLegMap = {};
-          for (let i = 0; i < routedIds.length - 1; i++) {
-            mapLegMap[`${routedIds[i]}->${routedIds[i + 1]}`] = legMins[i];
+          if (data.trip && data.trip.legs) {
+            const legs = data.trip.legs;
+            const allShapePoints = [];
+            legs.forEach(leg => decodePolyline(leg.shape, 6).forEach(p => allShapePoints.push(p)));
+            L.polyline(allShapePoints, { color, weight: 4, opacity: 0.85 }).addTo(mapInstance);
+
+            const legMins = legs.map(l => Math.max(1, Math.round(l.summary.time / 60)));
+            for (let i = 0; i < routedIds.length - 1; i++) {
+              combinedLegMap[`${routedIds[i]}->${routedIds[i + 1]}`] = legMins[i];
+            }
+
+            legs.forEach((leg, i) => {
+              const mins = legMins[i];
+              const midLat = (points[i][0] + points[i + 1][0]) / 2;
+              const midLng = (points[i][1] + points[i + 1][1]) / 2;
+              L.marker([midLat, midLng], {
+                icon: L.divIcon({
+                  className: '',
+                  html: `<div style="background:${color};color:#151613;font-size:13px;font-weight:900;padding:5px 12px;border-radius:999px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.35);border:2px solid #151613;display:flex;align-items:center;gap:4px"><span class="material-icons" style="font-size:14px">directions_car</span>${mins} min</div>`,
+                  iconAnchor: [36, 14],
+                }),
+                interactive: false,
+              }).addTo(mapInstance);
+            });
+          } else {
+            L.polyline(points, { color, weight: 3, dashArray: '6,6' }).addTo(mapInstance);
           }
-          localStorage.setItem('syc_leg_times', JSON.stringify({ map: mapLegMap }));
-          renderRoute();
-
-          // Drive time pills between each stop
-          legs.forEach((leg, i) => {
-            const mins = legMins[i];
-            const midLat = (points[i][0] + points[i + 1][0]) / 2;
-            const midLng = (points[i][1] + points[i + 1][1]) / 2;
-            L.marker([midLat, midLng], {
-              icon: L.divIcon({
-                className: '',
-                html: `<div style="background:#b9862f;color:#151613;font-size:13px;font-weight:900;padding:5px 12px;border-radius:999px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.35);border:2px solid #151613;display:flex;align-items:center;gap:4px"><span class="material-icons" style="font-size:14px">directions_car</span>${mins} min</div>`,
-                iconAnchor: [36, 14],
-              }),
-              interactive: false,
-            }).addTo(mapInstance);
-          });
-
-          if (allPoints.length) mapInstance.fitBounds(allPoints, { padding: [32, 32] });
-        } else {
-          L.polyline(points, { color: '#b9862f', weight: 3, dashArray: '6,6' }).addTo(mapInstance);
-          mapInstance.fitBounds(points, { padding: [32, 32] });
+        } catch(e) {
+          L.polyline(points, { color, weight: 3, dashArray: '6,6' }).addTo(mapInstance);
         }
-      } catch (e) {
-        L.polyline(points, { color: '#b9862f', weight: 3, dashArray: '6,6' }).addTo(mapInstance);
-        mapInstance.fitBounds(points, { padding: [32, 32] });
+      } else if (points.length === 1) {
+        mapInstance.setView(points[0], 14);
       }
-    } else if (points.length === 1) {
-      mapInstance.setView(points[0], 14);
     }
+
+    if (Object.keys(combinedLegMap).length) {
+      localStorage.setItem('syc_leg_times', JSON.stringify({ map: combinedLegMap }));
+      renderRoute();
+    }
+
+    if (allRenderedPoints.length > 1) mapInstance.fitBounds(allRenderedPoints, { padding: [32, 32] });
 
     document.getElementById('map-loading').classList.remove('visible');
   }
