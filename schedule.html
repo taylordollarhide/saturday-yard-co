@@ -458,6 +458,17 @@
     <div class="map-loading" id="map-loading">Mapping your route…</div>
     <div id="map"></div>
     <div id="route-list"></div>
+
+    <div id="eod-panel" style="display:none;padding:16px 16px 0;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+        <span class="material-icons" style="color:var(--gold)">mark_email_read</span>
+        <strong style="font-size:15px;">EOD — Send Completion Emails</strong>
+      </div>
+      <div id="eod-list"></div>
+    </div>
+    <div style="padding:16px;">
+      <button class="btn btn-gold" style="width:100%;" onclick="toggleEOD()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">mark_email_read</span> EOD Send</button>
+    </div>
   </div>
 
   <!-- CLIENTS TAB -->
@@ -508,6 +519,16 @@
           <input type="time" id="start-time" value="07:00" onchange="saveStartTime(this.value)">
         </div>
         <p style="font-size:13px;color:var(--muted);">Default is 7:00 AM. Updates arrival and departure times across the route list.</p>
+      </div>
+
+      <div class="form-card">
+        <h3>Venmo</h3>
+        <div class="field">
+          <label>Venmo username</label>
+          <input type="text" id="venmo-handle" placeholder="@yourhandle" autocomplete="off">
+        </div>
+        <button class="btn btn-gold" onclick="saveVenmo()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">save</span> Save</button>
+        <p style="font-size:13px;color:var(--muted);margin-top:10px;">Used in EOD emails so clients can pay you directly. Stored on this device only.</p>
       </div>
 
     </div>
@@ -1126,9 +1147,83 @@
     render();
   }
 
+  function saveVenmo() {
+    const val = document.getElementById('venmo-handle').value.trim().replace(/^@/, '');
+    localStorage.setItem('syc_venmo', val);
+    alert('Venmo handle saved.');
+  }
+
   function renderSettings() {
     const t = document.getElementById('start-time');
     if (t) t.value = getStartTime();
+    const v = document.getElementById('venmo-handle');
+    if (v) v.value = localStorage.getItem('syc_venmo') || '';
+  }
+
+  // ── EOD SEND ──
+  let eodOpen = false;
+
+  function toggleEOD() {
+    eodOpen = !eodOpen;
+    const panel = document.getElementById('eod-panel');
+    panel.style.display = eodOpen ? 'block' : 'none';
+    if (eodOpen) renderEOD();
+  }
+
+  function renderEOD() {
+    const today = new Date().toISOString().slice(0, 10);
+    const venmo = localStorage.getItem('syc_venmo') || '';
+    const clients = getClients();
+
+    const completed = clients.filter(c => {
+      const last = (c.log || []).slice().sort((a, b) => b.date.localeCompare(a.date))[0];
+      return last && last.status === 'Completed' && last.date === today;
+    });
+
+    const el = document.getElementById('eod-list');
+
+    if (!completed.length) {
+      el.innerHTML = `<p style="color:var(--muted);font-size:14px;margin-bottom:16px;">No completed jobs logged today.</p>`;
+      return;
+    }
+
+    el.innerHTML = completed.map(c => {
+      const last = (c.log || []).slice().sort((a, b) => b.date.localeCompare(a.date))[0];
+      const notes = last.notes ? `Notes: ${last.notes}\n\n` : '';
+      const venmoUrl = venmo
+        ? `https://venmo.com/${venmo}?txn=pay&amount=${c.price}&note=Saturday+Yard+Co+%E2%80%94+Lawn+Service`
+        : '';
+      const venmoLine = venmoUrl
+        ? `Pay now on Venmo: ${venmoUrl}`
+        : '';
+      const body = encodeURIComponent(
+`Hi ${c.first},
+
+Just finished up your lawn today — looks great!
+
+${notes}Service: ${c.service}
+Amount due: $${c.price}
+${venmoLine}
+
+Thanks for being a Saturday Yard Co. customer.
+
+— Taylor`
+      );
+      const subject = encodeURIComponent(`Your lawn is done — Saturday Yard Co.`);
+      const mailto = `mailto:${c.email}?subject=${subject}&body=${body}`;
+
+      return `
+        <div style="background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+          <div>
+            <div style="font-weight:800;font-size:15px;">${c.first} ${c.last}</div>
+            <div style="font-size:13px;color:var(--muted);">${c.email || 'No email on file'} · $${c.price}</div>
+          </div>
+          ${c.email
+            ? `<a href="${mailto}" class="btn btn-gold" style="flex-shrink:0;text-decoration:none;"><span class="material-icons" style="font-size:16px;vertical-align:-3px">send</span> Send</a>`
+            : `<span style="font-size:12px;color:var(--muted);">No email</span>`
+          }
+        </div>`;
+    }).join('');
   }
 
   // ── CSV IMPORT ──
