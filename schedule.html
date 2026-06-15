@@ -547,16 +547,6 @@
     <div id="map"></div>
     <div id="route-list"></div>
 
-    <div id="eod-panel" style="display:none;padding:16px 16px 0;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-        <span class="material-icons" style="color:var(--gold)">mark_email_read</span>
-        <strong style="font-size:15px;">EOD — Send Completion Emails</strong>
-      </div>
-      <div id="eod-list"></div>
-    </div>
-    <div style="padding:16px;">
-      <button class="btn btn-gold" style="width:100%;" onclick="toggleEOD()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">mark_email_read</span> EOD Send</button>
-    </div>
   </div>
 
   <!-- CLIENTS TAB -->
@@ -887,6 +877,15 @@
             </div>
           </div>`;
       });
+
+      const dayKey = day.toLowerCase().replace(/\W/g, '');
+      html += `
+        <button class="btn btn-gold" style="width:100%;margin:8px 0 20px;" onclick="toggleEOD('${day}', '${dayKey}')">
+          <span class="material-icons" style="font-size:16px;vertical-align:-3px">mark_email_read</span> EOD Send — ${day}
+        </button>
+        <div id="eod-panel-${dayKey}" style="display:none;margin-bottom:16px;">
+          <div id="eod-list-${dayKey}"></div>
+        </div>`;
     });
 
     el.innerHTML = html;
@@ -1431,26 +1430,27 @@
   }
 
   // ── EOD SEND ──
-  let eodOpen = false;
+  const eodState = {};
 
-  function toggleEOD() {
-    eodOpen = !eodOpen;
-    const panel = document.getElementById('eod-panel');
-    panel.style.display = eodOpen ? 'block' : 'none';
-    if (eodOpen) renderEOD();
+  function toggleEOD(day, dayKey) {
+    eodState[dayKey] = !eodState[dayKey];
+    const panel = document.getElementById(`eod-panel-${dayKey}`);
+    panel.style.display = eodState[dayKey] ? 'block' : 'none';
+    if (eodState[dayKey]) renderEOD(day, dayKey);
   }
 
-  function renderEOD() {
+  function renderEOD(day, dayKey) {
     const today = new Date().toISOString().slice(0, 10);
     const venmo = localStorage.getItem('syc_venmo') || '';
     const clients = getClients();
 
     const completed = clients.filter(c => {
+      if (c.day !== day) return false;
       const last = (c.log || []).slice().sort((a, b) => b.date.localeCompare(a.date))[0];
       return last && last.status === 'Completed' && last.date === today;
     });
 
-    const el = document.getElementById('eod-list');
+    const el = document.getElementById(`eod-list-${dayKey}`);
 
     if (!completed.length) {
       el.innerHTML = `<p style="color:var(--muted);font-size:14px;margin-bottom:16px;">No completed jobs logged today.</p>`;
