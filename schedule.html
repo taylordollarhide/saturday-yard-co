@@ -915,9 +915,11 @@
       dayClients.forEach((c, i) => {
         let driveTime = null;
         if (i > 0 && legCache && legCache.map) {
-          const prevId = dayClients[i - 1].id;
-          const val = legCache.map[`${prevId}->${c.id}`];
-          if (val !== undefined) driveTime = val;
+          // Walk backward to find nearest routed leg into this client
+          for (let j = i - 1; j >= 0; j--) {
+            const val = legCache.map[`${dayClients[j].id}->${c.id}`];
+            if (val !== undefined) { driveTime = val; break; }
+          }
         }
 
         if (driveTime !== null) timeCursor += driveTime;
