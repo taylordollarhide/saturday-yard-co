@@ -674,10 +674,10 @@
     }
 
     const legCache = JSON.parse(localStorage.getItem('syc_leg_times') || 'null');
-    let timeCursor = 7 * 60; // 7:00 AM in minutes
     let html = '';
 
     days.forEach(day => {
+      let timeCursor = 7 * 60; // reset to 7:00 AM for each day
       const dayClients = clients.filter(c => c.day === day);
       html += `<div class="day-header">${day}</div>`;
 
