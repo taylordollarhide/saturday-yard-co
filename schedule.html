@@ -1,0 +1,801 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Route Manager — Saturday Yard Co.</title>
+  <style>
+    :root {
+      --cream: #f6f1e7;
+      --paper: #fffaf0;
+      --black: #151613;
+      --green: #243c2a;
+      --green-2: #4f6934;
+      --gold: #b9862f;
+      --muted: #706b5e;
+      --line: rgba(21,22,19,.14);
+      --red: #c0392b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+      background: var(--cream);
+      color: var(--black);
+      min-height: 100vh;
+    }
+
+    /* ── PIN GATE ── */
+    #gate {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      gap: 16px;
+    }
+
+    #gate img { width: 120px; margin-bottom: 8px; }
+
+    #gate h2 {
+      font-family: Georgia, serif;
+      font-size: 28px;
+      letter-spacing: -.03em;
+    }
+
+    #pin-input {
+      width: 100%;
+      max-width: 280px;
+      text-align: center;
+      font-size: 32px;
+      letter-spacing: .3em;
+      padding: 16px;
+      border: 2px solid var(--line);
+      border-radius: 16px;
+      background: var(--paper);
+      color: var(--black);
+      font-family: inherit;
+    }
+
+    #pin-error {
+      color: var(--red);
+      font-size: 14px;
+      font-weight: 700;
+      display: none;
+    }
+
+    /* ── APP SHELL ── */
+    #app { display: none; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--green);
+      color: var(--paper);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .topbar-title {
+      font-weight: 900;
+      letter-spacing: .04em;
+      font-size: 15px;
+      text-transform: uppercase;
+    }
+
+    .topbar-actions { display: flex; gap: 8px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-gold { background: var(--gold); color: var(--paper); }
+    .btn-outline { background: rgba(255,250,240,.15); color: var(--paper); border: 1px solid rgba(255,250,240,.3); }
+    .btn-dark { background: var(--black); color: var(--paper); }
+    .btn-green { background: var(--green); color: var(--paper); }
+    .btn-red { background: var(--red); color: var(--paper); }
+
+    /* ── TABS ── */
+    .tabs {
+      display: flex;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+      overflow-x: auto;
+    }
+
+    .tab {
+      flex: 1;
+      min-width: 80px;
+      padding: 12px 8px;
+      text-align: center;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+    }
+
+    .tab.active {
+      color: var(--green);
+      border-bottom-color: var(--green);
+    }
+
+    /* ── PANELS ── */
+    .panel { display: none; padding: 16px; }
+    .panel.active { display: block; }
+
+    /* ── ROUTE LIST ── */
+    .day-header {
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 8px 0 6px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 8px;
+    }
+
+    .customer-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .customer-card.done { opacity: .5; }
+
+    .route-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--green);
+      color: var(--paper);
+      font-weight: 900;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .customer-info { flex: 1; min-width: 0; }
+
+    .customer-name {
+      font-weight: 800;
+      font-size: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .customer-meta {
+      font-size: 13px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-btn-green { background: rgba(36,60,42,.1); color: var(--green); }
+    .icon-btn-gold { background: rgba(185,134,47,.12); color: var(--gold); }
+    .icon-btn-red { background: rgba(192,57,43,.1); color: var(--red); }
+
+    /* ── FORM ── */
+    .form-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .form-card h3 {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      letter-spacing: -.02em;
+    }
+
+    .field { margin-bottom: 14px; }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--cream);
+      font: inherit;
+      font-size: 15px;
+      color: var(--black);
+    }
+
+    .field textarea { min-height: 80px; resize: vertical; }
+
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    /* ── SERVICE LOG ── */
+    .log-entry {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    .log-date { font-weight: 800; min-width: 90px; }
+    .log-status { font-weight: 700; }
+    .log-status.done { color: var(--green); }
+    .log-status.skipped { color: var(--red); }
+
+    /* ── EMPTY STATE ── */
+    .empty {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--muted);
+    }
+
+    .empty p { font-size: 15px; margin-top: 8px; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(21,22,19,.6);
+      z-index: 200;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--paper);
+      border-radius: 24px 24px 0 0;
+      padding: 24px 20px 40px;
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-handle {
+      width: 40px;
+      height: 4px;
+      background: var(--line);
+      border-radius: 2px;
+      margin: 0 auto 20px;
+    }
+
+    .modal h3 {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 18px;
+      letter-spacing: -.02em;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .modal-actions .btn { flex: 1; justify-content: center; padding: 14px; }
+
+    /* ── STATS ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .stat-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-family: Georgia, serif;
+      font-size: 32px;
+      letter-spacing: -.04em;
+      line-height: 1;
+    }
+
+    .stat-value.gold { color: var(--gold); }
+    .stat-value.green { color: var(--green); }
+  </style>
+</head>
+<body>
+
+<!-- PIN GATE -->
+<div id="gate">
+  <img src="SaturdayYardCompany_Logo.png" alt="Saturday Yard Co.">
+  <h2>Route Manager</h2>
+  <input id="pin-input" type="password" inputmode="numeric" maxlength="6" placeholder="••••" autofocus>
+  <p id="pin-error">Incorrect PIN. Try again.</p>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="topbar">
+    <span class="topbar-title">Saturday Yard Co.</span>
+    <div class="topbar-actions">
+      <button class="btn btn-outline" onclick="exportCSV()">⬇ CSV</button>
+      <button class="btn btn-gold" onclick="openAddModal()">+ Client</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('route')">Route</div>
+    <div class="tab" onclick="switchTab('clients')">Clients</div>
+    <div class="tab" onclick="switchTab('stats')">Stats</div>
+  </div>
+
+  <!-- ROUTE TAB -->
+  <div id="tab-route" class="panel active">
+    <div id="route-list"></div>
+  </div>
+
+  <!-- CLIENTS TAB -->
+  <div id="tab-clients" class="panel">
+    <div id="client-list"></div>
+  </div>
+
+  <!-- STATS TAB -->
+  <div id="tab-stats" class="panel">
+    <div class="stats-grid" id="stats-grid"></div>
+  </div>
+</div>
+
+<!-- ADD / EDIT CLIENT MODAL -->
+<div class="modal-overlay" id="client-modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3 id="modal-title">Add Client</h3>
+    <input type="hidden" id="edit-id">
+
+    <div class="field-row">
+      <div class="field">
+        <label>First Name</label>
+        <input type="text" id="f-first" placeholder="Jane">
+      </div>
+      <div class="field">
+        <label>Last Name</label>
+        <input type="text" id="f-last" placeholder="Smith">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Address</label>
+      <input type="text" id="f-address" placeholder="123 Maple St, Erie CO">
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Phone</label>
+        <input type="tel" id="f-phone" placeholder="720-555-0100">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="f-email" placeholder="jane@email.com">
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Service</label>
+        <select id="f-service">
+          <option value="Weekly">Weekly</option>
+          <option value="Bi-Weekly">Bi-Weekly</option>
+          <option value="Seasonal Cleanup">Seasonal Cleanup</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Price</label>
+        <input type="number" id="f-price" placeholder="55">
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Route Day</label>
+        <select id="f-day">
+          <option value="Saturday">Saturday</option>
+          <option value="Sunday">Sunday</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Route Order</label>
+        <input type="number" id="f-order" placeholder="1" min="1">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Notes</label>
+      <textarea id="f-notes" placeholder="Gate code, dog in yard, tricky trim spots…"></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-outline btn-dark" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="saveClient()">Save Client</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOG SERVICE MODAL -->
+<div class="modal-overlay" id="log-modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3 id="log-modal-title">Log Service</h3>
+    <input type="hidden" id="log-client-id">
+
+    <div class="field">
+      <label>Date</label>
+      <input type="date" id="log-date">
+    </div>
+    <div class="field">
+      <label>Status</label>
+      <select id="log-status">
+        <option value="Completed">Completed</option>
+        <option value="Skipped">Skipped</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Notes</label>
+      <textarea id="log-notes" placeholder="Anything notable about this visit…"></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-outline btn-dark" onclick="closeLogModal()">Cancel</button>
+      <button class="btn btn-green" onclick="saveLog()">Log It</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── PIN AUTH ──
+  const PIN = '1234'; // Change this to your PIN
+  const pinInput = document.getElementById('pin-input');
+  const gate = document.getElementById('gate');
+  const app = document.getElementById('app');
+
+  if (sessionStorage.getItem('sycAuth') === 'true') unlock();
+
+  pinInput.addEventListener('input', () => {
+    if (pinInput.value.length >= PIN.length) {
+      if (pinInput.value === PIN) {
+        sessionStorage.setItem('sycAuth', 'true');
+        unlock();
+      } else {
+        document.getElementById('pin-error').style.display = 'block';
+        pinInput.value = '';
+      }
+    }
+  });
+
+  function unlock() {
+    gate.style.display = 'none';
+    app.style.display = 'block';
+    render();
+  }
+
+  // ── DATA ──
+  function getClients() {
+    return JSON.parse(localStorage.getItem('syc_clients') || '[]');
+  }
+
+  function saveClients(clients) {
+    localStorage.setItem('syc_clients', JSON.stringify(clients));
+  }
+
+  function uid() {
+    return Math.random().toString(36).slice(2, 10);
+  }
+
+  // ── TABS ──
+  function switchTab(name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('tab-' + name).classList.add('active');
+    render();
+  }
+
+  // ── RENDER ──
+  function render() {
+    renderRoute();
+    renderClients();
+    renderStats();
+  }
+
+  function renderRoute() {
+    const clients = getClients().sort((a, b) => {
+      if (a.day < b.day) return -1;
+      if (a.day > b.day) return 1;
+      return (a.order || 99) - (b.order || 99);
+    });
+
+    const days = [...new Set(clients.map(c => c.day))];
+    const el = document.getElementById('route-list');
+
+    if (!clients.length) {
+      el.innerHTML = `<div class="empty"><div style="font-size:48px">🗓</div><p>No clients yet. Tap + Client to add your first route stop.</p></div>`;
+      return;
+    }
+
+    el.innerHTML = days.map(day => `
+      <div class="day-header">${day}</div>
+      ${clients.filter(c => c.day === day).map((c, i) => `
+        <div class="customer-card" id="card-${c.id}">
+          <div class="route-num">${c.order || i + 1}</div>
+          <div class="customer-info">
+            <div class="customer-name">${c.first} ${c.last}</div>
+            <div class="customer-meta">${c.address} · $${c.price}</div>
+          </div>
+          <div class="card-actions">
+            <button class="icon-btn icon-btn-green" title="Log service" onclick="openLogModal('${c.id}')">✓</button>
+            <button class="icon-btn icon-btn-gold" title="Edit" onclick="openEditModal('${c.id}')">✎</button>
+          </div>
+        </div>
+      `).join('')}
+    `).join('');
+  }
+
+  function renderClients() {
+    const clients = getClients().sort((a, b) => `${a.last}${a.first}`.localeCompare(`${b.last}${b.first}`));
+    const el = document.getElementById('client-list');
+
+    if (!clients.length) {
+      el.innerHTML = `<div class="empty"><div style="font-size:48px">👤</div><p>No clients yet.</p></div>`;
+      return;
+    }
+
+    el.innerHTML = clients.map(c => `
+      <div class="customer-card">
+        <div class="customer-info">
+          <div class="customer-name">${c.first} ${c.last}</div>
+          <div class="customer-meta">${c.service} · ${c.day} · $${c.price}/mow</div>
+          <div class="customer-meta">${c.address}</div>
+        </div>
+        <div class="card-actions">
+          <button class="icon-btn icon-btn-gold" title="Share client page" onclick="shareClient('${c.id}')">↗</button>
+          <button class="icon-btn icon-btn-gold" title="Edit" onclick="openEditModal('${c.id}')">✎</button>
+          <button class="icon-btn icon-btn-red" title="Delete" onclick="deleteClient('${c.id}')">✕</button>
+        </div>
+      </div>
+      <div style="padding: 0 4px 12px;">
+        ${(c.log || []).slice(-3).reverse().map(l => `
+          <div class="log-entry">
+            <span class="log-date">${l.date}</span>
+            <span class="log-status ${l.status.toLowerCase()}">${l.status}</span>
+            <span style="color:var(--muted); font-size:13px;">${l.notes || ''}</span>
+          </div>
+        `).join('') || '<div style="font-size:13px;color:var(--muted);padding:6px 0;">No service history yet.</div>'}
+      </div>
+    `).join('');
+  }
+
+  function renderStats() {
+    const clients = getClients();
+    const weekly = clients.filter(c => c.service === 'Weekly');
+    const biweekly = clients.filter(c => c.service === 'Bi-Weekly');
+    const weeklyRev = weekly.reduce((s, c) => s + Number(c.price || 0), 0);
+    const biwRev = biweekly.reduce((s, c) => s + Number(c.price || 0) / 2, 0);
+    const monthlyEst = (weeklyRev * 4) + (biwRev * 2);
+    const allLogs = clients.flatMap(c => c.log || []);
+    const completed = allLogs.filter(l => l.status === 'Completed').length;
+
+    document.getElementById('stats-grid').innerHTML = `
+      <div class="stat-card">
+        <div class="stat-label">Total Clients</div>
+        <div class="stat-value green">${clients.length}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Est. Monthly Rev</div>
+        <div class="stat-value gold">$${monthlyEst.toFixed(0)}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Weekly Clients</div>
+        <div class="stat-value">${weekly.length}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Visits Logged</div>
+        <div class="stat-value">${completed}</div>
+      </div>
+    `;
+  }
+
+  // ── ADD / EDIT MODAL ──
+  function openAddModal() {
+    document.getElementById('modal-title').textContent = 'Add Client';
+    document.getElementById('edit-id').value = '';
+    ['first','last','address','phone','email','notes'].forEach(f => document.getElementById('f-' + f).value = '');
+    document.getElementById('f-price').value = '';
+    document.getElementById('f-order').value = '';
+    document.getElementById('f-service').value = 'Weekly';
+    document.getElementById('f-day').value = 'Saturday';
+    document.getElementById('client-modal').classList.add('open');
+  }
+
+  function openEditModal(id) {
+    const c = getClients().find(c => c.id === id);
+    if (!c) return;
+    document.getElementById('modal-title').textContent = 'Edit Client';
+    document.getElementById('edit-id').value = id;
+    document.getElementById('f-first').value = c.first || '';
+    document.getElementById('f-last').value = c.last || '';
+    document.getElementById('f-address').value = c.address || '';
+    document.getElementById('f-phone').value = c.phone || '';
+    document.getElementById('f-email').value = c.email || '';
+    document.getElementById('f-service').value = c.service || 'Weekly';
+    document.getElementById('f-price').value = c.price || '';
+    document.getElementById('f-day').value = c.day || 'Saturday';
+    document.getElementById('f-order').value = c.order || '';
+    document.getElementById('f-notes').value = c.notes || '';
+    document.getElementById('client-modal').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('client-modal').classList.remove('open');
+  }
+
+  function saveClient() {
+    const id = document.getElementById('edit-id').value;
+    const clients = getClients();
+    const data = {
+      first: document.getElementById('f-first').value.trim(),
+      last: document.getElementById('f-last').value.trim(),
+      address: document.getElementById('f-address').value.trim(),
+      phone: document.getElementById('f-phone').value.trim(),
+      email: document.getElementById('f-email').value.trim(),
+      service: document.getElementById('f-service').value,
+      price: document.getElementById('f-price').value,
+      day: document.getElementById('f-day').value,
+      order: parseInt(document.getElementById('f-order').value) || 99,
+      notes: document.getElementById('f-notes').value.trim(),
+    };
+
+    if (!data.first || !data.last) { alert('Name is required.'); return; }
+
+    if (id) {
+      const idx = clients.findIndex(c => c.id === id);
+      clients[idx] = { ...clients[idx], ...data };
+    } else {
+      data.id = uid();
+      data.log = [];
+      clients.push(data);
+    }
+
+    saveClients(clients);
+    closeModal();
+    render();
+  }
+
+  function deleteClient(id) {
+    if (!confirm('Delete this client? This cannot be undone.')) return;
+    saveClients(getClients().filter(c => c.id !== id));
+    render();
+  }
+
+  // ── LOG SERVICE ──
+  function openLogModal(id) {
+    const c = getClients().find(c => c.id === id);
+    document.getElementById('log-modal-title').textContent = `Log — ${c.first} ${c.last}`;
+    document.getElementById('log-client-id').value = id;
+    document.getElementById('log-date').value = new Date().toISOString().split('T')[0];
+    document.getElementById('log-status').value = 'Completed';
+    document.getElementById('log-notes').value = '';
+    document.getElementById('log-modal').classList.add('open');
+  }
+
+  function closeLogModal() {
+    document.getElementById('log-modal').classList.remove('open');
+  }
+
+  function saveLog() {
+    const id = document.getElementById('log-client-id').value;
+    const clients = getClients();
+    const idx = clients.findIndex(c => c.id === id);
+    if (!clients[idx].log) clients[idx].log = [];
+    clients[idx].log.push({
+      date: document.getElementById('log-date').value,
+      status: document.getElementById('log-status').value,
+      notes: document.getElementById('log-notes').value.trim(),
+    });
+    saveClients(clients);
+    closeLogModal();
+    render();
+  }
+
+  // ── SHARE ──
+  function shareClient(id) {
+    const url = `${location.origin}/customer.html?id=${id}`;
+    if (navigator.share) {
+      navigator.share({ title: 'Your Saturday Yard Co. Service Record', url });
+    } else {
+      navigator.clipboard.writeText(url);
+      alert('Link copied to clipboard!');
+    }
+  }
+
+  // ── CSV EXPORT ──
+  function exportCSV() {
+    const clients = getClients();
+    const rows = [['ID','First','Last','Address','Phone','Email','Service','Price','Day','Order','Notes','Log']];
+    clients.forEach(c => {
+      const log = (c.log || []).map(l => `${l.date}:${l.status}`).join('|');
+      rows.push([c.id, c.first, c.last, c.address, c.phone, c.email, c.service, c.price, c.day, c.order, c.notes, log]);
+    });
+    const csv = rows.map(r => r.map(v => `"${(v||'').toString().replace(/"/g,'""')}"`).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `syc-clients-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+  }
+</script>
+</body>
+</html>

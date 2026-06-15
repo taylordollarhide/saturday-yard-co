@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Service Record — Saturday Yard Co.</title>
+  <style>
+    :root {
+      --cream: #f6f1e7;
+      --paper: #fffaf0;
+      --black: #151613;
+      --green: #243c2a;
+      --green-2: #4f6934;
+      --gold: #b9862f;
+      --muted: #706b5e;
+      --line: rgba(21,22,19,.14);
+      --red: #c0392b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+      background: var(--cream);
+      color: var(--black);
+      min-height: 100vh;
+    }
+
+    .topbar {
+      background: var(--green);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .topbar img { width: 40px; height: 40px; border-radius: 8px; }
+
+    .topbar-text { color: var(--paper); }
+    .topbar-text strong { display: block; font-size: 15px; font-weight: 900; letter-spacing: .02em; }
+    .topbar-text span { font-size: 12px; opacity: .7; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+
+    .content { max-width: 600px; margin: 0 auto; padding: 24px 16px 60px; }
+
+    /* Hero card */
+    .hero-card {
+      background: var(--black);
+      color: var(--paper);
+      border-radius: 24px;
+      padding: 24px;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(185,134,47,.2), transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-card > * { position: relative; }
+
+    .hero-label {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .hero-name {
+      font-family: Georgia, serif;
+      font-size: 32px;
+      letter-spacing: -.04em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .meta-item strong {
+      display: block;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255,250,240,.5);
+      margin-bottom: 2px;
+    }
+
+    .meta-item span {
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(255,250,240,.9);
+    }
+
+    /* Section */
+    .section-title {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 24px 0 10px;
+    }
+
+    /* Address card */
+    .info-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px 18px;
+      margin-bottom: 10px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 15px;
+      gap: 12px;
+    }
+
+    .info-row:last-child { border-bottom: none; }
+
+    .info-row span:first-child {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .info-row span:last-child {
+      font-weight: 600;
+      text-align: right;
+    }
+
+    /* Log */
+    .log-entry {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .log-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .log-dot.completed { background: var(--green); }
+    .log-dot.skipped { background: var(--red); }
+
+    .log-date {
+      font-weight: 800;
+      font-size: 15px;
+      min-width: 100px;
+    }
+
+    .log-status {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .log-status.completed { color: var(--green); }
+    .log-status.skipped { color: var(--red); }
+
+    .log-notes {
+      font-size: 13px;
+      color: var(--muted);
+      flex: 1;
+    }
+
+    /* Summary pills */
+    .summary-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .pill {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .pill.green { background: var(--green); color: var(--paper); border-color: var(--green); }
+
+    /* Empty */
+    .empty {
+      text-align: center;
+      padding: 40px 24px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    /* Not found */
+    #not-found {
+      text-align: center;
+      padding: 80px 24px;
+    }
+
+    #not-found h2 {
+      font-family: Georgia, serif;
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    #not-found p { color: var(--muted); font-size: 16px; }
+
+    /* Footer */
+    .page-footer {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .page-footer a {
+      color: var(--green);
+      font-weight: 700;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <img src="app-icon.png" alt="Saturday Yard Co.">
+  <div class="topbar-text">
+    <strong>Saturday Yard Co.</strong>
+    <span>Service Record</span>
+  </div>
+</div>
+
+<div id="not-found" style="display:none;">
+  <h2>Record not found.</h2>
+  <p>This link may be outdated. Contact us at <a href="mailto:hello@saturdayyardco.com">hello@saturdayyardco.com</a> for your service record.</p>
+</div>
+
+<div id="main" style="display:none;">
+  <div class="content">
+
+    <div class="hero-card">
+      <div class="hero-label">Your Service Record</div>
+      <div class="hero-name" id="c-name"></div>
+      <div class="hero-meta">
+        <div class="meta-item">
+          <strong>Service</strong>
+          <span id="c-service"></span>
+        </div>
+        <div class="meta-item">
+          <strong>Rate</strong>
+          <span id="c-price"></span>
+        </div>
+        <div class="meta-item">
+          <strong>Route Day</strong>
+          <span id="c-day"></span>
+        </div>
+        <div class="meta-item">
+          <strong>Visits Completed</strong>
+          <span id="c-visits"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Contact & Property</div>
+    <div class="info-card">
+      <div class="info-row"><span>Address</span><span id="c-address"></span></div>
+      <div class="info-row"><span>Phone</span><span id="c-phone"></span></div>
+      <div class="info-row"><span>Email</span><span id="c-email"></span></div>
+    </div>
+
+    <div class="section-title">Service History</div>
+    <div class="summary-row" id="c-summary"></div>
+    <div id="c-log"></div>
+
+  </div>
+</div>
+
+<div class="page-footer">
+  Questions? <a href="mailto:hello@saturdayyardco.com">hello@saturdayyardco.com</a>
+</div>
+
+<script>
+  const params = new URLSearchParams(location.search);
+  const id = params.get('id');
+
+  if (!id) {
+    showNotFound();
+  } else {
+    const clients = JSON.parse(localStorage.getItem('syc_clients') || '[]');
+    const client = clients.find(c => c.id === id);
+
+    if (!client) {
+      showNotFound();
+    } else {
+      showClient(client);
+    }
+  }
+
+  function showNotFound() {
+    document.getElementById('not-found').style.display = 'block';
+  }
+
+  function showClient(c) {
+    document.title = `${c.first} ${c.last} — Saturday Yard Co.`;
+    document.getElementById('main').style.display = 'block';
+
+    document.getElementById('c-name').textContent = `${c.first} ${c.last}`;
+    document.getElementById('c-service').textContent = c.service;
+    document.getElementById('c-price').textContent = `$${c.price}/mow`;
+    document.getElementById('c-day').textContent = c.day;
+    document.getElementById('c-address').textContent = c.address;
+    document.getElementById('c-phone').textContent = c.phone || '—';
+    document.getElementById('c-email').textContent = c.email || '—';
+
+    const log = (c.log || []).slice().reverse();
+    const completed = log.filter(l => l.status === 'Completed').length;
+    const skipped = log.filter(l => l.status === 'Skipped').length;
+
+    document.getElementById('c-visits').textContent = completed;
+
+    const summary = document.getElementById('c-summary');
+    summary.innerHTML = `
+      <div class="pill green">${completed} Completed</div>
+      ${skipped ? `<div class="pill">${skipped} Skipped</div>` : ''}
+      ${log.length ? `<div class="pill">Since ${log[log.length - 1].date}</div>` : ''}
+    `;
+
+    const logEl = document.getElementById('c-log');
+    if (!log.length) {
+      logEl.innerHTML = `<div class="empty">No service visits logged yet.</div>`;
+    } else {
+      logEl.innerHTML = log.map(l => `
+        <div class="log-entry">
+          <div class="log-dot ${l.status.toLowerCase()}"></div>
+          <div class="log-date">${formatDate(l.date)}</div>
+          <div class="log-status ${l.status.toLowerCase()}">${l.status}</div>
+          ${l.notes ? `<div class="log-notes">${l.notes}</div>` : ''}
+        </div>
+      `).join('');
+    }
+  }
+
+  function formatDate(str) {
+    const d = new Date(str + 'T12:00:00');
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+</script>
+</body>
+</html>
