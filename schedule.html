@@ -838,37 +838,28 @@
 
       // Route each day separately and build a unified leg cache
       const days = [...new Set(clients.map(c => c.day))];
-      const allIds = [];
-      const allMins = [];
+      const legMap = {};
 
       for (const day of days) {
         const dayClients = clients.filter(c => c.day === day);
         const routed = dayClients.filter(c => coordCache[c.id]);
-        if (routed.length < 2) {
-          // No legs possible for this day — push IDs with no mins
-          continue;
-        }
+        if (routed.length < 2) continue;
 
         const coordStr = routed.map(c => `${coordCache[c.id].lng},${coordCache[c.id].lat}`).join(';');
         try {
           const res = await fetch(`https://router.project-osrm.org/route/v1/driving/${coordStr}?overview=false&steps=false`);
           const data = await res.json();
           if (data.code === 'Ok' && data.routes[0]) {
-            const legMins = data.routes[0].legs.map(l => Math.round(l.duration / 60));
-            // Store: for each consecutive pair, record prevId → leg duration
+            const legMins = data.routes[0].legs.map(l => Math.max(1, Math.round(l.duration / 60)));
             for (let i = 0; i < routed.length - 1; i++) {
-              allIds.push(routed[i].id);
-              allMins.push(legMins[i]);
+              legMap[`${routed[i].id}->${routed[i + 1].id}`] = legMins[i];
             }
-            // Push last client id as a terminal marker (no leg after it for this day)
-            allIds.push(routed[routed.length - 1].id);
-            allMins.push(null);
           }
         } catch(e) { /* skip */ }
       }
 
-      if (allIds.length) {
-        localStorage.setItem('syc_leg_times', JSON.stringify({ ids: allIds, mins: allMins }));
+      if (Object.keys(legMap).length) {
+        localStorage.setItem('syc_leg_times', JSON.stringify({ map: legMap }));
         renderRoute();
       }
     } finally {
@@ -912,12 +903,10 @@
 
       dayClients.forEach((c, i) => {
         let driveTime = null;
-        if (i > 0 && legCache && legCache.ids && legCache.mins) {
+        if (i > 0 && legCache && legCache.map) {
           const prevId = dayClients[i - 1].id;
-          const prevIdx = legCache.ids.indexOf(prevId);
-          if (prevIdx >= 0 && legCache.ids[prevIdx + 1] === c.id) {
-            driveTime = legCache.mins[prevIdx];
-          }
+          const val = legCache.map[`${prevId}->${c.id}`];
+          if (val !== undefined) driveTime = val;
         }
 
         if (driveTime !== null) timeCursor += driveTime;
@@ -1404,8 +1393,12 @@
           }).addTo(mapInstance);
 
           // Cache leg durations for the route list
-          const legMins = route.legs.map(l => Math.round(l.duration / 60));
-          localStorage.setItem('syc_leg_times', JSON.stringify({ ids: routedIds, mins: legMins }));
+          const legMins = route.legs.map(l => Math.max(1, Math.round(l.duration / 60)));
+          const mapLegMap = {};
+          for (let i = 0; i < routedIds.length - 1; i++) {
+            mapLegMap[`${routedIds[i]}->${routedIds[i + 1]}`] = legMins[i];
+          }
+          localStorage.setItem('syc_leg_times', JSON.stringify({ map: mapLegMap }));
           renderRoute();
 
           // Drive times between each leg
