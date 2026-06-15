@@ -1,0 +1,25 @@
+{
+  "name": "Saturday Yard Co. — Route Manager",
+  "short_name": "Yard Co.",
+  "description": "Private route manager for Saturday Yard Co.",
+  "start_url": "/schedule.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#141f16",
+  "background_color": "#141f16",
+  "icons": [
+    {
+      "src": "app-icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "app-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
