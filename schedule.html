@@ -366,7 +366,37 @@
 
     .stat-value.gold { color: var(--gold); }
     .stat-value.green { color: var(--green); }
+
+    /* ── MAP ── */
+    #map { height: calc(100vh - 110px); width: 100%; display: none; }
+    #map.visible { display: block; }
+
+    .map-toggle {
+      display: flex;
+      gap: 6px;
+      padding: 12px 16px 0;
+    }
+
+    .map-toggle .btn { font-size: 12px; padding: 7px 14px; }
+    .btn-active { background: var(--green) !important; color: var(--paper) !important; }
+
+    .leaflet-popup-content { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 14px; }
+    .leaflet-popup-content strong { display: block; font-size: 15px; margin-bottom: 2px; }
+    .leaflet-popup-content span { color: #706b5e; }
+
+    .map-loading {
+      display: none;
+      padding: 24px 16px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .map-loading.visible { display: block; }
   </style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 
@@ -396,6 +426,12 @@
 
   <!-- ROUTE TAB -->
   <div id="tab-route" class="panel active">
+    <div class="map-toggle">
+      <button class="btn btn-active" id="toggle-list" onclick="showListView()">☰ List</button>
+      <button class="btn btn-outline btn-dark" id="toggle-map" onclick="showMapView()">⊙ Map</button>
+    </div>
+    <div class="map-loading" id="map-loading">Mapping your route…</div>
+    <div id="map"></div>
     <div id="route-list"></div>
   </div>
 
@@ -779,6 +815,91 @@
       navigator.clipboard.writeText(url);
       alert('Link copied to clipboard!');
     }
+  }
+
+  // ── MAP ──
+  let mapInstance = null;
+  let mapView = 'list';
+
+  function showListView() {
+    mapView = 'list';
+    document.getElementById('map').classList.remove('visible');
+    document.getElementById('map-loading').classList.remove('visible');
+    document.getElementById('route-list').style.display = '';
+    document.getElementById('toggle-list').classList.add('btn-active');
+    document.getElementById('toggle-list').classList.remove('btn-outline', 'btn-dark');
+    document.getElementById('toggle-map').classList.remove('btn-active');
+    document.getElementById('toggle-map').classList.add('btn-outline', 'btn-dark');
+  }
+
+  async function showMapView() {
+    mapView = 'map';
+    document.getElementById('route-list').style.display = 'none';
+    document.getElementById('toggle-map').classList.add('btn-active');
+    document.getElementById('toggle-map').classList.remove('btn-outline', 'btn-dark');
+    document.getElementById('toggle-list').classList.remove('btn-active');
+    document.getElementById('toggle-list').classList.add('btn-outline', 'btn-dark');
+    document.getElementById('map-loading').classList.add('visible');
+    document.getElementById('map').classList.add('visible');
+
+    if (mapInstance) { mapInstance.remove(); mapInstance = null; }
+
+    mapInstance = L.map('map').setView([40.05, -105.1], 11);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(mapInstance);
+
+    const clients = getClients().sort((a, b) => {
+      if (a.day < b.day) return -1;
+      if (a.day > b.day) return 1;
+      return (a.order || 99) - (b.order || 99);
+    });
+
+    const coordCache = JSON.parse(localStorage.getItem('syc_coords') || '{}');
+    const points = [];
+
+    for (let i = 0; i < clients.length; i++) {
+      const c = clients[i];
+      let coords = coordCache[c.id];
+
+      if (!coords && c.address) {
+        try {
+          const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(c.address)}&limit=1`, {
+            headers: { 'Accept-Language': 'en' }
+          });
+          const data = await res.json();
+          if (data[0]) {
+            coords = { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+            coordCache[c.id] = coords;
+            localStorage.setItem('syc_coords', JSON.stringify(coordCache));
+          }
+          await new Promise(r => setTimeout(r, 1100));
+        } catch(e) { continue; }
+      }
+
+      if (!coords) continue;
+      points.push([coords.lat, coords.lng]);
+
+      const icon = L.divIcon({
+        className: '',
+        html: `<div style="width:28px;height:28px;border-radius:50%;background:#243c2a;color:#fffaf0;font-weight:900;font-size:12px;display:flex;align-items:center;justify-content:center;border:2px solid #b9862f;box-shadow:0 2px 6px rgba(0,0,0,.3)">${c.order || i + 1}</div>`,
+        iconSize: [28, 28],
+        iconAnchor: [14, 14],
+      });
+
+      L.marker([coords.lat, coords.lng], { icon })
+        .addTo(mapInstance)
+        .bindPopup(`<strong>${c.first} ${c.last}</strong><span>${c.address}</span><br><span>${c.service} · $${c.price} · ${c.day}</span>`);
+    }
+
+    if (points.length > 1) {
+      L.polyline(points, { color: '#b9862f', weight: 2.5, dashArray: '6,6', opacity: .8 }).addTo(mapInstance);
+      mapInstance.fitBounds(points, { padding: [32, 32] });
+    } else if (points.length === 1) {
+      mapInstance.setView(points[0], 14);
+    }
+
+    document.getElementById('map-loading').classList.remove('visible');
   }
 
   // ── CSV EXPORT ──
