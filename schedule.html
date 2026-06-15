@@ -1597,14 +1597,12 @@
       const venmoUrl = venmo
         ? `https://venmo.com/${venmo}?txn=pay&amount=${c.price}&note=Lawn%20Service%20-%20Saturday%20Yard%20Co`
         : '';
-      const msgBody = encodeURIComponent(
-`Hi ${c.first}, your lawn is done! 🌿
-
-${notes}Amount due: $${c.price}${venmoUrl ? `\nPay via Venmo: ${venmoUrl}` : ''}
-
-— Taylor, Saturday Yard Co.`
-      );
       const phone = (c.phone || '').replace(/\D/g, '');
+      // Build SMS body in parts so venmoUrl isn't double-encoded
+      const bodyTop = encodeURIComponent(`Hi ${c.first}, your lawn is done! 🌿\n\n${notes}Amount due: $${c.price}`);
+      const bodyVenmo = venmoUrl ? encodeURIComponent(`\nPay via Venmo: `) + venmoUrl : '';
+      const bodyBottom = encodeURIComponent(`\n\n— Taylor, Saturday Yard Co.`);
+      const msgBody = bodyTop + bodyVenmo + bodyBottom;
       const sms = phone ? `sms:${phone}&body=${msgBody}` : '';
 
       return `
