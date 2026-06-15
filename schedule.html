@@ -177,8 +177,9 @@
     }
 
     .drive-time-badge span {
-      background: var(--black);
-      color: var(--gold);
+      background: var(--cream);
+      border: 1px solid var(--line);
+      color: var(--black);
       font-size: 11px;
       font-weight: 900;
       letter-spacing: .08em;
@@ -734,7 +735,9 @@
         if (i > 0 && legCache && legCache.ids && legCache.mins) {
           const prevId = dayClients[i - 1].id;
           const prevIdx = legCache.ids.indexOf(prevId);
-          if (prevIdx >= 0) driveTime = legCache.mins[prevIdx];
+          if (prevIdx >= 0 && legCache.ids[prevIdx + 1] === c.id) {
+            driveTime = legCache.mins[prevIdx];
+          }
         }
 
         if (driveTime !== null) timeCursor += driveTime;
