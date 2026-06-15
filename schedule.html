@@ -4,7 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Route Manager — Saturday Yard Co.</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
+    .material-icons { font-size: 20px; line-height: 1; vertical-align: middle; }
     :root {
       --cream: #f6f1e7;
       --paper: #fffaf0;
@@ -232,6 +234,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
 
     .icon-btn-green { background: rgba(36,60,42,.1); color: var(--green); }
@@ -433,9 +436,9 @@
   <div class="topbar">
     <img src="logo.png" alt="Saturday Yard Co." style="height: 39px; width: auto; display: block;">
     <div class="topbar-actions">
-      <button class="btn btn-dark" onclick="exportCSV()">⬇ CSV</button>
-      <label class="btn btn-dark" style="cursor:pointer;">⬆ Import<input type="file" accept=".csv" id="csv-import" style="display:none;" onchange="importCSV(event)"></label>
-      <button class="btn btn-gold" onclick="openAddModal()">+ Client</button>
+      <button class="btn btn-dark" onclick="exportCSV()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">download</span> CSV</button>
+      <label class="btn btn-dark" style="cursor:pointer;"><span class="material-icons" style="font-size:16px;vertical-align:-3px">upload</span> Import<input type="file" accept=".csv" id="csv-import" style="display:none;" onchange="importCSV(event)"></label>
+      <button class="btn btn-gold" onclick="openAddModal()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">person_add</span> Client</button>
     </div>
   </div>
 
@@ -449,8 +452,8 @@
   <!-- ROUTE TAB -->
   <div id="tab-route" class="panel active">
     <div class="map-toggle">
-      <button class="btn btn-active" id="toggle-list" onclick="showListView()">☰ List</button>
-      <button class="btn btn-outline btn-dark" id="toggle-map" onclick="showMapView()">⊙ Map</button>
+      <button class="btn btn-active" id="toggle-list" onclick="showListView()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">view_list</span> List</button>
+      <button class="btn btn-outline btn-dark" id="toggle-map" onclick="showMapView()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">map</span> Map</button>
     </div>
     <div class="map-loading" id="map-loading">Mapping your route…</div>
     <div id="map"></div>
@@ -476,12 +479,12 @@
         <div class="field">
           <label>Clear all clients</label>
           <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Permanently removes all clients and service history. Export a CSV first.</p>
-          <button class="btn btn-red" onclick="clearAllClients()">Clear All Clients</button>
+          <button class="btn btn-red" onclick="clearAllClients()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">delete_forever</span> Clear All Clients</button>
         </div>
         <div class="field" style="margin-top:16px;">
           <label>Clear route cache</label>
           <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Clears cached GPS coordinates and drive times. Re-opens the map to rebuild.</p>
-          <button class="btn btn-dark" onclick="clearRouteCache()">Clear Route Cache</button>
+          <button class="btn btn-dark" onclick="clearRouteCache()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">refresh</span> Clear Route Cache</button>
         </div>
       </div>
 
@@ -495,7 +498,7 @@
           <label>Confirm PIN</label>
           <input type="password" inputmode="numeric" id="confirm-pin" placeholder="Confirm new PIN" maxlength="6">
         </div>
-        <button class="btn btn-gold" onclick="changePin()">Update PIN</button>
+        <button class="btn btn-gold" onclick="changePin()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">lock</span> Update PIN</button>
       </div>
 
       <div class="form-card">
@@ -591,8 +594,8 @@
     </div>
 
     <div class="modal-actions">
-      <button class="btn btn-outline btn-dark" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-gold" onclick="saveClient()">Save Client</button>
+      <button class="btn btn-outline btn-dark" onclick="closeModal()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">close</span> Cancel</button>
+      <button class="btn btn-gold" onclick="saveClient()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">save</span> Save Client</button>
     </div>
   </div>
 </div>
@@ -621,8 +624,8 @@
     </div>
 
     <div class="modal-actions">
-      <button class="btn btn-outline btn-dark" onclick="closeLogModal()">Cancel</button>
-      <button class="btn btn-green" onclick="saveLog()">Log It</button>
+      <button class="btn btn-outline btn-dark" onclick="closeLogModal()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">close</span> Cancel</button>
+      <button class="btn btn-green" onclick="saveLog()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">check_circle</span> Log It</button>
     </div>
   </div>
 </div>
@@ -716,7 +719,7 @@
     const el = document.getElementById('route-list');
 
     if (!clients.length) {
-      el.innerHTML = `<div class="empty"><div style="font-size:48px">🗓</div><p>No clients yet. Tap + Client to add your first route stop.</p></div>`;
+      el.innerHTML = `<div class="empty"><div style="font-size:48px"><span class="material-icons" style="font-size:48px;color:var(--muted)">calendar_month</span></div><p>No clients yet. Tap + Client to add your first route stop.</p></div>`;
       return;
     }
 
@@ -747,7 +750,7 @@
         timeCursor += duration;
 
         if (driveTime !== null) {
-          html += `<div class="drive-time-badge"><span>🚗 ${driveTime} min drive</span></div>`;
+          html += `<div class="drive-time-badge"><span><span class="material-icons" style="font-size:13px;vertical-align:-2px">directions_car</span> ${driveTime} min drive</span></div>`;
         }
 
         const recentLog = (c.log || []).slice().sort((a, b) => b.date.localeCompare(a.date))[0];
@@ -767,9 +770,9 @@
               <div class="customer-meta" style="color:var(--green);font-weight:800;">${arrival} — ${departure} · ${duration} min</div>
             </div>
             <div class="card-actions">
-              <a class="icon-btn" href="${mapsUrl}" title="Open in Apple Maps" style="background:rgba(0,122,255,.1);color:#007aff;text-decoration:none;display:flex;align-items:center;justify-content:center;">⌖</a>
-              <button class="icon-btn icon-btn-green" title="Log service" onclick="openLogModal('${c.id}')">✓</button>
-              <button class="icon-btn icon-btn-gold" title="Edit" onclick="openEditModal('${c.id}')">✎</button>
+              <a class="icon-btn" href="${mapsUrl}" title="Open in Apple Maps" style="background:rgba(0,122,255,.1);color:#007aff;text-decoration:none;display:flex;align-items:center;justify-content:center;"><span class="material-icons" style="font-size:18px">navigation</span></a>
+              <button class="icon-btn icon-btn-green" title="Log service" onclick="openLogModal('${c.id}')"><span class="material-icons" style="font-size:18px">check</span></button>
+              <button class="icon-btn icon-btn-gold" title="Edit" onclick="openEditModal('${c.id}')"><span class="material-icons" style="font-size:18px">edit</span></button>
             </div>
           </div>`;
       });
@@ -783,7 +786,7 @@
     const el = document.getElementById('client-list');
 
     if (!clients.length) {
-      el.innerHTML = `<div class="empty"><div style="font-size:48px">👤</div><p>No clients yet.</p></div>`;
+      el.innerHTML = `<div class="empty"><span class="material-icons" style="font-size:48px;color:var(--muted)">person</span><p>No clients yet.</p></div>`;
       return;
     }
 
@@ -795,9 +798,9 @@
           <div class="customer-meta">${c.address}</div>
         </div>
         <div class="card-actions">
-          <button class="icon-btn icon-btn-gold" title="Share client page" onclick="shareClient('${c.id}')">↗</button>
-          <button class="icon-btn icon-btn-gold" title="Edit" onclick="openEditModal('${c.id}')">✎</button>
-          <button class="icon-btn icon-btn-red" title="Delete" onclick="deleteClient('${c.id}')">✕</button>
+          <button class="icon-btn icon-btn-gold" title="Share client page" onclick="shareClient('${c.id}')"><span class="material-icons" style="font-size:18px">ios_share</span></button>
+          <button class="icon-btn icon-btn-gold" title="Edit" onclick="openEditModal('${c.id}')"><span class="material-icons" style="font-size:18px">edit</span></button>
+          <button class="icon-btn icon-btn-red" title="Delete" onclick="deleteClient('${c.id}')"><span class="material-icons" style="font-size:18px">delete</span></button>
         </div>
       </div>
       <div style="padding: 0 4px 12px;">
@@ -1062,7 +1065,7 @@
             L.marker([midLat, midLng], {
               icon: L.divIcon({
                 className: '',
-                html: `<div style="background:#b9862f;color:#151613;font-size:13px;font-weight:900;padding:5px 12px;border-radius:999px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.35);border:2px solid #151613">🚗 ${mins} min</div>`,
+                html: `<div style="background:#b9862f;color:#151613;font-size:13px;font-weight:900;padding:5px 12px;border-radius:999px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.35);border:2px solid #151613;display:flex;align-items:center;gap:4px"><span class="material-icons" style="font-size:14px">directions_car</span>${mins} min</div>`,
                 iconAnchor: [36, 14],
               }),
               interactive: false,
