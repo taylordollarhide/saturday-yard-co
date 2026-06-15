@@ -992,7 +992,8 @@
 
       if (!coords && c.address) {
         try {
-          const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(c.address)}&limit=1`, {
+          const query = c.address.toLowerCase().includes('co ') || c.address.toLowerCase().includes(', co') ? c.address : `${c.address}, Colorado`;
+          const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=us&limit=1`, {
             headers: { 'Accept-Language': 'en' }
           });
           const data = await res.json();
