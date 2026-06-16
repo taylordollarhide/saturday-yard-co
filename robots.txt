@@ -3,4 +3,4 @@ Allow: /
 Disallow: /schedule.html
 Disallow: /customer.html
 
-Sitemap: https://saturdayyardco.com/sitemap.xml
+Sitemap: https://getsaturdayyard.com/sitemap.xml
