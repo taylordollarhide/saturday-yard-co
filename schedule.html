@@ -550,11 +550,7 @@
     <div class="map-toggle">
       <button class="btn btn-active" id="toggle-list" onclick="showListView()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">view_list</span> List</button>
       <button class="btn btn-outline btn-dark" id="toggle-map" onclick="showMapView()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">map</span> Map</button>
-      <div id="map-day-filter" style="display:none;margin-left:auto;display:none;gap:6px">
-        <button class="btn btn-active" id="mdf-sat" onclick="setMapDay('Saturday')">Sat</button>
-        <button class="btn btn-outline btn-dark" id="mdf-sun" onclick="setMapDay('Sunday')">Sun</button>
-        <button class="btn btn-outline btn-dark" id="mdf-both" onclick="setMapDay('both')">Both</button>
-      </div>
+      <div id="map-day-filter" style="display:none;margin-left:auto;gap:6px;flex-wrap:wrap"></div>
     </div>
     <div class="map-loading" id="map-loading">Mapping your route…</div>
     <div id="map"></div>
@@ -691,8 +687,13 @@
       <div class="field">
         <label>Route Day</label>
         <select id="f-day">
-          <option value="Saturday">Saturday</option>
           <option value="Sunday">Sunday</option>
+          <option value="Monday">Monday</option>
+          <option value="Tuesday">Tuesday</option>
+          <option value="Wednesday">Wednesday</option>
+          <option value="Thursday">Thursday</option>
+          <option value="Friday">Friday</option>
+          <option value="Saturday">Saturday</option>
         </select>
       </div>
       <div class="field">
@@ -798,6 +799,26 @@
 
   function jobMins(client) {
     return JOB_DURATION[client.yardSize] || 28;
+  }
+
+  // ── WEEK / SERVICE HELPERS ──
+  const WEEK_DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const DAY_PALETTE = ['#b9862f', '#4a7a54', '#6b8fb0', '#a35d6a', '#7a6a4f', '#5e7a8f', '#8f6a9a'];
+
+  function dayColor(day) {
+    const i = WEEK_DAYS.indexOf(day);
+    return DAY_PALETTE[i >= 0 ? i : 0];
+  }
+
+  function dayCompare(a, b) {
+    return WEEK_DAYS.indexOf(a.day) - WEEK_DAYS.indexOf(b.day);
+  }
+
+  // Monthly revenue multiplier: Weekly = 4x/mo, Bi-Weekly = 2x/mo, Seasonal Cleanup = one-time (1x)
+  function serviceMultiplier(service) {
+    if (service === 'Weekly') return 4;
+    if (service === 'Bi-Weekly') return 2;
+    return 1;
   }
 
   function addMins(hhmm, mins) {
@@ -913,8 +934,8 @@
 
   function renderRoute() {
     const clients = getClients().sort((a, b) => {
-      if (a.day < b.day) return -1;
-      if (a.day > b.day) return 1;
+      const d = dayCompare(a, b);
+      if (d !== 0) return d;
       return (a.order || 99) - (b.order || 99);
     });
 
@@ -975,6 +996,7 @@
             <div class="card-actions">
               <a class="icon-btn" href="${mapsUrl}" title="Open in Apple Maps" style="background:rgba(0,122,255,.1);color:#007aff;text-decoration:none;display:flex;align-items:center;justify-content:center;"><span class="material-icons" style="font-size:18px">navigation</span></a>
               <button class="icon-btn icon-btn-green" title="Log service" onclick="openLogModal('${c.id}')"><span class="material-icons" style="font-size:18px">check</span></button>
+              <button class="icon-btn icon-btn-gold" title="Send completion text" onclick="sendCompletionText('${c.id}')"><span class="material-icons" style="font-size:18px">sms</span></button>
               <button class="icon-btn icon-btn-gold" title="Edit" onclick="openEditModal('${c.id}')"><span class="material-icons" style="font-size:18px">edit</span></button>
             </div>
           </div>`;
@@ -1062,11 +1084,11 @@
     const maxRph = Math.max(...sizeData.map(d => d.rph), 1);
 
     // revenue by day
-    const days = ['Saturday', 'Sunday'];
+    const days = WEEK_DAYS.filter(d => clients.some(c => c.day === d));
     const dayData = days.map(day => {
       const group = clients.filter(c => c.day === day);
       const rev = group.reduce((s, c) => {
-        const mult = c.service === 'Weekly' ? 4 : 2;
+        const mult = serviceMultiplier(c.service);
         return s + Number(c.price || 0) * mult;
       }, 0);
       return { day, count: group.length, monthlyRev: rev };
@@ -1077,13 +1099,13 @@
     // top earners
     const topClients = [...clients]
       .sort((a, b) => {
-        const revA = Number(a.price || 0) * (a.service === 'Weekly' ? 4 : 2);
-        const revB = Number(b.price || 0) * (b.service === 'Weekly' ? 4 : 2);
+        const revA = Number(a.price || 0) * serviceMultiplier(a.service);
+        const revB = Number(b.price || 0) * serviceMultiplier(b.service);
         return revB - revA;
       })
       .slice(0, 5);
 
-    const maxClientRev = Number(topClients[0]?.price || 0) * (topClients[0]?.service === 'Weekly' ? 4 : 2);
+    const maxClientRev = Number(topClients[0]?.price || 0) * serviceMultiplier(topClients[0]?.service);
 
     // insights
     const insights = [];
@@ -1117,16 +1139,17 @@
       });
     }
 
-    const satClients = clients.filter(c => c.day === 'Saturday');
-    const sunClients = clients.filter(c => c.day === 'Sunday');
-    if (Math.abs(satClients.length - sunClients.length) > 3) {
-      const heavy = satClients.length > sunClients.length ? 'Saturday' : 'Sunday';
-      const light = heavy === 'Saturday' ? 'Sunday' : 'Saturday';
-      insights.push({
-        icon: 'balance',
-        title: `Route imbalance — ${heavy} is heavier`,
-        body: `${heavy} has ${Math.max(satClients.length, sunClients.length)} stops vs ${Math.min(satClients.length, sunClients.length)} on ${light}. Move clients to balance drive time and finish earlier.`
-      });
+    const dayCounts = days.map(d => ({ day: d, count: clients.filter(c => c.day === d).length }));
+    if (dayCounts.length > 1) {
+      const heaviest = dayCounts.reduce((a, b) => b.count > a.count ? b : a);
+      const lightest = dayCounts.reduce((a, b) => b.count < a.count ? b : a);
+      if (heaviest.count - lightest.count > 3) {
+        insights.push({
+          icon: 'balance',
+          title: `Route imbalance — ${heaviest.day} is heavier`,
+          body: `${heaviest.day} has ${heaviest.count} stops vs ${lightest.count} on ${lightest.day}. Move clients to balance drive time and finish earlier.`
+        });
+      }
     }
 
     const hasAeration = clients.some(c => c.notes && /aerat/i.test(c.notes));
@@ -1196,7 +1219,7 @@
 
       <div class="stats-section-title">Top Earners</div>
       ${topClients.map((c, i) => {
-        const monthRev = Number(c.price || 0) * (c.service === 'Weekly' ? 4 : 2);
+        const monthRev = Number(c.price || 0) * serviceMultiplier(c.service);
         return `
         <div class="stats-row" style="flex-direction:column;align-items:stretch;">
           <div style="display:flex;justify-content:space-between;align-items:center;">
@@ -1327,6 +1350,36 @@
     render();
   }
 
+  function sendCompletionText(id) {
+    const clients = getClients();
+    const idx = clients.findIndex(c => c.id === id);
+    const c = clients[idx];
+    const today = new Date().toISOString().slice(0, 10);
+
+    if (!c.log) c.log = [];
+    const alreadyDone = c.log.some(l => l.date === today && l.status === 'Completed');
+    if (!alreadyDone) {
+      c.log.push({ date: today, status: 'Completed', notes: '' });
+      saveClients(clients);
+    }
+
+    const venmo = localStorage.getItem('syc_venmo') || '';
+    const venmoUrl = venmo ? `https://venmo.com/${venmo}?txn=pay&amount=${c.price}&note=Lawn` : '';
+    const phone = (c.phone || '').replace(/\D/g, '');
+    const bodyTop = encodeURIComponent(`Hi ${c.first}, your lawn is done! 🌿\n\nAmount due: $${c.price}`);
+    const bodyVenmo = venmoUrl ? encodeURIComponent(`\nPay via Venmo: `) + venmoUrl.replace(/&/g, '%26') : '';
+    const bodyBottom = encodeURIComponent(`\n\n— Taylor, Saturday Yard Co.`);
+    const msgBody = bodyTop + bodyVenmo + bodyBottom;
+
+    render();
+
+    if (phone) {
+      window.location.href = `sms:${phone}&body=${msgBody}`;
+    } else {
+      alert('No phone number on file for this client.');
+    }
+  }
+
   // ── SHARE ──
   function shareClient(id) {
     const url = `${location.origin}/customer.html?id=${id}`;
@@ -1341,18 +1394,21 @@
   // ── MAP ──
   let mapInstance = null;
   let mapView = 'list';
-  let mapDayFilter = 'Saturday';
-
-  const DAY_COLORS = { Saturday: '#b9862f', Sunday: '#4a7a54' };
+  let mapDayFilter = 'all';
 
   function setMapDay(day) {
     mapDayFilter = day;
-    ['sat','sun','both'].forEach(k => {
-      const btn = document.getElementById(`mdf-${k}`);
-      const active = (k === 'sat' && day === 'Saturday') || (k === 'sun' && day === 'Sunday') || (k === 'both' && day === 'both');
-      btn.className = active ? 'btn btn-active' : 'btn btn-outline btn-dark';
-    });
     showMapView();
+  }
+
+  function renderMapDayFilter(activeDays) {
+    const mdf = document.getElementById('map-day-filter');
+    const opts = activeDays.length > 1 ? [...activeDays, 'all'] : activeDays;
+    mdf.innerHTML = opts.map(d => {
+      const label = d === 'all' ? 'All' : d.slice(0, 3);
+      const active = mapDayFilter === d;
+      return `<button class="btn ${active ? 'btn-active' : 'btn-outline btn-dark'}" onclick="setMapDay('${d}')">${label}</button>`;
+    }).join('');
   }
 
   function showListView() {
@@ -1377,13 +1433,17 @@
     document.getElementById('map-loading').classList.add('visible');
     document.getElementById('map').classList.add('visible');
 
-    // Show day filter buttons, sync active state
-    const mdf = document.getElementById('map-day-filter');
-    mdf.style.display = 'flex';
-    ['sat','sun','both'].forEach(k => {
-      const match = (k === 'sat' && mapDayFilter === 'Saturday') || (k === 'sun' && mapDayFilter === 'Sunday') || (k === 'both' && mapDayFilter === 'both');
-      document.getElementById(`mdf-${k}`).className = match ? 'btn btn-active' : 'btn btn-outline btn-dark';
+    const allClients = getClients().sort((a, b) => {
+      const d = dayCompare(a, b);
+      if (d !== 0) return d;
+      return (a.order || 99) - (b.order || 99);
     });
+
+    // Show day filter buttons for days that actually have clients
+    const activeDays = WEEK_DAYS.filter(d => allClients.some(c => c.day === d));
+    if (!activeDays.includes(mapDayFilter) && mapDayFilter !== 'all') mapDayFilter = 'all';
+    document.getElementById('map-day-filter').style.display = 'flex';
+    renderMapDayFilter(activeDays);
 
     if (mapInstance) { mapInstance.remove(); mapInstance = null; }
 
@@ -1391,12 +1451,6 @@
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
     }).addTo(mapInstance);
-
-    const allClients = getClients().sort((a, b) => {
-      if (a.day < b.day) return -1;
-      if (a.day > b.day) return 1;
-      return (a.order || 99) - (b.order || 99);
-    });
 
     // Geocode any missing clients
     const coordCache = JSON.parse(localStorage.getItem('syc_coords') || '{}');
@@ -1416,12 +1470,12 @@
       }
     }
 
-    const daysToShow = mapDayFilter === 'both' ? ['Saturday', 'Sunday'] : [mapDayFilter];
+    const daysToShow = mapDayFilter === 'all' ? activeDays : [mapDayFilter];
     const allRenderedPoints = [];
     const combinedLegMap = {};
 
     for (const day of daysToShow) {
-      const color = DAY_COLORS[day];
+      const color = dayColor(day);
       const dayClients = allClients.filter(c => c.day === day);
       const points = [];
       const routedIds = [];
