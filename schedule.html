@@ -1366,15 +1366,13 @@
     const venmo = localStorage.getItem('syc_venmo') || '';
     const venmoUrl = venmo ? `https://venmo.com/${venmo}?txn=pay&amount=${c.price}&note=Lawn` : '';
     const phone = (c.phone || '').replace(/\D/g, '');
-    const bodyTop = encodeURIComponent(`Hi ${c.first}, your lawn is done! 🌿\n\nAmount due: $${c.price}`);
-    const bodyVenmo = venmoUrl ? encodeURIComponent(`\nPay via Venmo: `) + venmoUrl.replace(/&/g, '%26') : '';
-    const bodyBottom = encodeURIComponent(`\n\n— Taylor, Saturday Yard Co.`);
-    const msgBody = bodyTop + bodyVenmo + bodyBottom;
+    const msgText = `Hi ${c.first}, your lawn is done! 🌿\n\nAmount due: $${c.price}${venmoUrl ? `\nPay via Venmo: ${venmoUrl}` : ''}\n\n— Taylor, Saturday Yard Co.`;
+    const msgBody = encodeURIComponent(msgText);
 
     render();
 
     if (phone) {
-      window.location.href = `sms:${phone}&body=${msgBody}`;
+      window.location.href = `sms:${phone}?body=${msgBody}`;
     } else {
       alert('No phone number on file for this client.');
     }
@@ -1652,12 +1650,9 @@
         ? `https://venmo.com/${venmo}?txn=pay&amount=${c.price}&note=Lawn`
         : '';
       const phone = (c.phone || '').replace(/\D/g, '');
-      // Build SMS body in parts so venmoUrl isn't double-encoded
-      const bodyTop = encodeURIComponent(`Hi ${c.first}, your lawn is done! 🌿\n\n${notes}Amount due: $${c.price}`);
-      const bodyVenmo = venmoUrl ? encodeURIComponent(`\nPay via Venmo: `) + venmoUrl.replace(/&/g, '%26') : '';
-      const bodyBottom = encodeURIComponent(`\n\n— Taylor, Saturday Yard Co.`);
-      const msgBody = bodyTop + bodyVenmo + bodyBottom;
-      const sms = phone ? `sms:${phone}&body=${msgBody}` : '';
+      const msgText = `Hi ${c.first}, your lawn is done! 🌿\n\n${notes}Amount due: $${c.price}${venmoUrl ? `\nPay via Venmo: ${venmoUrl}` : ''}\n\n— Taylor, Saturday Yard Co.`;
+      const msgBody = encodeURIComponent(msgText);
+      const sms = phone ? `sms:${phone}?body=${msgBody}` : '';
 
       return `
         <div style="background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
