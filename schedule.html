@@ -996,7 +996,6 @@
             <div class="card-actions" onclick="event.stopPropagation()">
               <a class="icon-btn" href="${mapsUrl}" title="Open in Apple Maps" style="background:rgba(0,122,255,.1);color:#007aff;text-decoration:none;display:flex;align-items:center;justify-content:center;"><span class="material-icons" style="font-size:18px">navigation</span></a>
               <button class="icon-btn icon-btn-green" title="Log service" onclick="openLogModal('${c.id}')"><span class="material-icons" style="font-size:18px">check</span></button>
-              <button class="icon-btn icon-btn-gold" title="Send completion text" onclick="sendCompletionText('${c.id}')"><span class="material-icons" style="font-size:18px">sms</span></button>
               <button class="icon-btn icon-btn-gold" title="Edit" onclick="openEditModal('${c.id}')"><span class="material-icons" style="font-size:18px">edit</span></button>
             </div>
           </div>`;
@@ -1339,42 +1338,30 @@
     const id = document.getElementById('log-client-id').value;
     const clients = getClients();
     const idx = clients.findIndex(c => c.id === id);
-    if (!clients[idx].log) clients[idx].log = [];
-    clients[idx].log.push({
+    const c = clients[idx];
+    const status = document.getElementById('log-status').value;
+    if (!c.log) c.log = [];
+    c.log.push({
       date: document.getElementById('log-date').value,
-      status: document.getElementById('log-status').value,
+      status,
       notes: document.getElementById('log-notes').value.trim(),
     });
     saveClients(clients);
     closeLogModal();
     render();
-  }
 
-  function sendCompletionText(id) {
-    const clients = getClients();
-    const idx = clients.findIndex(c => c.id === id);
-    const c = clients[idx];
-    const today = new Date().toISOString().slice(0, 10);
+    if (status === 'Completed') {
+      const venmo = localStorage.getItem('syc_venmo') || '';
+      const venmoUrl = venmo ? `https://venmo.com/${venmo}?txn=pay&amount=${c.price}&note=Lawn` : '';
+      const phone = (c.phone || '').replace(/\D/g, '');
+      const msgText = `Hi ${c.first}, your lawn is done! 🌿\n\nAmount due: $${c.price}${venmoUrl ? `\nPay via Venmo: ${venmoUrl}` : ''}\n\n— Taylor, Saturday Yard Co.`;
+      const msgBody = encodeURIComponent(msgText);
 
-    if (!c.log) c.log = [];
-    const alreadyDone = c.log.some(l => l.date === today && l.status === 'Completed');
-    if (!alreadyDone) {
-      c.log.push({ date: today, status: 'Completed', notes: '' });
-      saveClients(clients);
-    }
-
-    const venmo = localStorage.getItem('syc_venmo') || '';
-    const venmoUrl = venmo ? `https://venmo.com/${venmo}?txn=pay&amount=${c.price}&note=Lawn` : '';
-    const phone = (c.phone || '').replace(/\D/g, '');
-    const msgText = `Hi ${c.first}, your lawn is done! 🌿\n\nAmount due: $${c.price}${venmoUrl ? `\nPay via Venmo: ${venmoUrl}` : ''}\n\n— Taylor, Saturday Yard Co.`;
-    const msgBody = encodeURIComponent(msgText);
-
-    render();
-
-    if (phone) {
-      window.location.href = `sms:${phone}?body=${msgBody}`;
-    } else {
-      alert('No phone number on file for this client.');
+      if (phone) {
+        window.location.href = `sms:${phone}?body=${msgBody}`;
+      } else {
+        alert('No phone number on file for this client.');
+      }
     }
   }
 
