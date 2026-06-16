@@ -986,14 +986,14 @@
         const mapsUrl = `https://maps.apple.com/?daddr=${encodeURIComponent(c.address)}`;
 
         html += `
-          <div class="customer-card${isCompletedThisWeek ? ' done' : ''}" id="card-${c.id}">
+          <div class="customer-card${isCompletedThisWeek ? ' done' : ''}" id="card-${c.id}" onclick="window.open('/customer.html?id=${c.id}', '_blank')" style="cursor:pointer;">
             <div class="route-num">${isCompletedThisWeek ? '✓' : (c.order || i + 1)}</div>
             <div class="customer-info">
               <div class="customer-name">${c.first} ${c.last}</div>
               <div class="customer-meta">${c.address} · $${c.price}</div>
               <div class="customer-meta" style="color:var(--green);font-weight:800;">${arrival} — ${departure} · ${duration} min</div>
             </div>
-            <div class="card-actions">
+            <div class="card-actions" onclick="event.stopPropagation()">
               <a class="icon-btn" href="${mapsUrl}" title="Open in Apple Maps" style="background:rgba(0,122,255,.1);color:#007aff;text-decoration:none;display:flex;align-items:center;justify-content:center;"><span class="material-icons" style="font-size:18px">navigation</span></a>
               <button class="icon-btn icon-btn-green" title="Log service" onclick="openLogModal('${c.id}')"><span class="material-icons" style="font-size:18px">check</span></button>
               <button class="icon-btn icon-btn-gold" title="Send completion text" onclick="sendCompletionText('${c.id}')"><span class="material-icons" style="font-size:18px">sms</span></button>
