@@ -10,19 +10,37 @@ export default async function handler(req, context) {
 
   const headers = { Authorization: `Bearer ${token}` };
 
+  // Verify the site is reachable first
+  const siteRes = await fetch(`https://api.netlify.com/api/v1/sites/${siteId}`, { headers });
+  if (siteRes.status === 401) {
+    return new Response(JSON.stringify({ error: 'Invalid token. Regenerate your Netlify personal access token.' }), {
+      status: 401, headers: { 'Content-Type': 'application/json' }
+    });
+  }
+  if (!siteRes.ok) {
+    return new Response(JSON.stringify({ error: `Site not found (${siteRes.status}). Check NETLIFY_SITE_ID.` }), {
+      status: siteRes.status, headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
   const formsRes = await fetch(
     `https://api.netlify.com/api/v1/forms?site_id=${encodeURIComponent(siteId)}`,
     { headers }
   );
 
-  if (!formsRes.ok) {
-    return new Response(JSON.stringify({ error: `Netlify API error: ${formsRes.status}` }), {
+  // 404 means no forms registered yet on this site — not an error
+  if (formsRes.status === 404 || formsRes.status === 200) {
+    if (!formsRes.ok) {
+      return new Response(JSON.stringify([]), { status: 200, headers: { 'Content-Type': 'application/json' } });
+    }
+  } else if (!formsRes.ok) {
+    return new Response(JSON.stringify({ error: `Forms API error: ${formsRes.status}` }), {
       status: formsRes.status, headers: { 'Content-Type': 'application/json' }
     });
   }
 
   const forms = await formsRes.json();
-  const intakeForm = forms.find(f => f.name === 'client-intake');
+  const intakeForm = Array.isArray(forms) && forms.find(f => f.name === 'client-intake');
 
   if (!intakeForm) {
     return new Response(JSON.stringify([]), {
@@ -36,7 +54,7 @@ export default async function handler(req, context) {
   );
   const submissions = await subRes.json();
 
-  return new Response(JSON.stringify(submissions), {
+  return new Response(JSON.stringify(Array.isArray(submissions) ? submissions : []), {
     status: 200, headers: { 'Content-Type': 'application/json' }
   });
 }
