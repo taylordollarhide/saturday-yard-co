@@ -442,7 +442,15 @@
         const body = await res.json().catch(() => ({}));
         throw new Error(body.error || `Error ${res.status}`);
       }
-      const submissions = await res.json();
+      const raw = await res.json();
+
+      // Debug: no forms registered in Netlify yet
+      if (raw._debug === 'no_forms') {
+        container.innerHTML = `<div class="status-msg"><h3>Form not detected yet.</h3><p>Netlify hasn't registered the intake form. Try submitting it once on the live site, then trigger a redeploy in Netlify and refresh here.</p></div>`;
+        return;
+      }
+
+      const submissions = Array.isArray(raw) ? raw : [];
       const confirmed = getConfirmed();
 
       allLeads = submissions.map(s => ({

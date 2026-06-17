@@ -40,13 +40,15 @@ export default async function handler(req, context) {
   }
 
   const forms = await formsRes.json();
-  const intakeForm = Array.isArray(forms) && forms.find(f => f.name === 'client-intake');
 
-  if (!intakeForm) {
-    return new Response(JSON.stringify([]), {
+  if (!Array.isArray(forms) || forms.length === 0) {
+    return new Response(JSON.stringify({ _debug: 'no_forms', forms: [] }), {
       status: 200, headers: { 'Content-Type': 'application/json' }
     });
   }
+
+  // Use client-intake if found, otherwise fall back to first form
+  const intakeForm = forms.find(f => f.name === 'client-intake') || forms[0];
 
   const subRes = await fetch(
     `https://api.netlify.com/api/v1/forms/${intakeForm.id}/submissions?per_page=100`,
