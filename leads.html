@@ -390,7 +390,7 @@
           </select>
         </div>
         <div class="field-group">
-          <label>Stop #</label>
+          <label>Route Order #</label>
           <input type="number" id="confirmStop" min="1" max="99" placeholder="1">
         </div>
       </div>
@@ -469,7 +469,7 @@
         confirmedDay:      confirmed[s.id]?.day || '',
         confirmedStartDate:confirmed[s.id]?.startDate || '',
         confirmedPrice:    confirmed[s.id]?.price || PRICE_MAP[s.data.yardSize] || 65,
-        confirmedStop:     confirmed[s.id]?.stop || 1,
+        confirmedOrder:    confirmed[s.id]?.order || 1,
       }));
 
       render();
@@ -631,28 +631,32 @@
     const day       = document.getElementById('confirmDay').value;
     const price     = parseFloat(document.getElementById('confirmPrice').value) || lead.price;
     const startDate = document.getElementById('confirmStartDate').value;
-    const stop      = parseInt(document.getElementById('confirmStop').value) || 1;
+    const order     = parseInt(document.getElementById('confirmStop').value) || 1;
 
     // Persist confirmed state locally
     const confirmed = getConfirmed();
-    confirmed[lead.id] = { day, startDate, price, stop };
+    confirmed[lead.id] = { day, startDate, price, order };
     saveConfirmed(confirmed);
 
-    // Push to route manager (syc_clients)
+    // Push to route manager (syc_clients) using `order` to match schedule.html
     const clients = JSON.parse(localStorage.getItem('syc_clients') || '[]');
-    if (!clients.find(c => c.id === lead.id)) {
-      clients.push({
-        id: lead.id, first: lead.first, last: lead.last,
-        address: lead.address, phone: lead.phone, email: lead.email,
-        service: lead.service, price, day, stop, notes: lead.notes, log: []
-      });
-      localStorage.setItem('syc_clients', JSON.stringify(clients));
+    const existingIdx = clients.findIndex(c => c.id === lead.id);
+    const clientRecord = {
+      id: lead.id, first: lead.first, last: lead.last,
+      address: lead.address, phone: lead.phone, email: lead.email,
+      service: lead.service, price, day, order, notes: lead.notes, log: []
+    };
+    if (existingIdx >= 0) {
+      clients[existingIdx] = { ...clients[existingIdx], ...clientRecord };
+    } else {
+      clients.push(clientRecord);
     }
+    localStorage.setItem('syc_clients', JSON.stringify(clients));
 
     // Update in-memory record
     const idx = allLeads.findIndex(l => l.id === lead.id);
     if (idx !== -1) {
-      allLeads[idx] = { ...lead, status: 'confirmed', confirmedDay: day, confirmedStartDate: startDate, confirmedPrice: price, confirmedStop: stop };
+      allLeads[idx] = { ...lead, status: 'confirmed', confirmedDay: day, confirmedStartDate: startDate, confirmedPrice: price, confirmedOrder: order };
     }
 
     closeConfirm();
