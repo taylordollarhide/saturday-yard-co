@@ -779,6 +779,11 @@
 
   function saveClients(clients) {
     localStorage.setItem('syc_clients', JSON.stringify(clients));
+    fetch('/.netlify/functions/clients', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(clients)
+    }).catch(() => {});
   }
 
   function uid() {
@@ -1744,6 +1749,17 @@
     a.download = `syc-clients-${new Date().toISOString().split('T')[0]}.csv`;
     a.click();
   }
+  // Pull latest clients from server on load — keeps phone + desktop in sync
+  fetch('/.netlify/functions/clients')
+    .then(r => r.ok ? r.json() : null)
+    .then(serverClients => {
+      if (Array.isArray(serverClients) && serverClients.length > 0) {
+        localStorage.setItem('syc_clients', JSON.stringify(serverClients));
+        render();
+      }
+    })
+    .catch(() => {});
+
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js');
   }

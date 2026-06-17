@@ -652,6 +652,11 @@
       clients.push(clientRecord);
     }
     localStorage.setItem('syc_clients', JSON.stringify(clients));
+    fetch('/.netlify/functions/clients', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(clients)
+    }).catch(() => {});
 
     // Update in-memory record
     const idx = allLeads.findIndex(l => l.id === lead.id);
