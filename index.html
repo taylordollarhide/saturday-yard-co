@@ -1130,7 +1130,7 @@
                 </div>
 
                 <div class="modal-actions">
-                  <button type="submit" class="button">Submit &amp; get a quote</button>
+                  <button type="submit" class="button" id="intakeSubmitBtn">Get on the schedule</button>
                 </div>
               </form>
             </div>
@@ -1203,6 +1203,13 @@
     });
 
     const priceMap = { Small: 45, Standard: 55, Large: 65 };
+
+    document.querySelectorAll('input[name="yardSize"]').forEach(radio => {
+      radio.addEventListener('change', function() {
+        document.getElementById('intakeSubmitBtn').textContent =
+          this.value === 'Large' ? 'Submit & get a quote' : 'Get on the schedule';
+      });
+    });
 
     document.getElementById('intakeForm').addEventListener('submit', async function(e) {
       e.preventDefault();
