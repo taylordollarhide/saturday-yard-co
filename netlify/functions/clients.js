@@ -1,7 +1,7 @@
 const { getStore } = require('@netlify/blobs');
 
 exports.handler = async function(event) {
-  const store = getStore('syc');
+  const store = getStore({ name: 'syc', siteID: process.env.NETLIFY_SITE_ID, token: process.env.NETLIFY_TOKEN });
 
   if (event.httpMethod === 'GET') {
     try {
