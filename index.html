@@ -1139,7 +1139,7 @@
           <div class="intake-success" id="intakeSuccess">
             <div class="check">✓</div>
             <h3>You’re on the list.</h3>
-            <p>We’ll follow up within 24 hours with a straight quote. No runaround.</p>
+            <p id="intakeSuccessMsg"></p>
           </div>
         </div>
       </div>
@@ -1206,40 +1206,18 @@
 
     document.getElementById('intakeForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      const f = this;
-      const data = new FormData(f);
+      const data = new FormData(this);
 
-      // Submit to Netlify
       try {
         await fetch('/', { method: 'POST', body: data });
       } catch (_) {}
 
-      // Build CSV row for route manager import
-      const first   = (data.get('first') || '').trim();
-      const last    = (data.get('last') || '').trim();
-      const address = (data.get('address') || '').trim();
-      const phone   = (data.get('phone') || '').trim();
-      const email   = (data.get('email') || '').trim();
-      const service = data.get('service') || '';
-      const size    = data.get('yardSize') || '';
-      const price   = priceMap[size] || '';
-      const notes   = (data.get('notes') || '').trim();
+      const size = data.get('yardSize') || '';
+      const msg = size === 'Large'
+        ? "We'll follow up within 24 hours to confirm pricing and get you on the route."
+        : "We'll be in touch within 24 hours to confirm your start date.";
+      document.getElementById('intakeSuccessMsg').textContent = msg;
 
-      const csvRow = [
-        first, last, address, phone, email, service, price,
-        '', '', notes
-      ].map(v => `"${String(v).replace(/"/g, '""')}"`).join(',');
-
-      const headers = '"first","last","address","phone","email","service","price","day","stop","notes"';
-      const blob = new Blob([headers + '\n' + csvRow], { type: 'text/csv' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `intake-${first.toLowerCase()}-${last.toLowerCase()}.csv`;
-      a.click();
-      URL.revokeObjectURL(url);
-
-      // Show success state
       document.getElementById('intakeFormWrap').style.display = 'none';
       document.getElementById('intakeSuccess').style.display = 'block';
     });
