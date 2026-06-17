@@ -1,10 +1,17 @@
-const CACHE = 'syc-v1';
+const CACHE = 'syc-v2';
 const ASSETS = [
   '/schedule.html',
   '/app-icon.png',
   '/SaturdayYardCompany_Logo.png',
   '/logo.png',
   '/favicon.png',
+];
+
+// Always fetch fresh from network for these
+const NETWORK_FIRST = [
+  '/.netlify/functions/',
+  '/leads.html',
+  '/api/',
 ];
 
 self.addEventListener('install', e => {
@@ -24,10 +31,20 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  // Network-first for API calls, cache-first for app shell
-  if (e.request.url.includes('nominatim') || e.request.url.includes('osrm') || e.request.url.includes('tile.openstreetmap')) {
-    return; // let these go straight to network
+  const url = e.request.url;
+
+  // Always network for external tiles, APIs, and leads pipeline
+  if (
+    url.includes('nominatim') ||
+    url.includes('osrm') ||
+    url.includes('valhalla') ||
+    url.includes('tile.openstreetmap') ||
+    NETWORK_FIRST.some(p => url.includes(p))
+  ) {
+    e.respondWith(fetch(e.request));
+    return;
   }
+
   e.respondWith(
     caches.match(e.request).then(cached => cached || fetch(e.request).then(res => {
       if (res.ok && e.request.method === 'GET') {
