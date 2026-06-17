@@ -1,66 +1,63 @@
-export default async function handler(req, context) {
+const https = require('https');
+
+function get(url, token) {
+  return new Promise((resolve, reject) => {
+    const opts = new URL(url);
+    const req = https.get({
+      hostname: opts.hostname,
+      path: opts.pathname + opts.search,
+      headers: { Authorization: `Bearer ${token}` }
+    }, res => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => resolve({ status: res.statusCode, body: data }));
+    });
+    req.on('error', reject);
+  });
+}
+
+exports.handler = async function() {
   const token  = process.env.NETLIFY_TOKEN;
   const siteId = process.env.NETLIFY_SITE_ID;
 
   if (!token || !siteId) {
-    return new Response(JSON.stringify({ error: 'NETLIFY_TOKEN and NETLIFY_SITE_ID env vars not set.' }), {
-      status: 500, headers: { 'Content-Type': 'application/json' }
-    });
+    return { statusCode: 500, body: JSON.stringify({ error: 'NETLIFY_TOKEN and NETLIFY_SITE_ID env vars not set.' }) };
   }
 
-  const headers = { Authorization: `Bearer ${token}` };
-
-  // Verify the site is reachable first
-  const siteRes = await fetch(`https://api.netlify.com/api/v1/sites/${siteId}`, { headers });
-  if (siteRes.status === 401) {
-    return new Response(JSON.stringify({ error: 'Invalid token. Regenerate your Netlify personal access token.' }), {
-      status: 401, headers: { 'Content-Type': 'application/json' }
-    });
-  }
-  if (!siteRes.ok) {
-    return new Response(JSON.stringify({ error: `Site not found (${siteRes.status}). Check NETLIFY_SITE_ID.` }), {
-      status: siteRes.status, headers: { 'Content-Type': 'application/json' }
-    });
-  }
-
-  const formsRes = await fetch(
+  // Get all forms for this site
+  const formsResp = await get(
     `https://api.netlify.com/api/v1/forms?site_id=${encodeURIComponent(siteId)}`,
-    { headers }
+    token
   );
 
-  // 404 means no forms registered yet on this site — not an error
-  if (formsRes.status === 404 || formsRes.status === 200) {
-    if (!formsRes.ok) {
-      return new Response(JSON.stringify([]), { status: 200, headers: { 'Content-Type': 'application/json' } });
-    }
-  } else if (!formsRes.ok) {
-    return new Response(JSON.stringify({ error: `Forms API error: ${formsRes.status}` }), {
-      status: formsRes.status, headers: { 'Content-Type': 'application/json' }
-    });
+  if (formsResp.status === 401) {
+    return { statusCode: 401, body: JSON.stringify({ error: 'Invalid token.' }) };
   }
 
-  const forms = await formsRes.json();
+  let forms = [];
+  try { forms = JSON.parse(formsResp.body); } catch (_) {}
+  if (!Array.isArray(forms)) forms = [];
 
-  if (!Array.isArray(forms) || forms.length === 0) {
-    return new Response(JSON.stringify({ _debug: 'no_forms', forms: [] }), {
-      status: 200, headers: { 'Content-Type': 'application/json' }
-    });
+  // Debug: return what forms were found
+  if (forms.length === 0) {
+    return { statusCode: 200, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ _debug: 'no_forms_found', formsStatus: formsResp.status }) };
   }
 
-  // Use client-intake if found, otherwise fall back to first form
   const intakeForm = forms.find(f => f.name === 'client-intake') || forms[0];
 
-  const subRes = await fetch(
+  // Fetch submissions
+  const subResp = await get(
     `https://api.netlify.com/api/v1/forms/${intakeForm.id}/submissions?per_page=100`,
-    { headers }
+    token
   );
-  const submissions = await subRes.json();
 
-  const list = Array.isArray(submissions) ? submissions : [];
-  // Temporary debug: include raw first submission so we can inspect field names
-  return new Response(JSON.stringify({ _debug: true, count: list.length, sample: list[0] || null, submissions: list }), {
-    status: 200, headers: { 'Content-Type': 'application/json' }
-  });
-}
+  let submissions = [];
+  try { submissions = JSON.parse(subResp.body); } catch (_) {}
+  if (!Array.isArray(submissions)) submissions = [];
 
-export const config = { path: '/api/get-leads' };
+  return {
+    statusCode: 200,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(submissions)
+  };
+};
