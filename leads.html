@@ -459,7 +459,9 @@
         `https://api.netlify.com/api/v1/forms?site_id=${encodeURIComponent(siteId)}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      if (!formsRes.ok) throw new Error(`Auth failed (${formsRes.status}). Check your token and Site ID.`);
+      if (formsRes.status === 401) throw new Error('Invalid token (401). Regenerate your Netlify personal access token.');
+      if (formsRes.status === 404) throw new Error('Project not found (404). Double-check the Project ID — it\'s the UUID in Site Configuration → General, not the project name.');
+      if (!formsRes.ok) throw new Error(`Netlify API error (${formsRes.status}). Check your token and Project ID.`);
 
       const forms = await formsRes.json();
       const intakeForm = forms.find(f => f.name === 'client-intake');
