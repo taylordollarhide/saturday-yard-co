@@ -56,7 +56,9 @@ export default async function handler(req, context) {
   );
   const submissions = await subRes.json();
 
-  return new Response(JSON.stringify(Array.isArray(submissions) ? submissions : []), {
+  const list = Array.isArray(submissions) ? submissions : [];
+  // Temporary debug: include raw first submission so we can inspect field names
+  return new Response(JSON.stringify({ _debug: true, count: list.length, sample: list[0] || null, submissions: list }), {
     status: 200, headers: { 'Content-Type': 'application/json' }
   });
 }
