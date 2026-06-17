@@ -1219,6 +1219,25 @@
         await fetch('/', { method: 'POST', body: data });
       } catch (_) {}
 
+      // Save to localStorage so leads.html can surface this submission
+      const lead = {
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+        first:     (data.get('first') || '').trim(),
+        last:      (data.get('last') || '').trim(),
+        address:   (data.get('address') || '').trim(),
+        phone:     (data.get('phone') || '').trim(),
+        email:     (data.get('email') || '').trim(),
+        service:   data.get('service') || '',
+        yardSize:  data.get('yardSize') || '',
+        price:     ({ Small: 45, Standard: 55, Large: 65 })[data.get('yardSize')] || '',
+        notes:     (data.get('notes') || '').trim(),
+        submittedAt: new Date().toISOString(),
+        status: 'pending'
+      };
+      const leads = JSON.parse(localStorage.getItem('syc_leads') || '[]');
+      leads.push(lead);
+      localStorage.setItem('syc_leads', JSON.stringify(leads));
+
       const size = data.get('yardSize') || '';
       const msg = size === 'Large'
         ? "We'll follow up within 24 hours to confirm pricing and get you on the route."

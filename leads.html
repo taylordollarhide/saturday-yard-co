@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Leads — Saturday Yard Co.</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="app-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <style>
+    :root {
+      --cream: #f6f1e7;
+      --paper: #fffaf0;
+      --black: #151613;
+      --green: #243c2a;
+      --green-2: #4f6934;
+      --gold: #b9862f;
+      --muted: #706b5e;
+      --line: rgba(21,22,19,.14);
+      --red: #c0392b;
+      --blue: #1a56a0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+      background: var(--cream);
+      color: var(--black);
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .topbar {
+      background: var(--green);
+      padding: env(safe-area-inset-top, 0) 0 0;
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      gap: 12px;
+    }
+
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .topbar-brand img { width: 78px; height: auto; filter: brightness(0) invert(1); opacity: .9; }
+
+    .topbar-title {
+      color: var(--paper);
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: -.01em;
+    }
+
+    .topbar-sub {
+      color: rgba(255,250,240,.6);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .topbar-actions { display: flex; gap: 8px; align-items: center; }
+
+    .icon-btn {
+      background: rgba(255,250,240,.12);
+      border: none;
+      color: var(--paper);
+      border-radius: 10px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 17px;
+    }
+
+    /* Tab bar */
+    .tab-bar {
+      background: var(--green);
+      display: flex;
+      border-top: 1px solid rgba(255,250,240,.1);
+    }
+
+    .tab {
+      flex: 1;
+      padding: 10px 8px;
+      text-align: center;
+      color: rgba(255,250,240,.55);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: none;
+      background: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .tab.active { color: var(--paper); }
+    .tab .tab-icon { font-size: 18px; }
+
+    /* Content */
+    .content { max-width: 600px; margin: 0 auto; padding: 16px 12px 100px; }
+
+    /* Summary strip */
+    .summary-strip {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .stat-pill span { color: var(--muted); font-weight: 700; }
+
+    /* Lead card */
+    .lead-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+
+    .lead-card.confirmed {
+      border-color: var(--green);
+      opacity: .7;
+    }
+
+    .lead-card-body {
+      padding: 16px;
+    }
+
+    .lead-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .lead-name {
+      font-size: 19px;
+      font-weight: 900;
+      letter-spacing: -.02em;
+      line-height: 1.1;
+    }
+
+    .lead-badge {
+      flex-shrink: 0;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .lead-badge.pending { background: rgba(185,134,47,.15); color: var(--gold); }
+    .lead-badge.confirmed { background: rgba(36,60,42,.12); color: var(--green); }
+
+    .lead-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 14px;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .lead-meta-item { display: flex; flex-direction: column; gap: 1px; }
+    .lead-meta-item strong { font-size: 11px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: rgba(21,22,19,.4); }
+    .lead-meta-item span { font-weight: 600; color: var(--black); font-size: 14px; }
+
+    .lead-address {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .lead-notes {
+      font-size: 13px;
+      color: var(--muted);
+      background: var(--cream);
+      border-radius: 10px;
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      font-style: italic;
+    }
+
+    .lead-submitted {
+      font-size: 12px;
+      color: rgba(21,22,19,.35);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    /* Card actions */
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      border-top: 1px solid var(--line);
+      padding: 10px 16px;
+      background: rgba(246,241,231,.5);
+    }
+
+    .action-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      border-radius: 12px;
+      padding: 9px 6px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      color: var(--black);
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .action-btn .btn-icon { font-size: 18px; }
+    .action-btn.primary { background: var(--green); color: var(--paper); border-color: var(--green); }
+    .action-btn.danger { color: var(--red); border-color: rgba(192,57,43,.2); }
+
+    /* Empty state */
+    .empty {
+      text-align: center;
+      padding: 60px 24px;
+      color: var(--muted);
+    }
+
+    .empty h3 {
+      font-family: Georgia, serif;
+      font-size: 22px;
+      margin-bottom: 8px;
+      color: var(--black);
+    }
+
+    .empty p { font-size: 15px; }
+
+    /* Confirm modal */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(21,22,19,.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 200;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .modal {
+      background: var(--paper);
+      border-radius: 28px 28px 0 0;
+      width: 100%;
+      max-width: 560px;
+      padding: 0 0 env(safe-area-inset-bottom, 20px);
+      box-shadow: 0 -20px 60px rgba(21,22,19,.2);
+    }
+
+    .modal-handle {
+      width: 36px;
+      height: 4px;
+      background: var(--line);
+      border-radius: 2px;
+      margin: 12px auto 0;
+    }
+
+    .modal-head {
+      padding: 16px 20px 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .modal-head h3 {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -.02em;
+    }
+
+    .modal-head p { font-size: 14px; color: var(--muted); margin-top: 2px; }
+
+    .modal-body { padding: 16px 20px 20px; display: grid; gap: 14px; }
+
+    .field-group { display: flex; flex-direction: column; gap: 5px; }
+
+    .field-group label {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .field-group input,
+    .field-group select {
+      border: 1.5px solid var(--line);
+      background: #fffdf7;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font: inherit;
+      font-size: 15px;
+      color: var(--black);
+      width: 100%;
+    }
+
+    .field-group input:focus,
+    .field-group select:focus { outline: none; border-color: var(--green); }
+
+    .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .modal-actions { display: flex; gap: 10px; padding: 0 20px 4px; }
+
+    .modal-btn {
+      flex: 1;
+      padding: 15px;
+      border-radius: 999px;
+      font: inherit;
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: .02em;
+      cursor: pointer;
+      border: 2px solid var(--black);
+    }
+
+    .modal-btn.primary { background: var(--black); color: var(--paper); }
+    .modal-btn.ghost { background: transparent; color: var(--black); }
+
+    /* Section header */
+    .section-label {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 18px 0 10px 2px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-brand">
+      <div>
+        <div class="topbar-title">Leads</div>
+        <div class="topbar-sub">Saturday Yard Co.</div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button class="icon-btn" onclick="window.location.href='schedule.html'" title="Route Manager">🗺</button>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab active" id="tabPending" onclick="setTab('pending')">
+      <span class="tab-icon">⏳</span>Pending
+    </button>
+    <button class="tab" id="tabConfirmed" onclick="setTab('confirmed')">
+      <span class="tab-icon">✅</span>Confirmed
+    </button>
+  </div>
+</div>
+
+<div class="content">
+  <div class="summary-strip" id="summaryStrip"></div>
+  <div id="leadsContainer"></div>
+</div>
+
+<!-- Confirm Modal -->
+<div class="modal-backdrop" id="confirmBackdrop">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <h3 id="confirmModalName">Confirm client</h3>
+      <p>Set their route details and add to the schedule.</p>
+    </div>
+    <div class="modal-body">
+      <div class="modal-grid">
+        <div class="field-group">
+          <label>Route Day</label>
+          <select id="confirmDay">
+            <option value="Sunday">Sunday</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday" selected>Saturday</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Stop #</label>
+          <input type="number" id="confirmStop" min="1" max="99" placeholder="1">
+        </div>
+      </div>
+      <div class="modal-grid">
+        <div class="field-group">
+          <label>Price per mow ($)</label>
+          <input type="number" id="confirmPrice" min="1" placeholder="45">
+        </div>
+        <div class="field-group">
+          <label>Start Date</label>
+          <input type="date" id="confirmStartDate">
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Confirmation message preview</label>
+        <div id="smsPreview" style="font-size:13px; color:var(--muted); background:var(--cream); border-radius:10px; padding:10px 12px; line-height:1.5; white-space:pre-wrap;"></div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn ghost" onclick="closeConfirm()">Cancel</button>
+      <button class="modal-btn primary" onclick="confirmLead()">Add to Route & Text</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const WEEK_DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  let currentTab = 'pending';
+  let confirmingId = null;
+
+  function getLeads() {
+    return JSON.parse(localStorage.getItem('syc_leads') || '[]');
+  }
+
+  function saveLeads(leads) {
+    localStorage.setItem('syc_leads', JSON.stringify(leads));
+  }
+
+  function setTab(tab) {
+    currentTab = tab;
+    document.getElementById('tabPending').classList.toggle('active', tab === 'pending');
+    document.getElementById('tabConfirmed').classList.toggle('active', tab === 'confirmed');
+    render();
+  }
+
+  function render() {
+    const all = getLeads();
+    const pending = all.filter(l => l.status === 'pending');
+    const confirmed = all.filter(l => l.status === 'confirmed');
+    const list = currentTab === 'pending' ? pending : confirmed;
+
+    // Summary
+    const strip = document.getElementById('summaryStrip');
+    strip.innerHTML = `
+      <div class="stat-pill">${pending.length} <span>Pending</span></div>
+      <div class="stat-pill">${confirmed.length} <span>Confirmed</span></div>
+    `;
+
+    const container = document.getElementById('leadsContainer');
+
+    if (!list.length) {
+      const msg = currentTab === 'pending'
+        ? 'No pending leads. New intake submissions will appear here.'
+        : 'No confirmed clients yet. Confirm a pending lead to add them to the route.';
+      container.innerHTML = `<div class="empty"><h3>${currentTab === 'pending' ? 'All clear.' : 'Nothing yet.'}</h3><p>${msg}</p></div>`;
+      return;
+    }
+
+    // Sort pending: newest first. Confirmed: alphabetical.
+    const sorted = [...list].sort((a, b) =>
+      currentTab === 'pending'
+        ? new Date(b.submittedAt) - new Date(a.submittedAt)
+        : a.last.localeCompare(b.last)
+    );
+
+    container.innerHTML = sorted.map(lead => renderCard(lead)).join('');
+  }
+
+  function renderCard(lead) {
+    const isPending = lead.status === 'pending';
+    const submittedDate = new Date(lead.submittedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const confirmedDate = lead.confirmedStartDate
+      ? new Date(lead.confirmedStartDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+      : null;
+
+    const notes = lead.notes ? `<div class="lead-notes">"${lead.notes}"</div>` : '';
+
+    const pendingActions = `
+      <div class="card-actions" onclick="event.stopPropagation()">
+        <button class="action-btn" onclick="smsLead('${lead.id}', 'intro')">
+          <span class="btn-icon">💬</span>Intro Text
+        </button>
+        <button class="action-btn primary" onclick="openConfirm('${lead.id}')">
+          <span class="btn-icon">✅</span>Confirm
+        </button>
+        <button class="action-btn danger" onclick="archiveLead('${lead.id}')">
+          <span class="btn-icon">✕</span>Remove
+        </button>
+      </div>
+    `;
+
+    const confirmedActions = `
+      <div class="card-actions" onclick="event.stopPropagation()">
+        <button class="action-btn" onclick="smsLead('${lead.id}', 'confirm')">
+          <span class="btn-icon">💬</span>Re-send Text
+        </button>
+        <button class="action-btn" onclick="window.location.href='schedule.html'">
+          <span class="btn-icon">🗺</span>Open Route
+        </button>
+        <button class="action-btn danger" onclick="archiveLead('${lead.id}')">
+          <span class="btn-icon">✕</span>Remove
+        </button>
+      </div>
+    `;
+
+    return `
+      <div class="lead-card ${lead.status}">
+        <div class="lead-card-body">
+          <div class="lead-header">
+            <div class="lead-name">${lead.first} ${lead.last}</div>
+            <div class="lead-badge ${lead.status}">${lead.status === 'pending' ? 'Pending' : 'Confirmed'}</div>
+          </div>
+          <div class="lead-address">📍 ${lead.address}</div>
+          <div class="lead-meta">
+            <div class="lead-meta-item">
+              <strong>Service</strong>
+              <span>${lead.service || '—'}</span>
+            </div>
+            <div class="lead-meta-item">
+              <strong>Yard Size</strong>
+              <span>${lead.yardSize || '—'} ${lead.price ? '· $' + lead.price : ''}</span>
+            </div>
+            <div class="lead-meta-item">
+              <strong>Phone</strong>
+              <span>${lead.phone || '—'}</span>
+            </div>
+            <div class="lead-meta-item">
+              <strong>Email</strong>
+              <span>${lead.email || '—'}</span>
+            </div>
+            ${confirmedDate ? `
+            <div class="lead-meta-item">
+              <strong>Route Day</strong>
+              <span>${lead.confirmedDay || '—'}</span>
+            </div>
+            <div class="lead-meta-item">
+              <strong>Start Date</strong>
+              <span>${confirmedDate}</span>
+            </div>` : ''}
+          </div>
+          ${notes}
+          <div class="lead-submitted">Submitted ${submittedDate}</div>
+        </div>
+        ${isPending ? pendingActions : confirmedActions}
+      </div>
+    `;
+  }
+
+  function smsLead(id, type) {
+    const leads = getLeads();
+    const lead = leads.find(l => l.id === id);
+    if (!lead) return;
+    const phone = (lead.phone || '').replace(/\D/g, '');
+    if (!phone) { alert('No phone number on file.'); return; }
+
+    let msg;
+    if (type === 'intro') {
+      msg = `Hi ${lead.first}, this is Taylor from Saturday Yard Co.! Thanks for signing up — I got your info and I'm putting together your route. I'll follow up shortly to confirm your start date. Any questions just reply here. 🌿`;
+    } else {
+      const dateStr = lead.confirmedStartDate
+        ? new Date(lead.confirmedStartDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
+        : 'your scheduled day';
+      msg = `Hi ${lead.first}, you're officially on the Saturday Yard Co. route! Your first mow is ${dateStr} (${lead.confirmedDay || ''}). Price is $${lead.price}/mow. I'll text you when I'm on the way. — Taylor 🌿`;
+    }
+
+    window.location.href = `sms:${phone}?body=${encodeURIComponent(msg)}`;
+  }
+
+  function openConfirm(id) {
+    const leads = getLeads();
+    const lead = leads.find(l => l.id === id);
+    if (!lead) return;
+    confirmingId = id;
+
+    document.getElementById('confirmModalName').textContent = `${lead.first} ${lead.last}`;
+    document.getElementById('confirmPrice').value = lead.price || '';
+
+    // Default start date to next Saturday
+    const today = new Date();
+    const daysUntilSat = (6 - today.getDay() + 7) % 7 || 7;
+    const nextSat = new Date(today);
+    nextSat.setDate(today.getDate() + daysUntilSat);
+    document.getElementById('confirmStartDate').value = nextSat.toISOString().slice(0, 10);
+
+    updateSmsPreview(lead);
+
+    ['confirmDay','confirmPrice','confirmStartDate'].forEach(id => {
+      document.getElementById(id).addEventListener('input', () => updateSmsPreview(lead));
+    });
+
+    document.getElementById('confirmBackdrop').classList.add('open');
+  }
+
+  function updateSmsPreview(lead) {
+    const day = document.getElementById('confirmDay').value;
+    const price = document.getElementById('confirmPrice').value;
+    const rawDate = document.getElementById('confirmStartDate').value;
+    const dateStr = rawDate
+      ? new Date(rawDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
+      : 'your scheduled day';
+    document.getElementById('smsPreview').textContent =
+      `Hi ${lead.first}, you're officially on the Saturday Yard Co. route! Your first mow is ${dateStr} (${day}). Price is $${price || '??'}/mow. I'll text you when I'm on the way. — Taylor 🌿`;
+  }
+
+  function closeConfirm() {
+    document.getElementById('confirmBackdrop').classList.remove('open');
+    confirmingId = null;
+  }
+
+  function confirmLead() {
+    if (!confirmingId) return;
+    const leads = getLeads();
+    const idx = leads.findIndex(l => l.id === confirmingId);
+    if (idx === -1) return;
+
+    const lead = leads[idx];
+    const day = document.getElementById('confirmDay').value;
+    const price = parseFloat(document.getElementById('confirmPrice').value) || lead.price;
+    const startDate = document.getElementById('confirmStartDate').value;
+    const stop = parseInt(document.getElementById('confirmStop').value) || 1;
+
+    // Update lead record
+    leads[idx] = { ...lead, status: 'confirmed', confirmedDay: day, confirmedStartDate: startDate, price };
+    saveLeads(leads);
+
+    // Add to route manager (syc_clients)
+    const clients = JSON.parse(localStorage.getItem('syc_clients') || '[]');
+    const existing = clients.find(c => c.id === lead.id);
+    if (!existing) {
+      clients.push({
+        id: lead.id,
+        first: lead.first,
+        last: lead.last,
+        address: lead.address,
+        phone: lead.phone,
+        email: lead.email,
+        service: lead.service,
+        price: price,
+        day: day,
+        stop: stop,
+        notes: lead.notes || '',
+        log: []
+      });
+      localStorage.setItem('syc_clients', JSON.stringify(clients));
+    }
+
+    closeConfirm();
+
+    // Fire the confirmation SMS
+    smsLead(confirmingId || lead.id, 'confirm');
+
+    render();
+  }
+
+  function archiveLead(id) {
+    if (!confirm('Remove this lead?')) return;
+    const leads = getLeads().filter(l => l.id !== id);
+    saveLeads(leads);
+    render();
+  }
+
+  // Init
+  render();
+</script>
+</body>
+</html>
