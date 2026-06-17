@@ -14,12 +14,10 @@
       --paper: #fffaf0;
       --black: #151613;
       --green: #243c2a;
-      --green-2: #4f6934;
       --gold: #b9862f;
       --muted: #706b5e;
       --line: rgba(21,22,19,.14);
       --red: #c0392b;
-      --blue: #1a56a0;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -31,7 +29,6 @@
       min-height: 100vh;
     }
 
-    /* Header */
     .topbar {
       background: var(--green);
       padding: env(safe-area-inset-top, 0) 0 0;
@@ -45,30 +42,10 @@
       gap: 12px;
     }
 
-    .topbar-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .topbar-title { color: var(--paper); font-size: 17px; font-weight: 900; }
+    .topbar-sub { color: rgba(255,250,240,.6); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 
-    .topbar-brand img { width: 78px; height: auto; filter: brightness(0) invert(1); opacity: .9; }
-
-    .topbar-title {
-      color: var(--paper);
-      font-size: 17px;
-      font-weight: 900;
-      letter-spacing: -.01em;
-    }
-
-    .topbar-sub {
-      color: rgba(255,250,240,.6);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-
-    .topbar-actions { display: flex; gap: 8px; align-items: center; }
+    .topbar-actions { display: flex; gap: 8px; }
 
     .icon-btn {
       background: rgba(255,250,240,.12);
@@ -84,7 +61,6 @@
       font-size: 17px;
     }
 
-    /* Tab bar */
     .tab-bar {
       background: var(--green);
       display: flex;
@@ -112,16 +88,9 @@
     .tab.active { color: var(--paper); }
     .tab .tab-icon { font-size: 18px; }
 
-    /* Content */
     .content { max-width: 600px; margin: 0 auto; padding: 16px 12px 100px; }
 
-    /* Summary strip */
-    .summary-strip {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
+    .summary-strip { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
 
     .stat-pill {
       background: var(--paper);
@@ -134,7 +103,76 @@
 
     .stat-pill span { color: var(--muted); font-weight: 700; }
 
-    /* Lead card */
+    /* Setup screen */
+    .setup-screen {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 28px;
+      margin-top: 8px;
+    }
+
+    .setup-screen h2 {
+      font-family: Georgia, serif;
+      font-size: 24px;
+      letter-spacing: -.03em;
+      margin-bottom: 8px;
+    }
+
+    .setup-screen p { color: var(--muted); font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
+
+    .setup-step {
+      background: var(--cream);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .setup-step strong { display: block; font-size: 12px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+
+    .setup-screen .field-group { margin-bottom: 12px; }
+
+    .field-group { display: flex; flex-direction: column; gap: 5px; }
+
+    .field-group label {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .field-group input, .field-group select {
+      border: 1.5px solid var(--line);
+      background: #fffdf7;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font: inherit;
+      font-size: 15px;
+      color: var(--black);
+      width: 100%;
+    }
+
+    .field-group input:focus, .field-group select:focus { outline: none; border-color: var(--green); }
+
+    .btn-primary {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      background: var(--black);
+      color: var(--paper);
+      border: none;
+      border-radius: 999px;
+      font: inherit;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+
+    /* Lead cards */
     .lead-card {
       background: var(--paper);
       border: 1px solid var(--line);
@@ -143,14 +181,9 @@
       overflow: hidden;
     }
 
-    .lead-card.confirmed {
-      border-color: var(--green);
-      opacity: .7;
-    }
+    .lead-card.confirmed { border-color: var(--green); opacity: .72; }
 
-    .lead-card-body {
-      padding: 16px;
-    }
+    .lead-card-body { padding: 16px; }
 
     .lead-header {
       display: flex;
@@ -160,12 +193,7 @@
       margin-bottom: 10px;
     }
 
-    .lead-name {
-      font-size: 19px;
-      font-weight: 900;
-      letter-spacing: -.02em;
-      line-height: 1.1;
-    }
+    .lead-name { font-size: 19px; font-weight: 900; letter-spacing: -.02em; line-height: 1.1; }
 
     .lead-badge {
       flex-shrink: 0;
@@ -180,28 +208,23 @@
     .lead-badge.pending { background: rgba(185,134,47,.15); color: var(--gold); }
     .lead-badge.confirmed { background: rgba(36,60,42,.12); color: var(--green); }
 
+    .lead-address {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
     .lead-meta {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 6px 14px;
-      font-size: 13px;
-      color: var(--muted);
       margin-bottom: 10px;
     }
 
     .lead-meta-item { display: flex; flex-direction: column; gap: 1px; }
     .lead-meta-item strong { font-size: 11px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: rgba(21,22,19,.4); }
     .lead-meta-item span { font-weight: 600; color: var(--black); font-size: 14px; }
-
-    .lead-address {
-      font-size: 13px;
-      color: var(--muted);
-      font-weight: 600;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
 
     .lead-notes {
       font-size: 13px;
@@ -213,14 +236,8 @@
       font-style: italic;
     }
 
-    .lead-submitted {
-      font-size: 12px;
-      color: rgba(21,22,19,.35);
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
+    .lead-submitted { font-size: 12px; color: rgba(21,22,19,.35); font-weight: 700; margin-bottom: 12px; }
 
-    /* Card actions */
     .card-actions {
       display: flex;
       gap: 8px;
@@ -251,23 +268,17 @@
     .action-btn.primary { background: var(--green); color: var(--paper); border-color: var(--green); }
     .action-btn.danger { color: var(--red); border-color: rgba(192,57,43,.2); }
 
-    /* Empty state */
-    .empty {
+    /* Loading / error */
+    .status-msg {
       text-align: center;
-      padding: 60px 24px;
+      padding: 50px 24px;
       color: var(--muted);
+      font-size: 15px;
     }
 
-    .empty h3 {
-      font-family: Georgia, serif;
-      font-size: 22px;
-      margin-bottom: 8px;
-      color: var(--black);
-    }
+    .status-msg h3 { font-family: Georgia, serif; font-size: 22px; color: var(--black); margin-bottom: 8px; }
 
-    .empty p { font-size: 15px; }
-
-    /* Confirm modal */
+    /* Confirm sheet */
     .modal-backdrop {
       display: none;
       position: fixed;
@@ -287,57 +298,17 @@
       border-radius: 28px 28px 0 0;
       width: 100%;
       max-width: 560px;
-      padding: 0 0 env(safe-area-inset-bottom, 20px);
+      padding-bottom: env(safe-area-inset-bottom, 20px);
       box-shadow: 0 -20px 60px rgba(21,22,19,.2);
     }
 
-    .modal-handle {
-      width: 36px;
-      height: 4px;
-      background: var(--line);
-      border-radius: 2px;
-      margin: 12px auto 0;
-    }
+    .modal-handle { width: 36px; height: 4px; background: var(--line); border-radius: 2px; margin: 12px auto 0; }
 
-    .modal-head {
-      padding: 16px 20px 12px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .modal-head h3 {
-      font-size: 18px;
-      font-weight: 900;
-      letter-spacing: -.02em;
-    }
-
+    .modal-head { padding: 16px 20px 12px; border-bottom: 1px solid var(--line); }
+    .modal-head h3 { font-size: 18px; font-weight: 900; letter-spacing: -.02em; }
     .modal-head p { font-size: 14px; color: var(--muted); margin-top: 2px; }
 
     .modal-body { padding: 16px 20px 20px; display: grid; gap: 14px; }
-
-    .field-group { display: flex; flex-direction: column; gap: 5px; }
-
-    .field-group label {
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .field-group input,
-    .field-group select {
-      border: 1.5px solid var(--line);
-      background: #fffdf7;
-      border-radius: 12px;
-      padding: 12px 14px;
-      font: inherit;
-      font-size: 15px;
-      color: var(--black);
-      width: 100%;
-    }
-
-    .field-group input:focus,
-    .field-group select:focus { outline: none; border-color: var(--green); }
 
     .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
@@ -350,7 +321,6 @@
       font: inherit;
       font-size: 15px;
       font-weight: 900;
-      letter-spacing: .02em;
       cursor: pointer;
       border: 2px solid var(--black);
     }
@@ -358,14 +328,14 @@
     .modal-btn.primary { background: var(--black); color: var(--paper); }
     .modal-btn.ghost { background: transparent; color: var(--black); }
 
-    /* Section header */
-    .section-label {
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin: 18px 0 10px 2px;
+    .sms-preview {
+      font-size: 13px;
+      color: var(--muted);
+      background: var(--cream);
+      border-radius: 10px;
+      padding: 10px 12px;
+      line-height: 1.5;
+      white-space: pre-wrap;
     }
   </style>
 </head>
@@ -373,14 +343,14 @@
 
 <div class="topbar">
   <div class="topbar-inner">
-    <div class="topbar-brand">
-      <div>
-        <div class="topbar-title">Leads</div>
-        <div class="topbar-sub">Saturday Yard Co.</div>
-      </div>
+    <div>
+      <div class="topbar-title">Leads</div>
+      <div class="topbar-sub">Saturday Yard Co.</div>
     </div>
     <div class="topbar-actions">
+      <button class="icon-btn" id="refreshBtn" onclick="fetchLeads()" title="Refresh">↻</button>
       <button class="icon-btn" onclick="window.location.href='schedule.html'" title="Route Manager">🗺</button>
+      <button class="icon-btn" onclick="showSettings()" title="Settings">⚙</button>
     </div>
   </div>
   <div class="tab-bar">
@@ -393,18 +363,18 @@
   </div>
 </div>
 
-<div class="content">
-  <div class="summary-strip" id="summaryStrip"></div>
+<div class="content" id="mainContent">
+  <div id="summaryStrip" class="summary-strip"></div>
   <div id="leadsContainer"></div>
 </div>
 
-<!-- Confirm Modal -->
+<!-- Confirm sheet -->
 <div class="modal-backdrop" id="confirmBackdrop">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-head">
-      <h3 id="confirmModalName">Confirm client</h3>
-      <p>Set their route details and add to the schedule.</p>
+      <h3 id="confirmName">Confirm client</h3>
+      <p>Set route details — they'll be added to the schedule.</p>
     </div>
     <div class="modal-body">
       <div class="modal-grid">
@@ -427,7 +397,7 @@
       </div>
       <div class="modal-grid">
         <div class="field-group">
-          <label>Price per mow ($)</label>
+          <label>Price / mow ($)</label>
           <input type="number" id="confirmPrice" min="1" placeholder="45">
         </div>
         <div class="field-group">
@@ -436,8 +406,8 @@
         </div>
       </div>
       <div class="field-group">
-        <label>Confirmation message preview</label>
-        <div id="smsPreview" style="font-size:13px; color:var(--muted); background:var(--cream); border-radius:10px; padding:10px 12px; line-height:1.5; white-space:pre-wrap;"></div>
+        <label>Confirmation text preview</label>
+        <div class="sms-preview" id="smsPreview"></div>
       </div>
     </div>
     <div class="modal-actions">
@@ -448,18 +418,92 @@
 </div>
 
 <script>
-  const WEEK_DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const PRICE_MAP = { Small: 45, Standard: 55, Large: 65 };
   let currentTab = 'pending';
-  let confirmingId = null;
+  let allLeads = [];
+  let confirmingLead = null;
 
-  function getLeads() {
-    return JSON.parse(localStorage.getItem('syc_leads') || '[]');
+  // ── Netlify credentials ──
+  function getCreds() {
+    return {
+      token:  localStorage.getItem('syc_nl_token') || '',
+      siteId: localStorage.getItem('syc_nl_site') || ''
+    };
   }
 
-  function saveLeads(leads) {
-    localStorage.setItem('syc_leads', JSON.stringify(leads));
+  function saveCreds(token, siteId) {
+    localStorage.setItem('syc_nl_token', token.trim());
+    localStorage.setItem('syc_nl_site', siteId.trim());
   }
 
+  // ── Confirmed state (stored locally, keyed by Netlify submission ID) ──
+  function getConfirmed() {
+    return JSON.parse(localStorage.getItem('syc_confirmed') || '{}');
+  }
+
+  function saveConfirmed(obj) {
+    localStorage.setItem('syc_confirmed', JSON.stringify(obj));
+  }
+
+  // ── Fetch from Netlify ──
+  async function fetchLeads() {
+    const { token, siteId } = getCreds();
+    if (!token || !siteId) { showSetup(); return; }
+
+    const container = document.getElementById('leadsContainer');
+    container.innerHTML = '<div class="status-msg"><p>Loading submissions…</p></div>';
+
+    try {
+      // Get all forms for the site to find the client-intake form ID
+      const formsRes = await fetch(
+        `https://api.netlify.com/api/v1/forms?site_id=${encodeURIComponent(siteId)}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (!formsRes.ok) throw new Error(`Auth failed (${formsRes.status}). Check your token and Site ID.`);
+
+      const forms = await formsRes.json();
+      const intakeForm = forms.find(f => f.name === 'client-intake');
+      if (!intakeForm) {
+        container.innerHTML = `<div class="status-msg"><h3>No submissions yet.</h3><p>The intake form hasn't received any responses. Share <strong>getsaturdayyard.com</strong> to start collecting leads.</p></div>`;
+        return;
+      }
+
+      // Fetch all submissions (max 100; add pagination later if needed)
+      const subRes = await fetch(
+        `https://api.netlify.com/api/v1/forms/${intakeForm.id}/submissions?per_page=100`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      const submissions = await subRes.json();
+
+      const confirmed = getConfirmed();
+
+      allLeads = submissions.map(s => ({
+        id:          s.id,
+        first:       s.data.first || '',
+        last:        s.data.last || '',
+        address:     s.data.address || '',
+        phone:       s.data.phone || '',
+        email:       s.data.email || '',
+        service:     s.data.service || '',
+        yardSize:    s.data.yardSize || '',
+        price:       PRICE_MAP[s.data.yardSize] || 65,
+        notes:       s.data.notes || '',
+        submittedAt: s.created_at,
+        // Pull confirmed metadata from localStorage
+        status:            confirmed[s.id] ? 'confirmed' : 'pending',
+        confirmedDay:      confirmed[s.id]?.day || '',
+        confirmedStartDate:confirmed[s.id]?.startDate || '',
+        confirmedPrice:    confirmed[s.id]?.price || PRICE_MAP[s.data.yardSize] || 65,
+        confirmedStop:     confirmed[s.id]?.stop || 1,
+      }));
+
+      render();
+    } catch (err) {
+      container.innerHTML = `<div class="status-msg"><h3>Connection error</h3><p>${err.message}</p><button class="btn-primary" style="max-width:240px;margin:16px auto 0" onclick="showSettings()">Check settings</button></div>`;
+    }
+  }
+
+  // ── Render ──
   function setTab(tab) {
     currentTab = tab;
     document.getElementById('tabPending').classList.toggle('active', tab === 'pending');
@@ -468,14 +512,11 @@
   }
 
   function render() {
-    const all = getLeads();
-    const pending = all.filter(l => l.status === 'pending');
-    const confirmed = all.filter(l => l.status === 'confirmed');
-    const list = currentTab === 'pending' ? pending : confirmed;
+    const pending   = allLeads.filter(l => l.status === 'pending');
+    const confirmed = allLeads.filter(l => l.status === 'confirmed');
+    const list      = currentTab === 'pending' ? pending : confirmed;
 
-    // Summary
-    const strip = document.getElementById('summaryStrip');
-    strip.innerHTML = `
+    document.getElementById('summaryStrip').innerHTML = `
       <div class="stat-pill">${pending.length} <span>Pending</span></div>
       <div class="stat-pill">${confirmed.length} <span>Confirmed</span></div>
     `;
@@ -484,217 +525,222 @@
 
     if (!list.length) {
       const msg = currentTab === 'pending'
-        ? 'No pending leads. New intake submissions will appear here.'
-        : 'No confirmed clients yet. Confirm a pending lead to add them to the route.';
-      container.innerHTML = `<div class="empty"><h3>${currentTab === 'pending' ? 'All clear.' : 'Nothing yet.'}</h3><p>${msg}</p></div>`;
+        ? 'No pending leads. New intake form submissions will show here automatically.'
+        : 'No confirmed clients yet.';
+      container.innerHTML = `<div class="status-msg"><h3>${currentTab === 'pending' ? 'All clear.' : 'Nothing yet.'}</h3><p>${msg}</p></div>`;
       return;
     }
 
-    // Sort pending: newest first. Confirmed: alphabetical.
     const sorted = [...list].sort((a, b) =>
       currentTab === 'pending'
         ? new Date(b.submittedAt) - new Date(a.submittedAt)
         : a.last.localeCompare(b.last)
     );
 
-    container.innerHTML = sorted.map(lead => renderCard(lead)).join('');
+    container.innerHTML = sorted.map(renderCard).join('');
   }
 
   function renderCard(lead) {
     const isPending = lead.status === 'pending';
-    const submittedDate = new Date(lead.submittedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    const confirmedDate = lead.confirmedStartDate
+    const date = new Date(lead.submittedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const startDate = lead.confirmedStartDate
       ? new Date(lead.confirmedStartDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
       : null;
-
-    const notes = lead.notes ? `<div class="lead-notes">"${lead.notes}"</div>` : '';
-
-    const pendingActions = `
-      <div class="card-actions" onclick="event.stopPropagation()">
-        <button class="action-btn" onclick="smsLead('${lead.id}', 'intro')">
-          <span class="btn-icon">💬</span>Intro Text
-        </button>
-        <button class="action-btn primary" onclick="openConfirm('${lead.id}')">
-          <span class="btn-icon">✅</span>Confirm
-        </button>
-        <button class="action-btn danger" onclick="archiveLead('${lead.id}')">
-          <span class="btn-icon">✕</span>Remove
-        </button>
-      </div>
-    `;
-
-    const confirmedActions = `
-      <div class="card-actions" onclick="event.stopPropagation()">
-        <button class="action-btn" onclick="smsLead('${lead.id}', 'confirm')">
-          <span class="btn-icon">💬</span>Re-send Text
-        </button>
-        <button class="action-btn" onclick="window.location.href='schedule.html'">
-          <span class="btn-icon">🗺</span>Open Route
-        </button>
-        <button class="action-btn danger" onclick="archiveLead('${lead.id}')">
-          <span class="btn-icon">✕</span>Remove
-        </button>
-      </div>
-    `;
 
     return `
       <div class="lead-card ${lead.status}">
         <div class="lead-card-body">
           <div class="lead-header">
             <div class="lead-name">${lead.first} ${lead.last}</div>
-            <div class="lead-badge ${lead.status}">${lead.status === 'pending' ? 'Pending' : 'Confirmed'}</div>
+            <div class="lead-badge ${lead.status}">${isPending ? 'Pending' : 'Confirmed'}</div>
           </div>
           <div class="lead-address">📍 ${lead.address}</div>
           <div class="lead-meta">
-            <div class="lead-meta-item">
-              <strong>Service</strong>
-              <span>${lead.service || '—'}</span>
-            </div>
-            <div class="lead-meta-item">
-              <strong>Yard Size</strong>
-              <span>${lead.yardSize || '—'} ${lead.price ? '· $' + lead.price : ''}</span>
-            </div>
-            <div class="lead-meta-item">
-              <strong>Phone</strong>
-              <span>${lead.phone || '—'}</span>
-            </div>
-            <div class="lead-meta-item">
-              <strong>Email</strong>
-              <span>${lead.email || '—'}</span>
-            </div>
-            ${confirmedDate ? `
-            <div class="lead-meta-item">
-              <strong>Route Day</strong>
-              <span>${lead.confirmedDay || '—'}</span>
-            </div>
-            <div class="lead-meta-item">
-              <strong>Start Date</strong>
-              <span>${confirmedDate}</span>
-            </div>` : ''}
+            <div class="lead-meta-item"><strong>Service</strong><span>${lead.service || '—'}</span></div>
+            <div class="lead-meta-item"><strong>Yard Size</strong><span>${lead.yardSize || '—'} · $${lead.price}</span></div>
+            <div class="lead-meta-item"><strong>Phone</strong><span>${lead.phone || '—'}</span></div>
+            <div class="lead-meta-item"><strong>Email</strong><span>${lead.email || '—'}</span></div>
+            ${startDate ? `
+            <div class="lead-meta-item"><strong>Route Day</strong><span>${lead.confirmedDay}</span></div>
+            <div class="lead-meta-item"><strong>Start Date</strong><span>${startDate}</span></div>` : ''}
           </div>
-          ${notes}
-          <div class="lead-submitted">Submitted ${submittedDate}</div>
+          ${lead.notes ? `<div class="lead-notes">"${lead.notes}"</div>` : ''}
+          <div class="lead-submitted">Submitted ${date}</div>
         </div>
-        ${isPending ? pendingActions : confirmedActions}
+        <div class="card-actions" onclick="event.stopPropagation()">
+          ${isPending ? `
+            <button class="action-btn" onclick="smsLead('${lead.id}','intro')">
+              <span class="btn-icon">💬</span>Intro Text
+            </button>
+            <button class="action-btn primary" onclick="openConfirm('${lead.id}')">
+              <span class="btn-icon">✅</span>Confirm
+            </button>
+          ` : `
+            <button class="action-btn" onclick="smsLead('${lead.id}','confirm')">
+              <span class="btn-icon">💬</span>Re-send Text
+            </button>
+            <button class="action-btn" onclick="window.location.href='schedule.html'">
+              <span class="btn-icon">🗺</span>Open Route
+            </button>
+          `}
+        </div>
       </div>
     `;
   }
 
+  // ── SMS ──
   function smsLead(id, type) {
-    const leads = getLeads();
-    const lead = leads.find(l => l.id === id);
+    const lead = allLeads.find(l => l.id === id);
     if (!lead) return;
-    const phone = (lead.phone || '').replace(/\D/g, '');
+    const phone = lead.phone.replace(/\D/g, '');
     if (!phone) { alert('No phone number on file.'); return; }
 
     let msg;
     if (type === 'intro') {
-      msg = `Hi ${lead.first}, this is Taylor from Saturday Yard Co.! Thanks for signing up — I got your info and I'm putting together your route. I'll follow up shortly to confirm your start date. Any questions just reply here. 🌿`;
+      msg = `Hi ${lead.first}, this is Taylor from Saturday Yard Co.! Got your info — I'm building out your route and will follow up shortly to confirm your start date. Any questions just reply here. 🌿`;
     } else {
       const dateStr = lead.confirmedStartDate
         ? new Date(lead.confirmedStartDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
-        : 'your scheduled day';
-      msg = `Hi ${lead.first}, you're officially on the Saturday Yard Co. route! Your first mow is ${dateStr} (${lead.confirmedDay || ''}). Price is $${lead.price}/mow. I'll text you when I'm on the way. — Taylor 🌿`;
+        : 'your first scheduled day';
+      msg = `Hi ${lead.first}, you're on the Saturday Yard Co. route! First mow is ${dateStr} (${lead.confirmedDay}). Rate is $${lead.confirmedPrice}/mow. I'll text when I'm on my way. — Taylor 🌿`;
     }
 
     window.location.href = `sms:${phone}?body=${encodeURIComponent(msg)}`;
   }
 
+  // ── Confirm sheet ──
   function openConfirm(id) {
-    const leads = getLeads();
-    const lead = leads.find(l => l.id === id);
+    const lead = allLeads.find(l => l.id === id);
     if (!lead) return;
-    confirmingId = id;
+    confirmingLead = lead;
 
-    document.getElementById('confirmModalName').textContent = `${lead.first} ${lead.last}`;
+    document.getElementById('confirmName').textContent = `${lead.first} ${lead.last}`;
     document.getElementById('confirmPrice').value = lead.price || '';
 
-    // Default start date to next Saturday
     const today = new Date();
     const daysUntilSat = (6 - today.getDay() + 7) % 7 || 7;
     const nextSat = new Date(today);
     nextSat.setDate(today.getDate() + daysUntilSat);
     document.getElementById('confirmStartDate').value = nextSat.toISOString().slice(0, 10);
+    document.getElementById('confirmStop').value = '';
 
-    updateSmsPreview(lead);
+    updatePreview();
 
-    ['confirmDay','confirmPrice','confirmStartDate'].forEach(id => {
-      document.getElementById(id).addEventListener('input', () => updateSmsPreview(lead));
+    ['confirmDay','confirmPrice','confirmStartDate'].forEach(elId => {
+      document.getElementById(elId).addEventListener('input', updatePreview);
     });
 
     document.getElementById('confirmBackdrop').classList.add('open');
   }
 
-  function updateSmsPreview(lead) {
-    const day = document.getElementById('confirmDay').value;
+  function updatePreview() {
+    if (!confirmingLead) return;
+    const day   = document.getElementById('confirmDay').value;
     const price = document.getElementById('confirmPrice').value;
-    const rawDate = document.getElementById('confirmStartDate').value;
-    const dateStr = rawDate
-      ? new Date(rawDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
-      : 'your scheduled day';
+    const raw   = document.getElementById('confirmStartDate').value;
+    const dateStr = raw
+      ? new Date(raw + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
+      : 'your first scheduled day';
     document.getElementById('smsPreview').textContent =
-      `Hi ${lead.first}, you're officially on the Saturday Yard Co. route! Your first mow is ${dateStr} (${day}). Price is $${price || '??'}/mow. I'll text you when I'm on the way. — Taylor 🌿`;
+      `Hi ${confirmingLead.first}, you're on the Saturday Yard Co. route! First mow is ${dateStr} (${day}). Rate is $${price || '??'}/mow. I'll text when I'm on my way. — Taylor 🌿`;
   }
 
   function closeConfirm() {
     document.getElementById('confirmBackdrop').classList.remove('open');
-    confirmingId = null;
+    confirmingLead = null;
   }
 
   function confirmLead() {
-    if (!confirmingId) return;
-    const leads = getLeads();
-    const idx = leads.findIndex(l => l.id === confirmingId);
-    if (idx === -1) return;
-
-    const lead = leads[idx];
-    const day = document.getElementById('confirmDay').value;
-    const price = parseFloat(document.getElementById('confirmPrice').value) || lead.price;
+    if (!confirmingLead) return;
+    const lead      = confirmingLead;
+    const day       = document.getElementById('confirmDay').value;
+    const price     = parseFloat(document.getElementById('confirmPrice').value) || lead.price;
     const startDate = document.getElementById('confirmStartDate').value;
-    const stop = parseInt(document.getElementById('confirmStop').value) || 1;
+    const stop      = parseInt(document.getElementById('confirmStop').value) || 1;
 
-    // Update lead record
-    leads[idx] = { ...lead, status: 'confirmed', confirmedDay: day, confirmedStartDate: startDate, price };
-    saveLeads(leads);
+    // Persist confirmed state locally
+    const confirmed = getConfirmed();
+    confirmed[lead.id] = { day, startDate, price, stop };
+    saveConfirmed(confirmed);
 
-    // Add to route manager (syc_clients)
+    // Push to route manager (syc_clients)
     const clients = JSON.parse(localStorage.getItem('syc_clients') || '[]');
-    const existing = clients.find(c => c.id === lead.id);
-    if (!existing) {
+    if (!clients.find(c => c.id === lead.id)) {
       clients.push({
-        id: lead.id,
-        first: lead.first,
-        last: lead.last,
-        address: lead.address,
-        phone: lead.phone,
-        email: lead.email,
-        service: lead.service,
-        price: price,
-        day: day,
-        stop: stop,
-        notes: lead.notes || '',
-        log: []
+        id: lead.id, first: lead.first, last: lead.last,
+        address: lead.address, phone: lead.phone, email: lead.email,
+        service: lead.service, price, day, stop, notes: lead.notes, log: []
       });
       localStorage.setItem('syc_clients', JSON.stringify(clients));
     }
 
+    // Update in-memory record
+    const idx = allLeads.findIndex(l => l.id === lead.id);
+    if (idx !== -1) {
+      allLeads[idx] = { ...lead, status: 'confirmed', confirmedDay: day, confirmedStartDate: startDate, confirmedPrice: price, confirmedStop: stop };
+    }
+
     closeConfirm();
-
-    // Fire the confirmation SMS
-    smsLead(confirmingId || lead.id, 'confirm');
-
     render();
+
+    // Fire confirmation SMS
+    smsLead(lead.id, 'confirm');
   }
 
-  function archiveLead(id) {
-    if (!confirm('Remove this lead?')) return;
-    const leads = getLeads().filter(l => l.id !== id);
-    saveLeads(leads);
-    render();
+  // ── Settings ──
+  function showSettings() {
+    const { token, siteId } = getCreds();
+    document.getElementById('mainContent').innerHTML = `
+      <div class="setup-screen">
+        <h2>Connect to Netlify</h2>
+        <p>Your intake form submissions live in Netlify. Add your credentials once and leads will sync automatically every time you open this page.</p>
+
+        <div class="setup-step">
+          <strong>Step 1 — Personal Access Token</strong>
+          netlify.com → avatar → User Settings → Applications → <em>New access token</em>
+        </div>
+        <div class="setup-step">
+          <strong>Step 2 — Site ID</strong>
+          Your Netlify site → Site Configuration → General → Site ID
+        </div>
+
+        <div class="field-group" style="margin: 20px 0 12px">
+          <label>Personal Access Token</label>
+          <input type="password" id="setupToken" placeholder="Paste token here" value="${token}">
+        </div>
+        <div class="field-group" style="margin-bottom: 20px">
+          <label>Site ID</label>
+          <input type="text" id="setupSite" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" value="${siteId}">
+        </div>
+        <button class="btn-primary" onclick="saveSettings()">Save & Load Leads</button>
+      </div>
+    `;
   }
 
-  // Init
-  render();
+  function saveSettings() {
+    const token  = document.getElementById('setupToken').value.trim();
+    const siteId = document.getElementById('setupSite').value.trim();
+    if (!token || !siteId) { alert('Both fields are required.'); return; }
+    saveCreds(token, siteId);
+    // Restore normal content structure
+    document.getElementById('mainContent').innerHTML = `
+      <div id="summaryStrip" class="summary-strip"></div>
+      <div id="leadsContainer"></div>
+    `;
+    fetchLeads();
+  }
+
+  function showSetup() {
+    showSettings();
+  }
+
+  // ── Init ──
+  const { token, siteId } = getCreds();
+  if (!token || !siteId) {
+    showSetup();
+  } else {
+    fetchLeads();
+  }
 </script>
 </body>
 </html>
