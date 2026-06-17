@@ -350,7 +350,6 @@
     <div class="topbar-actions">
       <button class="icon-btn" id="refreshBtn" onclick="fetchLeads()" title="Refresh">↻</button>
       <button class="icon-btn" onclick="window.location.href='schedule.html'" title="Route Manager">🗺</button>
-      <button class="icon-btn" onclick="showSettings()" title="Settings">⚙</button>
     </div>
   </div>
   <div class="tab-bar">
@@ -423,19 +422,6 @@
   let allLeads = [];
   let confirmingLead = null;
 
-  // ── Netlify credentials ──
-  function getCreds() {
-    return {
-      token:  localStorage.getItem('syc_nl_token') || '',
-      siteId: localStorage.getItem('syc_nl_site') || ''
-    };
-  }
-
-  function saveCreds(token, siteId) {
-    localStorage.setItem('syc_nl_token', token.trim());
-    localStorage.setItem('syc_nl_site', siteId.trim());
-  }
-
   // ── Confirmed state (stored locally, keyed by Netlify submission ID) ──
   function getConfirmed() {
     return JSON.parse(localStorage.getItem('syc_confirmed') || '{}');
@@ -445,53 +431,32 @@
     localStorage.setItem('syc_confirmed', JSON.stringify(obj));
   }
 
-  // ── Fetch from Netlify ──
+  // ── Fetch from serverless function ──
   async function fetchLeads() {
-    const { token, siteId } = getCreds();
-    if (!token || !siteId) { showSetup(); return; }
-
     const container = document.getElementById('leadsContainer');
     container.innerHTML = '<div class="status-msg"><p>Loading submissions…</p></div>';
 
     try {
-      // Get all forms for the site to find the client-intake form ID
-      const formsRes = await fetch(
-        `https://api.netlify.com/api/v1/forms?site_id=${encodeURIComponent(siteId)}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      if (formsRes.status === 401) throw new Error('Invalid token (401). Regenerate your Netlify personal access token.');
-      if (formsRes.status === 404) throw new Error('Project not found (404). Double-check the Project ID — it\'s the UUID in Site Configuration → General, not the project name.');
-      if (!formsRes.ok) throw new Error(`Netlify API error (${formsRes.status}). Check your token and Project ID.`);
-
-      const forms = await formsRes.json();
-      const intakeForm = forms.find(f => f.name === 'client-intake');
-      if (!intakeForm) {
-        container.innerHTML = `<div class="status-msg"><h3>No submissions yet.</h3><p>The intake form hasn't received any responses. Share <strong>getsaturdayyard.com</strong> to start collecting leads.</p></div>`;
-        return;
+      const res = await fetch('/api/get-leads');
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || `Error ${res.status}`);
       }
-
-      // Fetch all submissions (max 100; add pagination later if needed)
-      const subRes = await fetch(
-        `https://api.netlify.com/api/v1/forms/${intakeForm.id}/submissions?per_page=100`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      const submissions = await subRes.json();
-
+      const submissions = await res.json();
       const confirmed = getConfirmed();
 
       allLeads = submissions.map(s => ({
-        id:          s.id,
-        first:       s.data.first || '',
-        last:        s.data.last || '',
-        address:     s.data.address || '',
-        phone:       s.data.phone || '',
-        email:       s.data.email || '',
-        service:     s.data.service || '',
-        yardSize:    s.data.yardSize || '',
-        price:       PRICE_MAP[s.data.yardSize] || 65,
-        notes:       s.data.notes || '',
-        submittedAt: s.created_at,
-        // Pull confirmed metadata from localStorage
+        id:                s.id,
+        first:             s.data.first || '',
+        last:              s.data.last || '',
+        address:           s.data.address || '',
+        phone:             s.data.phone || '',
+        email:             s.data.email || '',
+        service:           s.data.service || '',
+        yardSize:          s.data.yardSize || '',
+        price:             PRICE_MAP[s.data.yardSize] || 65,
+        notes:             s.data.notes || '',
+        submittedAt:       s.created_at,
         status:            confirmed[s.id] ? 'confirmed' : 'pending',
         confirmedDay:      confirmed[s.id]?.day || '',
         confirmedStartDate:confirmed[s.id]?.startDate || '',
@@ -501,7 +466,7 @@
 
       render();
     } catch (err) {
-      container.innerHTML = `<div class="status-msg"><h3>Connection error</h3><p>${err.message}</p><button class="btn-primary" style="max-width:240px;margin:16px auto 0" onclick="showSettings()">Check settings</button></div>`;
+      container.innerHTML = `<div class="status-msg"><h3>Connection error</h3><p>${err.message}</p></div>`;
     }
   }
 
@@ -689,60 +654,8 @@
     smsLead(lead.id, 'confirm');
   }
 
-  // ── Settings ──
-  function showSettings() {
-    const { token, siteId } = getCreds();
-    document.getElementById('mainContent').innerHTML = `
-      <div class="setup-screen">
-        <h2>Connect to Netlify</h2>
-        <p>Your intake form submissions live in Netlify. Add your credentials once and leads will sync automatically every time you open this page.</p>
-
-        <div class="setup-step">
-          <strong>Step 1 — Personal Access Token</strong>
-          netlify.com → avatar → User Settings → Applications → <em>New access token</em>
-        </div>
-        <div class="setup-step">
-          <strong>Step 2 — Project ID</strong>
-          Open the <em>saturday-yard-co</em> project → Site Configuration → General → Project ID
-        </div>
-
-        <div class="field-group" style="margin: 20px 0 12px">
-          <label>Personal Access Token</label>
-          <input type="password" id="setupToken" placeholder="Paste token here" value="${token}">
-        </div>
-        <div class="field-group" style="margin-bottom: 20px">
-          <label>Project ID</label>
-          <input type="text" id="setupSite" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" value="${siteId}">
-        </div>
-        <button class="btn-primary" onclick="saveSettings()">Save & Load Leads</button>
-      </div>
-    `;
-  }
-
-  function saveSettings() {
-    const token  = document.getElementById('setupToken').value.trim();
-    const siteId = document.getElementById('setupSite').value.trim();
-    if (!token || !siteId) { alert('Both fields are required.'); return; }
-    saveCreds(token, siteId);
-    // Restore normal content structure
-    document.getElementById('mainContent').innerHTML = `
-      <div id="summaryStrip" class="summary-strip"></div>
-      <div id="leadsContainer"></div>
-    `;
-    fetchLeads();
-  }
-
-  function showSetup() {
-    showSettings();
-  }
-
   // ── Init ──
-  const { token, siteId } = getCreds();
-  if (!token || !siteId) {
-    showSetup();
-  } else {
-    fetchLeads();
-  }
+  fetchLeads();
 </script>
 </body>
 </html>
