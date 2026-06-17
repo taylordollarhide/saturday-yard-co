@@ -26,7 +26,7 @@ exports.handler = async function() {
 
   // Get all forms for this site
   const formsResp = await get(
-    `https://api.netlify.com/api/v1/forms?site_id=${encodeURIComponent(siteId)}`,
+    `https://api.netlify.com/api/v1/sites/${encodeURIComponent(siteId)}/forms`,
     token
   );
 
