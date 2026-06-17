@@ -598,6 +598,210 @@
       padding: 6px;
     }
 
+    /* ── Intake Modal ── */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(21,22,19,.6);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 300;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 24px 16px 40px;
+      overflow-y: auto;
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .modal {
+      background: var(--paper);
+      border-radius: 28px;
+      width: 100%;
+      max-width: 560px;
+      margin: auto;
+      box-shadow: 0 40px 100px rgba(21,22,19,.28);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .modal-header {
+      background: var(--green);
+      color: var(--paper);
+      padding: 28px 28px 24px;
+      position: relative;
+    }
+
+    .modal-header .card-label { color: var(--gold); margin-bottom: 6px; }
+
+    .modal-header h3 {
+      font-family: Georgia, serif;
+      font-size: 30px;
+      letter-spacing: -.04em;
+      line-height: 1.05;
+      margin: 0;
+      color: var(--paper);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255,250,240,.15);
+      border: none;
+      color: var(--paper);
+      font-size: 20px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    .modal-body { padding: 28px; }
+
+    .intake-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .intake-grid .full { grid-column: 1 / -1; }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-group label {
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .field-group input,
+    .field-group select,
+    .field-group textarea {
+      border: 1.5px solid var(--line);
+      background: #fffdf7;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font: inherit;
+      font-size: 15px;
+      color: var(--black);
+      width: 100%;
+      transition: border-color .15s;
+    }
+
+    .field-group input:focus,
+    .field-group select:focus,
+    .field-group textarea:focus {
+      outline: none;
+      border-color: var(--green);
+    }
+
+    .field-group textarea { min-height: 90px; resize: vertical; }
+
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fffdf7;
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 600;
+      transition: border-color .15s, background .15s;
+    }
+
+    .radio-option input[type="radio"] { accent-color: var(--green); width: 16px; height: 16px; }
+
+    .radio-option:has(input:checked) {
+      border-color: var(--green);
+      background: rgba(36,60,42,.06);
+    }
+
+    .radio-option .radio-price {
+      margin-left: auto;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--muted);
+    }
+
+    .modal-divider {
+      height: 1px;
+      background: var(--line);
+      margin: 20px 0;
+    }
+
+    .file-input-wrapper {
+      border: 1.5px dashed var(--line);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      background: #fffdf7;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .file-input-wrapper input[type="file"] {
+      display: none;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 24px;
+    }
+
+    .modal-actions .button { flex: 1; padding: 16px; font-size: 15px; }
+
+    .intake-success {
+      display: none;
+      padding: 40px 28px;
+      text-align: center;
+    }
+
+    .intake-success .check {
+      width: 64px;
+      height: 64px;
+      background: var(--green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 28px;
+      color: var(--paper);
+    }
+
+    .intake-success h3 {
+      font-family: Georgia, serif;
+      font-size: 26px;
+      letter-spacing: -.03em;
+      margin: 0 0 10px;
+    }
+
+    .intake-success p { color: var(--muted); font-size: 16px; margin: 0; }
+
     @media (max-width: 860px) {
       header {
         align-items: center;
@@ -651,7 +855,7 @@
         <a href="#route">Route</a>
         <a href="#lawn-log">Lawn Log</a>
         <a href="#about">About</a>
-        <a class="button" href="#quote">Get Quote</a>
+        <button class="button" onclick="openIntake()">Get Quote</button>
       </nav>
       <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -667,7 +871,7 @@
       <a href="#route" class="mobile-nav-link">Route</a>
       <a href="#lawn-log" class="mobile-nav-link">Lawn Log</a>
       <a href="#about" class="mobile-nav-link">About</a>
-      <a class="button" href="#quote">Get Quote</a>
+      <button class="button" onclick="closeMenu(); openIntake();">Get Quote</button>
     </div>
 
     <main>
@@ -677,7 +881,7 @@
           <h1>Your yard handled before the weekend disappears.</h1>
           <p class="lead">Reliable mowing, trimming, edging, and cleanup for busy homeowners who want a clean yard without giving up their Saturday.</p>
           <div class="actions">
-            <a class="button" href="#quote">Get on the schedule</a>
+            <button class="button" onclick="openIntake()">Get on the schedule</button>
             <a class="button secondary" href="#pricing">See simple pricing</a>
           </div>
         </div>
@@ -826,9 +1030,119 @@
         <img src="SaturdayYardCompany_Logo.png" alt="Saturday Yard Co." style="width: 275px; height: auto; margin: 24px auto 32px; display: block;">
         <div class="eyebrow">Now booking routes</div>
         <h2>Get your yard on the route.</h2>
-        <p>Send your address, a few lawn photos, and whether you want weekly or bi-weekly service. You’ll get a straightforward quote back.</p>
-        <a class="button" href="mailto:hello@getsaturdayyard.com?subject=Saturday%20Yard%20Co.%20Quote%20Request">Request a quote</a>
+        <p>Tell us about your yard. Takes two minutes. You’ll get a straight quote back — no phone tag, no runaround.</p>
+        <button class="button" onclick="openIntake()">Get on the schedule</button>
       </section>
+
+      <!-- Intake Modal -->
+      <div class="modal-backdrop" id="intakeBackdrop" role="dialog" aria-modal="true" aria-label="Get on the schedule">
+        <div class="modal" id="intakeModal">
+          <div class="modal-header">
+            <div class="card-label">New client intake</div>
+            <h3>Get on the schedule.</h3>
+            <button class="modal-close" onclick="closeIntake()" aria-label="Close">✕</button>
+          </div>
+
+          <div id="intakeFormWrap">
+            <div class="modal-body">
+              <form id="intakeForm" name="client-intake" method="POST" netlify netlify-honeypot="bot-field" enctype="multipart/form-data">
+                <input type="hidden" name="form-name" value="client-intake">
+                <input type="text" name="bot-field" style="display:none" aria-hidden="true">
+
+                <div class="intake-grid">
+                  <div class="field-group">
+                    <label for="if-first">First Name *</label>
+                    <input type="text" id="if-first" name="first" placeholder="Jane" required>
+                  </div>
+                  <div class="field-group">
+                    <label for="if-last">Last Name *</label>
+                    <input type="text" id="if-last" name="last" placeholder="Smith" required>
+                  </div>
+                  <div class="field-group full">
+                    <label for="if-address">Service Address *</label>
+                    <input type="text" id="if-address" name="address" placeholder="123 Main St, Erie, CO 80516" required>
+                  </div>
+                  <div class="field-group">
+                    <label for="if-phone">Phone *</label>
+                    <input type="tel" id="if-phone" name="phone" placeholder="(720) 555-0100" required>
+                  </div>
+                  <div class="field-group">
+                    <label for="if-email">Email *</label>
+                    <input type="email" id="if-email" name="email" placeholder="jane@email.com" required>
+                  </div>
+                </div>
+
+                <div class="modal-divider"></div>
+
+                <div class="field-group" style="margin-bottom:16px;">
+                  <label>Service Preference *</label>
+                  <div class="radio-group">
+                    <label class="radio-option">
+                      <input type="radio" name="service" value="Weekly" required>
+                      Weekly Mowing
+                      <span class="radio-price">Best value</span>
+                    </label>
+                    <label class="radio-option">
+                      <input type="radio" name="service" value="Bi-Weekly">
+                      Bi-Weekly Mowing
+                      <span class="radio-price">Every 2 wks</span>
+                    </label>
+                    <label class="radio-option">
+                      <input type="radio" name="service" value="Seasonal Cleanup">
+                      Seasonal Cleanup
+                      <span class="radio-price">One-time</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="field-group" style="margin-bottom:16px;">
+                  <label>Yard Size *</label>
+                  <div class="radio-group">
+                    <label class="radio-option">
+                      <input type="radio" name="yardSize" value="Small" required>
+                      Small — Townhome / compact lot
+                      <span class="radio-price">~$45</span>
+                    </label>
+                    <label class="radio-option">
+                      <input type="radio" name="yardSize" value="Standard">
+                      Standard — Typical suburban yard
+                      <span class="radio-price">~$55</span>
+                    </label>
+                    <label class="radio-option">
+                      <input type="radio" name="yardSize" value="Large">
+                      Large — Corner lot / big backyard
+                      <span class="radio-price">$65+</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="field-group" style="margin-bottom:16px;">
+                  <label>Yard Photos (optional — helps with quoting)</label>
+                  <div class="file-input-wrapper" onclick="document.getElementById(‘if-photos’).click()">
+                    <input type="file" id="if-photos" name="photos" accept="image/*" multiple>
+                    <span id="photoLabel">📷 Tap to add yard photos</span>
+                  </div>
+                </div>
+
+                <div class="field-group">
+                  <label for="if-notes">Anything else we should know?</label>
+                  <textarea id="if-notes" name="notes" placeholder="Gate code, dog in yard, specific areas to focus on…"></textarea>
+                </div>
+
+                <div class="modal-actions">
+                  <button type="submit" class="button">Submit &amp; get a quote</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="intake-success" id="intakeSuccess">
+            <div class="check">✓</div>
+            <h3>You’re on the list.</h3>
+            <p>We’ll follow up within 24 hours with a straight quote. No runaround.</p>
+          </div>
+        </div>
+      </div>
     </main>
 
     <footer>
@@ -863,6 +1177,72 @@
       }
       lastScroll = current;
     }, { passive: true });
+
+    // ── Intake Modal ──
+    function openIntake() {
+      document.getElementById('intakeBackdrop').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeIntake() {
+      document.getElementById('intakeBackdrop').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('intakeBackdrop').addEventListener('click', function(e) {
+      if (e.target === this) closeIntake();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeIntake();
+    });
+
+    document.getElementById('if-photos').addEventListener('change', function() {
+      const n = this.files.length;
+      document.getElementById('photoLabel').textContent = n ? `${n} photo${n > 1 ? 's' : ''} selected` : '📷 Tap to add yard photos';
+    });
+
+    const priceMap = { Small: 45, Standard: 55, Large: 65 };
+
+    document.getElementById('intakeForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const f = this;
+      const data = new FormData(f);
+
+      // Submit to Netlify
+      try {
+        await fetch('/', { method: 'POST', body: data });
+      } catch (_) {}
+
+      // Build CSV row for route manager import
+      const first   = (data.get('first') || '').trim();
+      const last    = (data.get('last') || '').trim();
+      const address = (data.get('address') || '').trim();
+      const phone   = (data.get('phone') || '').trim();
+      const email   = (data.get('email') || '').trim();
+      const service = data.get('service') || '';
+      const size    = data.get('yardSize') || '';
+      const price   = priceMap[size] || '';
+      const notes   = (data.get('notes') || '').trim();
+
+      const csvRow = [
+        first, last, address, phone, email, service, price,
+        '', '', notes
+      ].map(v => `"${String(v).replace(/"/g, '""')}"`).join(',');
+
+      const headers = '"first","last","address","phone","email","service","price","day","stop","notes"';
+      const blob = new Blob([headers + '\n' + csvRow], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `intake-${first.toLowerCase()}-${last.toLowerCase()}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      // Show success state
+      document.getElementById('intakeFormWrap').style.display = 'none';
+      document.getElementById('intakeSuccess').style.display = 'block';
+    });
 
     const toggle = document.getElementById('menuToggle');
     const nav = document.getElementById('mobileNav');
