@@ -1749,11 +1749,21 @@
     a.download = `syc-clients-${new Date().toISOString().split('T')[0]}.csv`;
     a.click();
   }
-  // Pull latest clients from server on load — keeps phone + desktop in sync
+  // Sync clients with server on load
   fetch('/.netlify/functions/clients')
     .then(r => r.ok ? r.json() : null)
     .then(serverClients => {
-      if (Array.isArray(serverClients) && serverClients.length > 0) {
+      if (!Array.isArray(serverClients)) return;
+      const local = getClients();
+      if (serverClients.length === 0 && local.length > 0) {
+        // Server is empty — bootstrap it with local data
+        fetch('/.netlify/functions/clients', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(local)
+        }).catch(() => {});
+      } else if (serverClients.length > 0) {
+        // Server has data — use it as source of truth
         localStorage.setItem('syc_clients', JSON.stringify(serverClients));
         render();
       }
