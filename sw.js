@@ -1,4 +1,4 @@
-const CACHE = 'syc-v2';
+const CACHE = 'syc-v3';
 const ASSETS = [
   '/schedule.html',
   '/app-icon.png',
