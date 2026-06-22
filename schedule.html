@@ -567,6 +567,27 @@
   <div id="tab-stats" class="panel">
     <div class="stats-grid" id="stats-grid"></div>
     <div id="stats-detail"></div>
+
+    <div class="form-card" style="margin-top:8px;">
+      <h3>One-Off Jobs</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">Seasonal cleanups, aeration, extras — anything outside the regular route.</p>
+      <div class="field-row">
+        <div class="field">
+          <label>Date</label>
+          <input type="date" id="oo-date">
+        </div>
+        <div class="field">
+          <label>Amount ($)</label>
+          <input type="number" id="oo-amount" placeholder="100" inputmode="decimal">
+        </div>
+      </div>
+      <div class="field">
+        <label>Description</label>
+        <input type="text" id="oo-desc" placeholder="Seasonal cleanup — Mike Henderson">
+      </div>
+      <button class="btn btn-gold" onclick="addOneOff()"><span class="material-icons" style="font-size:16px;vertical-align:-3px">add_circle</span> Log Job</button>
+      <div id="oneoff-list" style="margin-top:14px;"></div>
+    </div>
   </div>
 
   <!-- SETTINGS TAB -->
@@ -1066,10 +1087,17 @@
     const biweekly = clients.filter(c => c.service === 'Bi-Weekly');
     const weeklyRev = weekly.reduce((s, c) => s + Number(c.price || 0), 0);
     const biwRev = biweekly.reduce((s, c) => s + Number(c.price || 0) / 2, 0);
-    const monthlyEst = (weeklyRev * 4) + (biwRev * 2);
+    const monthlyRecurring = (weeklyRev * 4) + (biwRev * 2);
+    const oneOffs = getOneOffs();
+    const oneOffTotal = oneOffs.reduce((s, j) => s + Number(j.amount || 0), 0);
+    const monthlyEst = monthlyRecurring + oneOffTotal;
     const allLogs = clients.flatMap(c => c.log || []);
     const completed = allLogs.filter(l => l.status === 'Completed').length;
     const avgPrice = clients.reduce((s, c) => s + Number(c.price || 0), 0) / clients.length;
+
+    const ooDate = document.getElementById('oo-date');
+    if (ooDate && !ooDate.value) ooDate.value = new Date().toISOString().slice(0, 10);
+    renderOneOffList();
 
     // weekly rev per visit
     const weeklyVisitRev = weekly.reduce((s, c) => s + Number(c.price || 0), 0);
@@ -1592,6 +1620,50 @@
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     const icon = document.getElementById('theme-icon');
     if (icon) icon.textContent = isDark ? 'light_mode' : 'dark_mode';
+  }
+
+  // ── ONE-OFF JOBS ──
+  function getOneOffs() {
+    return JSON.parse(localStorage.getItem('syc_oneoffs') || '[]');
+  }
+
+  function addOneOff() {
+    const date = document.getElementById('oo-date').value;
+    const amount = parseFloat(document.getElementById('oo-amount').value);
+    const desc = document.getElementById('oo-desc').value.trim();
+    if (!date || !amount || !desc) { alert('Fill in all fields.'); return; }
+    const jobs = getOneOffs();
+    jobs.unshift({ id: Date.now().toString(), date, amount, desc });
+    localStorage.setItem('syc_oneoffs', JSON.stringify(jobs));
+    document.getElementById('oo-amount').value = '';
+    document.getElementById('oo-desc').value = '';
+    renderOneOffList();
+    renderStats();
+  }
+
+  function deleteOneOff(id) {
+    const jobs = getOneOffs().filter(j => j.id !== id);
+    localStorage.setItem('syc_oneoffs', JSON.stringify(jobs));
+    renderOneOffList();
+    renderStats();
+  }
+
+  function renderOneOffList() {
+    const jobs = getOneOffs();
+    const el = document.getElementById('oneoff-list');
+    if (!el) return;
+    if (!jobs.length) { el.innerHTML = `<p style="font-size:13px;color:var(--muted);">No one-off jobs logged yet.</p>`; return; }
+    el.innerHTML = jobs.map(j => `
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);">
+        <div>
+          <div style="font-weight:700;font-size:14px;">${j.desc}</div>
+          <div style="font-size:12px;color:var(--muted);">${formatDate(j.date)}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+          <span style="font-weight:900;font-size:15px;color:var(--green);">$${Number(j.amount).toFixed(0)}</span>
+          <button class="icon-btn icon-btn-red" onclick="deleteOneOff('${j.id}')"><span class="material-icons" style="font-size:16px">delete</span></button>
+        </div>
+      </div>`).join('');
   }
 
   function saveVenmo() {
