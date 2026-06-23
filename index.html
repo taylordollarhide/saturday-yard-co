@@ -1084,19 +1084,24 @@
                   <label>Service Preference *</label>
                   <div class="radio-group">
                     <label class="radio-option">
-                      <input type="radio" name="service" value="Weekly" required>
+                      <input type="radio" name="service" value="Weekly" required onchange="updateIntakeService()">
                       Weekly Mowing
                       <span class="radio-price">Best value</span>
                     </label>
                     <label class="radio-option">
-                      <input type="radio" name="service" value="Bi-Weekly">
+                      <input type="radio" name="service" value="Bi-Weekly" onchange="updateIntakeService()">
                       Bi-Weekly Mowing
                       <span class="radio-price">Every 2 wks</span>
                     </label>
                     <label class="radio-option">
-                      <input type="radio" name="service" value="Seasonal Cleanup">
+                      <input type="radio" name="service" value="Seasonal Cleanup" onchange="updateIntakeService()">
                       Seasonal Cleanup
                       <span class="radio-price">One-time</span>
+                    </label>
+                    <label class="radio-option">
+                      <input type="radio" name="service" value="Lawn Rx" onchange="updateIntakeService()">
+                      Lawn Rx
+                      <span class="radio-price">Treatment plan</span>
                     </label>
                   </div>
                 </div>
@@ -1107,23 +1112,23 @@
                     <label class="radio-option">
                       <input type="radio" name="yardSize" value="Small" required>
                       Small — Townhome / compact lot
-                      <span class="radio-price">~$45</span>
+                      <span class="radio-price" data-price="~$45">~$45</span>
                     </label>
                     <label class="radio-option">
                       <input type="radio" name="yardSize" value="Standard">
                       Standard — Typical suburban yard
-                      <span class="radio-price">~$55</span>
+                      <span class="radio-price" data-price="~$55">~$55</span>
                     </label>
                     <label class="radio-option">
                       <input type="radio" name="yardSize" value="Large">
                       Large — Corner lot / big backyard
-                      <span class="radio-price">$65+</span>
+                      <span class="radio-price" data-price="$65+">$65+</span>
                     </label>
                   </div>
                 </div>
 
                 <div class="field-group" style="margin-bottom:16px;">
-                  <label>Yard Photos (optional — helps with quoting)</label>
+                  <label id="photoFieldLabel">Yard Photos (optional — helps with quoting)</label>
                   <label class="file-input-wrapper" for="if-photos">
                     <input type="file" id="if-photos" name="photos" accept="image/*" multiple>
                     <span id="photoLabel">📷 Tap to add yard photos</span>
@@ -1212,14 +1217,26 @@
       document.getElementById('photoLabel').textContent = n ? `${n} photo${n > 1 ? 's' : ''} selected` : '📷 Tap to add yard photos';
     });
 
-    const priceMap = { Small: 45, Standard: 55, Large: 65 };
+    const QUOTE_SERVICES = ['Seasonal Cleanup', 'Lawn Rx'];
 
-    document.querySelectorAll('input[name="yardSize"]').forEach(radio => {
-      radio.addEventListener('change', function() {
-        document.getElementById('intakeSubmitBtn').textContent =
-          this.value === 'Large' ? 'Submit & get a quote' : 'Get on the schedule';
+    function updateIntakeService() {
+      const selected = document.querySelector('input[name="service"]:checked');
+      const isQuote = selected && QUOTE_SERVICES.includes(selected.value);
+      const photosInput = document.getElementById('if-photos');
+      const photoLabel = document.getElementById('photoFieldLabel');
+      const submitBtn = document.getElementById('intakeSubmitBtn');
+
+      document.querySelectorAll('span.radio-price[data-price]').forEach(span => {
+        span.textContent = isQuote ? 'Get a Quote' : span.dataset.price;
       });
-    });
+
+      photosInput.required = isQuote;
+      photoLabel.textContent = isQuote
+        ? 'Yard Photos * (required for quoting)'
+        : 'Yard Photos (optional — helps with quoting)';
+
+      submitBtn.textContent = isQuote ? 'Get Quote' : 'Get on the schedule';
+    }
 
     document.getElementById('intakeForm').addEventListener('submit', async function(e) {
       e.preventDefault();
