@@ -226,6 +226,31 @@
     .lead-meta-item strong { font-size: 11px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: rgba(21,22,19,.4); }
     .lead-meta-item span { font-weight: 600; color: var(--black); font-size: 14px; }
 
+    .lead-photos {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .lead-photos img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .lead-photos img.expanded {
+      width: 100%;
+      height: auto;
+      max-height: 300px;
+      object-fit: contain;
+      border-radius: 14px;
+      background: var(--black);
+    }
+
     .lead-notes {
       font-size: 13px;
       color: var(--muted);
@@ -466,6 +491,7 @@
         yardSize:          s.data.yardSize || '',
         price:             PRICE_MAP[s.data.yardSize] || 65,
         notes:             s.data.notes || '',
+        photos:            Array.isArray(s.data.photos) ? s.data.photos : (s.data.photos ? [s.data.photos] : []),
         submittedAt:       s.created_at,
         status:            confirmed[s.id] ? 'confirmed' : rejected[s.id] ? 'rejected' : 'pending',
         confirmedDay:      confirmed[s.id]?.day || '',
@@ -545,6 +571,10 @@
             <div class="lead-meta-item"><strong>Route Day</strong><span>${lead.confirmedDay}</span></div>
             <div class="lead-meta-item"><strong>Start Date</strong><span>${startDate}</span></div>` : ''}
           </div>
+          ${lead.photos && lead.photos.length ? `
+            <div class="lead-photos">
+              ${lead.photos.map(p => `<img src="${p.url}" alt="Yard photo" onclick="this.classList.toggle('expanded')">`).join('')}
+            </div>` : ''}
           ${lead.notes ? `<div class="lead-notes">"${lead.notes}"</div>` : ''}
           <div class="lead-submitted">Submitted ${date}</div>
         </div>
