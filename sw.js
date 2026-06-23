@@ -1,4 +1,4 @@
-const CACHE = 'syc-v3';
+const CACHE = 'syc-v4';
 const ASSETS = [
   '/schedule.html',
   '/app-icon.png',
@@ -54,4 +54,22 @@ self.addEventListener('fetch', e => {
       return res;
     }))
   );
+});
+
+// ── Push notifications ──
+self.addEventListener('push', e => {
+  const data = e.data ? e.data.json() : {};
+  e.waitUntil(
+    self.registration.showNotification(data.title || 'Saturday Yard Co.', {
+      body: data.body || 'You have a new lead.',
+      icon: '/app-icon.png',
+      badge: '/favicon.png',
+      data: { url: data.url || '/leads.html' }
+    })
+  );
+});
+
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  e.waitUntil(clients.openWindow(e.notification.data.url || '/leads.html'));
 });
