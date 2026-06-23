@@ -734,6 +734,9 @@
     }).catch(() => {});
   }
 
+  // Clear badge when leads page is opened
+  if (navigator.clearAppBadge) navigator.clearAppBadge();
+
   // ── Init ──
   fetchLeads();
 </script>

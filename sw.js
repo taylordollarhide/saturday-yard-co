@@ -60,12 +60,15 @@ self.addEventListener('fetch', e => {
 self.addEventListener('push', e => {
   const data = e.data ? e.data.json() : {};
   e.waitUntil(
-    self.registration.showNotification(data.title || 'Saturday Yard Co.', {
-      body: data.body || 'You have a new lead.',
-      icon: '/app-icon.png',
-      badge: '/favicon.png',
-      data: { url: data.url || '/leads.html' }
-    })
+    Promise.all([
+      self.registration.showNotification(data.title || 'Saturday Yard Co.', {
+        body: data.body || 'You have a new lead.',
+        icon: '/app-icon.png',
+        badge: '/app-icon.png',
+        data: { url: data.url || '/leads.html' }
+      }),
+      navigator.setAppBadge ? navigator.setAppBadge() : Promise.resolve()
+    ])
   );
 });
 
