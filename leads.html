@@ -360,6 +360,9 @@
     <button class="tab" id="tabConfirmed" onclick="setTab('confirmed')">
       <span class="tab-icon">✅</span>Confirmed
     </button>
+    <button class="tab" id="tabRejected" onclick="setTab('rejected')">
+      <span class="tab-icon">✕</span>Rejected
+    </button>
   </div>
 </div>
 
@@ -423,14 +426,11 @@
   let allLeads = [];
   let confirmingLead = null;
 
-  // ── Confirmed state (stored locally, keyed by Netlify submission ID) ──
-  function getConfirmed() {
-    return JSON.parse(localStorage.getItem('syc_confirmed') || '{}');
-  }
-
-  function saveConfirmed(obj) {
-    localStorage.setItem('syc_confirmed', JSON.stringify(obj));
-  }
+  // ── Confirmed / Rejected state (stored locally, keyed by Netlify submission ID) ──
+  function getConfirmed() { return JSON.parse(localStorage.getItem('syc_confirmed') || '{}'); }
+  function saveConfirmed(obj) { localStorage.setItem('syc_confirmed', JSON.stringify(obj)); }
+  function getRejected() { return JSON.parse(localStorage.getItem('syc_rejected') || '{}'); }
+  function saveRejected(obj) { localStorage.setItem('syc_rejected', JSON.stringify(obj)); }
 
   // ── Fetch from serverless function ──
   async function fetchLeads() {
@@ -453,6 +453,7 @@
 
       const submissions = Array.isArray(raw) ? raw : [];
       const confirmed = getConfirmed();
+      const rejected  = getRejected();
 
       allLeads = submissions.map(s => ({
         id:                s.id,
@@ -466,7 +467,7 @@
         price:             PRICE_MAP[s.data.yardSize] || 65,
         notes:             s.data.notes || '',
         submittedAt:       s.created_at,
-        status:            confirmed[s.id] ? 'confirmed' : 'pending',
+        status:            confirmed[s.id] ? 'confirmed' : rejected[s.id] ? 'rejected' : 'pending',
         confirmedDay:      confirmed[s.id]?.day || '',
         confirmedStartDate:confirmed[s.id]?.startDate || '',
         confirmedPrice:    confirmed[s.id]?.price || PRICE_MAP[s.data.yardSize] || 65,
@@ -484,17 +485,20 @@
     currentTab = tab;
     document.getElementById('tabPending').classList.toggle('active', tab === 'pending');
     document.getElementById('tabConfirmed').classList.toggle('active', tab === 'confirmed');
+    document.getElementById('tabRejected').classList.toggle('active', tab === 'rejected');
     render();
   }
 
   function render() {
     const pending   = allLeads.filter(l => l.status === 'pending');
     const confirmed = allLeads.filter(l => l.status === 'confirmed');
-    const list      = currentTab === 'pending' ? pending : confirmed;
+    const rejected  = allLeads.filter(l => l.status === 'rejected');
+    const list      = currentTab === 'pending' ? pending : currentTab === 'confirmed' ? confirmed : rejected;
 
     document.getElementById('summaryStrip').innerHTML = `
       <div class="stat-pill">${pending.length} <span>Pending</span></div>
       <div class="stat-pill">${confirmed.length} <span>Confirmed</span></div>
+      ${rejected.length ? `<div class="stat-pill">${rejected.length} <span>Rejected</span></div>` : ''}
     `;
 
     const container = document.getElementById('leadsContainer');
@@ -502,7 +506,8 @@
     if (!list.length) {
       const msg = currentTab === 'pending'
         ? 'No pending leads. New intake form submissions will show here automatically.'
-        : 'No confirmed clients yet.';
+        : currentTab === 'confirmed' ? 'No confirmed clients yet.'
+        : 'No rejected leads.';
       container.innerHTML = `<div class="status-msg"><h3>${currentTab === 'pending' ? 'All clear.' : 'Nothing yet.'}</h3><p>${msg}</p></div>`;
       return;
     }
@@ -544,19 +549,26 @@
           <div class="lead-submitted">Submitted ${date}</div>
         </div>
         <div class="card-actions" onclick="event.stopPropagation()">
-          ${isPending ? `
+          ${lead.status === 'pending' ? `
             <button class="action-btn" onclick="smsLead('${lead.id}','intro')">
               <span class="btn-icon">💬</span>Intro Text
             </button>
             <button class="action-btn primary" onclick="openConfirm('${lead.id}')">
               <span class="btn-icon">✅</span>Confirm
             </button>
-          ` : `
+            <button class="action-btn danger" onclick="rejectLead('${lead.id}')">
+              <span class="btn-icon">✕</span>Reject
+            </button>
+          ` : lead.status === 'confirmed' ? `
             <button class="action-btn" onclick="smsLead('${lead.id}','confirm')">
               <span class="btn-icon">💬</span>Re-send Text
             </button>
             <button class="action-btn" onclick="window.location.href='schedule.html'">
               <span class="btn-icon">🗺</span>Open Route
+            </button>
+          ` : `
+            <button class="action-btn" onclick="restoreLead('${lead.id}')">
+              <span class="btn-icon">↩</span>Restore
             </button>
           `}
         </div>
@@ -670,6 +682,25 @@
 
     // Fire confirmation SMS
     smsLead(lead.id, 'confirm');
+  }
+
+  // ── Reject / Restore ──
+  function rejectLead(id) {
+    const rejected = getRejected();
+    rejected[id] = { rejectedAt: new Date().toISOString() };
+    saveRejected(rejected);
+    const idx = allLeads.findIndex(l => l.id === id);
+    if (idx !== -1) allLeads[idx] = { ...allLeads[idx], status: 'rejected' };
+    render();
+  }
+
+  function restoreLead(id) {
+    const rejected = getRejected();
+    delete rejected[id];
+    saveRejected(rejected);
+    const idx = allLeads.findIndex(l => l.id === id);
+    if (idx !== -1) allLeads[idx] = { ...allLeads[idx], status: 'pending' };
+    render();
   }
 
   // ── Push notifications ──
