@@ -673,23 +673,49 @@
   }
 
   // ── Push notifications ──
+  function showNotifStatus(msg, ok) {
+    let el = document.getElementById('notifStatus');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'notifStatus';
+      el.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--black);color:var(--paper);padding:12px 20px;border-radius:999px;font-size:14px;font-weight:700;z-index:999;max-width:90vw;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.3)';
+      document.body.appendChild(el);
+    }
+    el.style.background = ok ? 'var(--green)' : 'var(--black)';
+    el.textContent = msg;
+    el.style.display = 'block';
+    clearTimeout(el._t);
+    el._t = setTimeout(() => { el.style.display = 'none'; }, 5000);
+  }
+
   async function subscribeToNotifications() {
     const btn = document.getElementById('notifBtn');
 
-    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-      alert('Push notifications require this app to be installed on your home screen (iOS 16.4+).');
+    if (!('serviceWorker' in navigator)) {
+      showNotifStatus('Service worker not supported in this browser.');
+      return;
+    }
+    if (!('PushManager' in window)) {
+      showNotifStatus('Open this app from your home screen icon — push requires the installed PWA (iOS 16.4+).');
+      return;
+    }
+    if (!('Notification' in window)) {
+      showNotifStatus('Notifications not supported on this device.');
       return;
     }
 
+    showNotifStatus('Requesting permission…');
     const permission = await Notification.requestPermission();
     if (permission !== 'granted') {
-      alert('Notification permission denied. Enable it in Settings → Safari → getsaturdayyard.com.');
+      showNotifStatus('Permission denied — enable in Settings → Safari → ' + location.hostname);
       return;
     }
 
     try {
+      showNotifStatus('Connecting…');
       const keyRes = await fetch('/.netlify/functions/get-vapid-key');
-      const { publicKey } = await keyRes.json();
+      const { publicKey, error } = await keyRes.json();
+      if (error) { showNotifStatus('Server error: ' + error); return; }
 
       const reg = await navigator.serviceWorker.ready;
       const existing = await reg.pushManager.getSubscription();
@@ -706,11 +732,11 @@
         body: JSON.stringify(sub)
       });
 
-      btn.textContent = '🔔';
       btn.style.background = 'rgba(185,134,47,.4)';
       btn.title = 'Notifications enabled';
+      showNotifStatus('Notifications enabled! 🔔', true);
     } catch (err) {
-      alert('Could not enable notifications: ' + err.message);
+      showNotifStatus('Error: ' + err.message);
     }
   }
 
