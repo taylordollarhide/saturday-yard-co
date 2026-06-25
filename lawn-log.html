@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2RC3EFX6QS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2RC3EFX6QS');
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lawn Log — Seasonal Tips for Erie & Lafayette, CO | Saturday Yard Co.</title>
+  <meta name="description" content="Practical lawn care tips for Erie and Lafayette, CO homeowners. What to do with your yard each season — from someone who's out there every weekend." />
+  <link rel="canonical" href="https://getsaturdayyard.com/lawn-log.html" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="app-icon.png" />
+  <style>
+    :root {
+      --cream: #f6f1e7;
+      --paper: #fffaf0;
+      --black: #151613;
+      --green: #243c2a;
+      --gold: #b9862f;
+      --muted: #706b5e;
+      --line: rgba(21,22,19,.14);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--cream);
+      color: var(--black);
+      line-height: 1.5;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .page {
+      min-height: 100vh;
+      background: linear-gradient(180deg, var(--paper), var(--cream));
+    }
+
+    /* ── Header ── */
+    .header-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(246,241,231,.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      transition: transform .3s ease;
+    }
+
+    .header-wrap.hidden { transform: translateY(-100%); }
+
+    header {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 22px 22px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .brand img { width: 220px; height: auto; display: block; }
+
+    nav {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    nav a { opacity: .72; }
+    nav a:hover { opacity: 1; }
+    nav a.active { opacity: 1; color: var(--green); }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--black);
+      background: var(--black);
+      color: var(--paper);
+      padding: 0 24px;
+      height: 48px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-family: inherit;
+      font-weight: 900;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      box-shadow: 0 10px 0 rgba(21,22,19,.12);
+      white-space: nowrap;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--black);
+      border-radius: 2px;
+    }
+
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--paper);
+      z-index: 100;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+    }
+
+    .mobile-nav.open { display: flex; }
+
+    .mobile-nav-close {
+      position: absolute;
+      top: 22px;
+      right: 22px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .mobile-nav-link {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    /* ── Page hero ── */
+    .log-hero {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 64px 22px 52px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: .16em;
+      color: var(--green);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 44px;
+      height: 3px;
+      background: var(--gold);
+      display: inline-block;
+    }
+
+    .log-hero h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(42px, 6vw, 76px);
+      line-height: .95;
+      letter-spacing: -.04em;
+      margin: 0 0 20px;
+      max-width: 700px;
+    }
+
+    .log-hero p {
+      font-size: clamp(17px, 2vw, 20px);
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0;
+    }
+
+    /* ── Post feed ── */
+    .log-feed {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 22px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .log-post {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .log-post.featured {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: center;
+      background: var(--black);
+      color: var(--paper);
+    }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .post-tag {
+      background: var(--green);
+      color: var(--paper);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+
+    .log-post.featured .post-tag {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    .post-date {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .log-post.featured .post-date {
+      color: rgba(255,250,240,.6);
+    }
+
+    .log-post h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(22px, 2.5vw, 30px);
+      line-height: 1.15;
+      letter-spacing: -.03em;
+      margin: 0;
+    }
+
+    .log-post p {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .log-post.featured p {
+      color: rgba(255,250,240,.75);
+    }
+
+    .log-post .post-body {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--black);
+    }
+
+    .log-post.featured .post-body {
+      color: rgba(255,250,240,.85);
+    }
+
+    .post-body p { margin: 0 0 14px; }
+    .post-body p:last-child { margin: 0; }
+
+    .post-body h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 17px;
+      margin: 20px 0 6px;
+      color: var(--green);
+    }
+
+    .log-post.featured .post-body h3 {
+      color: var(--gold);
+    }
+
+    /* ── CTA strip ── */
+    .log-cta {
+      background: var(--green);
+      color: var(--paper);
+      text-align: center;
+      padding: 56px 22px;
+    }
+
+    .log-cta h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(28px, 4vw, 44px);
+      letter-spacing: -.03em;
+      margin: 0 0 12px;
+    }
+
+    .log-cta p {
+      color: rgba(255,250,240,.78);
+      font-size: 17px;
+      margin: 0 0 28px;
+    }
+
+    .button.light {
+      background: var(--paper);
+      color: var(--black);
+      border-color: var(--paper);
+      box-shadow: none;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 32px 22px;
+      font-size: 14px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 860px) {
+      .menu-toggle { display: flex; }
+      nav { display: none; }
+      .brand img { width: 190px; }
+
+      .log-feed {
+        grid-template-columns: 1fr;
+      }
+
+      .log-post.featured {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <div class="header-wrap" id="headerWrap">
+      <header>
+        <a class="brand" href="/" aria-label="Saturday Yard Co. home">
+          <img src="logo.png" alt="Saturday Yard Co. logo">
+        </a>
+        <nav>
+          <a href="/#services">Services</a>
+          <a href="/#pricing">Pricing</a>
+          <a href="/#route">Route</a>
+          <a href="/lawn-log.html" class="active">Lawn Log</a>
+          <a href="/#about">About</a>
+          <a href="/" class="button">Get Started</a>
+        </nav>
+        <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </header>
+    </div>
+
+    <div class="mobile-nav" id="mobileNav" role="dialog" aria-label="Mobile navigation">
+      <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">✕</button>
+      <a href="/#services" class="mobile-nav-link">Services</a>
+      <a href="/#pricing" class="mobile-nav-link">Pricing</a>
+      <a href="/#route" class="mobile-nav-link">Route</a>
+      <a href="/lawn-log.html" class="mobile-nav-link">Lawn Log</a>
+      <a href="/#about" class="mobile-nav-link">About</a>
+      <a href="/" class="button">Get Started</a>
+    </div>
+
+    <main>
+      <div class="log-hero">
+        <div class="eyebrow">Erie & Lafayette, CO</div>
+        <h1>The Lawn Log.</h1>
+        <p>Practical seasonal tips for Colorado homeowners — from someone who's out in these neighborhoods every weekend.</p>
+      </div>
+
+      <div class="log-feed">
+
+        <!-- Featured post -->
+        <article class="log-post featured">
+          <div>
+            <div class="post-meta">
+              <span class="post-tag">Summer</span>
+              <span class="post-date">June 2025</span>
+            </div>
+            <h2>What to do with your lawn in July in Erie, CO</h2>
+            <p>July is when Colorado lawns get stressed and homeowners get confused. Here's how to keep your yard alive without overwatering or burning it out.</p>
+          </div>
+          <div class="post-body">
+            <h3>Water deep, not often</h3>
+            <p>Short daily cycles train shallow roots. Water 2–3 times per week, longer cycles, early morning. You want the water to reach 6 inches down. Probe the soil after a cycle — if it's dry at 3 inches, you're not watering long enough.</p>
+            <h3>Mow high</h3>
+            <p>Keep your deck at 3.5 inches or higher through July. Taller grass shades the soil, slows moisture loss, and protects roots from heat stress. Don't cut more than a third of the blade at once.</p>
+            <h3>Leave clippings down</h3>
+            <p>Unless you've gone too long between mows, leave the clippings. They break down fast and return nitrogen to the soil — essentially a free, light fertilizer pass.</p>
+          </div>
+        </article>
+
+        <!-- Post 2 -->
+        <article class="log-post">
+          <div class="post-meta">
+            <span class="post-tag">Fall</span>
+            <span class="post-date">September 2025</span>
+          </div>
+          <h2>Fall lawn prep for Colorado — what actually matters</h2>
+          <div class="post-body">
+            <p>There's a lot of conflicting advice about fall lawn care. Here's what actually moves the needle in Colorado's climate.</p>
+            <h3>Aerate before you overseed</h3>
+            <p>Compacted soil — especially on newer builds with clay — blocks seed-to-soil contact. Core aerate first, then overseed into the holes. Late August through mid-September is your window before soil temps drop.</p>
+            <h3>Final mow height</h3>
+            <p>Drop to 2–2.5 inches for your last cut. Too tall and the grass mats under snow and invites mold. Do it gradually over the last two or three mows, not all at once.</p>
+            <h3>Don't fertilize too late</h3>
+            <p>A light slow-release application in early September is fine. Fertilizing in October pushes growth that can't harden off before frost and leaves the lawn vulnerable.</p>
+          </div>
+        </article>
+
+        <!-- Post 3 -->
+        <article class="log-post">
+          <div class="post-meta">
+            <span class="post-tag">Spring</span>
+            <span class="post-date">April 2025</span>
+          </div>
+          <h2>Spring green-up guide for Erie and Lafayette</h2>
+          <div class="post-body">
+            <p>Everyone wants their lawn green the second it warms up. The homeowners who push too hard in spring usually pay for it in July. Here's how to do it right.</p>
+            <h3>Wait to fertilize</h3>
+            <p>Hold off until you've mowed twice. Soil needs to hit 55°F before grass can use the nutrients. Fertilizing into cold soil is just money washed into the storm drain.</p>
+            <h3>Don't mow too early</h3>
+            <p>Let it green up and reach 3.5–4 inches before the first cut. Early mowing on soft, wet turf compacts the soil and tears up the crowns. Wait for a dry day.</p>
+            <h3>Check your sprinkler heads</h3>
+            <p>Walk the yard while each zone runs before the season starts. Winter heaving moves heads out of position. Fix coverage gaps now and your lawn holds up better all summer.</p>
+          </div>
+        </article>
+
+        <!-- Post 4 -->
+        <article class="log-post">
+          <div class="post-meta">
+            <span class="post-tag">New Builds</span>
+            <span class="post-date">March 2025</span>
+          </div>
+          <h2>Why your new build lawn looks terrible (and what to fix first)</h2>
+          <div class="post-body">
+            <p>If you bought in Erie Highlands, Colliers Hill, or any newer Erie or Lafayette subdivision in the last 5 years, your yard is probably fighting against builder-compacted clay soil. Here's what's actually happening and how to fix it.</p>
+            <h3>The soil was destroyed during construction</h3>
+            <p>Heavy equipment compacts the soil 12–18 inches deep. Water can't drain, roots can't penetrate, and sod laid on top of it looks okay for a year then starts failing in patches.</p>
+            <h3>Aerate aggressively for the first few years</h3>
+            <p>Annual core aeration for the first 3–4 years makes a real difference. Pair it with topdressing — a thin layer of compost worked into the holes — and you'll see measurable improvement by year two.</p>
+            <h3>Get a soil test before spending money</h3>
+            <p>CSU Extension offers cheap soil tests. Low pH and nutrient deficiencies are common on new builds. Fix the soil chemistry and everything else gets easier.</p>
+          </div>
+        </article>
+
+      </div>
+    </main>
+
+    <div class="log-cta">
+      <h2>Want your yard handled every weekend?</h2>
+      <p>Weekly and bi-weekly routes in Erie and Lafayette, starting at $45.</p>
+      <a href="/" class="button light">Get on the schedule</a>
+    </div>
+
+    <footer>
+      <a href="https://www.facebook.com/profile.php?id=61590394363803" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;color:var(--muted);text-decoration:none;font-weight:700;margin-bottom:14px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        Follow us on Facebook
+      </a>
+      <div>© 2026 Saturday Yard Co. Better lawns. Better weekends.</div>
+    </footer>
+  </div>
+
+  <script>
+    const headerWrap = document.getElementById('headerWrap');
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const current = window.scrollY;
+      if (current <= 60) {
+        headerWrap.classList.remove('hidden');
+      } else if (current > lastScroll) {
+        headerWrap.classList.add('hidden');
+      } else {
+        headerWrap.classList.remove('hidden');
+      }
+      lastScroll = current;
+    }, { passive: true });
+
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    const mobileNavClose = document.getElementById('mobileNavClose');
+
+    menuToggle.addEventListener('click', () => {
+      mobileNav.classList.add('open');
+      menuToggle.setAttribute('aria-expanded', 'true');
+    });
+
+    mobileNavClose.addEventListener('click', () => {
+      mobileNav.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+    });
+  </script>
+</body>
+</html>

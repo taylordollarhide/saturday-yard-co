@@ -472,11 +472,56 @@
     }
 
 
-    .lawn-log {
+    .lawn-log-teaser {
       display: grid;
-      grid-template-columns: .95fr 1.05fr;
-      gap: 22px;
-      align-items: stretch;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .teaser-post {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 26px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--black);
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .teaser-post:hover {
+      border-color: var(--green);
+      box-shadow: 0 8px 24px rgba(21,22,19,.09);
+    }
+
+    .teaser-tag {
+      display: inline-block;
+      background: var(--green);
+      color: var(--paper);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+      width: fit-content;
+    }
+
+    .teaser-post h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+      line-height: 1.25;
+      letter-spacing: -.02em;
+      margin: 0;
+    }
+
+    .teaser-post p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--muted);
+      margin: 0;
     }
 
     .schedule-card {
@@ -878,7 +923,7 @@
 
       .section-head,
       .route,
-      .lawn-log,
+      .lawn-log-teaser,
       .grid-3 {
         grid-template-columns: 1fr;
       }
@@ -905,7 +950,7 @@
         <a href="#services">Services</a>
         <a href="#pricing">Pricing</a>
         <a href="#route">Route</a>
-        <a href="#lawn-log">Lawn Log</a>
+        <a href="/lawn-log.html">Lawn Log</a>
         <a href="#about">About</a>
         <button class="button" onclick="openIntake()">Get Started</button>
       </nav>
@@ -921,7 +966,7 @@
       <a href="#services" class="mobile-nav-link">Services</a>
       <a href="#pricing" class="mobile-nav-link">Pricing</a>
       <a href="#route" class="mobile-nav-link">Route</a>
-      <a href="#lawn-log" class="mobile-nav-link">Lawn Log</a>
+      <a href="/lawn-log.html" class="mobile-nav-link">Lawn Log</a>
       <a href="#about" class="mobile-nav-link">About</a>
       <button class="button" onclick="closeMenu(); openIntake();">Get Started</button>
     </div>
@@ -1021,48 +1066,32 @@
       </section>
 
 
-      <section id="lawn-log">
-        <div class="section-head">
-          <h2 style="white-space: nowrap;">The local lawn log.</h2>
-          <p>Your neighbors are already talking about their lawns. This is where those conversations happen — tips, questions, and real answers from someone who's out there every Saturday.</p>
+      <section id=”lawn-log”>
+        <div class=”section-head” style=”grid-template-columns: 1fr;”>
+          <h2>The Lawn Log.</h2>
+          <p>Practical seasonal tips for Colorado homeowners — from someone who’s out in these neighborhoods every weekend.</p>
         </div>
 
-        <div class="lawn-log">
-          <article class="schedule-card">
-            <div class="card-label">Current routine</div>
-            <h3>Taylor’s weekly lawn schedule</h3>
-            <p class="card-copy">A practical Colorado routine people can copy, adjust, and discuss.</p>
+        <div class=”lawn-log-teaser”>
+          <a class=”teaser-post” href=”/lawn-log.html”>
+            <div class=”teaser-tag”>Summer</div>
+            <h3>What to do with your lawn in July in Erie, CO</h3>
+            <p>Water deep not often, mow high, leave clippings. The July playbook for Colorado turf.</p>
+          </a>
+          <a class=”teaser-post” href=”/lawn-log.html”>
+            <div class=”teaser-tag”>Fall</div>
+            <h3>Fall lawn prep for Colorado — what actually matters</h3>
+            <p>Aerate before you overseed, nail the final mow height, and don’t fertilize too late.</p>
+          </a>
+          <a class=”teaser-post” href=”/lawn-log.html”>
+            <div class=”teaser-tag”>New Builds</div>
+            <h3>Why your new build lawn looks terrible (and what to fix first)</h3>
+            <p>Builder-compacted clay is the culprit. Here’s how to fix the soil before spending money on anything else.</p>
+          </a>
+        </div>
 
-            <ul class="schedule-list">
-              <li><strong>Water</strong><span>Early morning cycles before heat hits. Adjust by zone, sun exposure, and restrictions.</span></li>
-              <li><strong>Mow</strong><span>Cut high enough to protect the roots. Never scalp during hot, dry weeks.</span></li>
-              <li><strong>Edge</strong><span>Clean hard edges make the whole yard look sharper, even before upgrades.</span></li>
-              <li><strong>Recover</strong><span>Spot treat dry patches, watch sprinkler coverage, and repair weak areas before they spread.</span></li>
-            </ul>
-          </article>
-
-          <article class="community-card">
-            <h3>Ask a question. Share your lawn.</h3>
-            <p>Struggling with dry patches, uneven growth, or just not sure where to start? Ask us. Share a photo and we'll give you a straight answer — no sales pitch, no obligation.</p>
-
-            <form class="comment-box" name="lawn-log" method="POST" netlify netlify-honeypot="bot-field" enctype="multipart/form-data" id="lawnLogForm">
-              <input type="hidden" name="form-name" value="lawn-log">
-              <input type="text" name="name" placeholder="Name" aria-label="Name" required>
-              <input type="email" name="email" placeholder="Email" aria-label="Email" required>
-              <textarea name="message" placeholder="What are you trying to fix or improve?" aria-label="Comment" required></textarea>
-              <label style="display:block; font-size:14px; font-weight:700; color:var(--muted); margin-bottom:4px;">Share a photo of your lawn (optional)</label>
-              <input type="file" name="photo" accept="image/*" aria-label="Lawn photo" style="width:100%; border:1px solid var(--line); background:#fffdf7; border-radius:16px; padding:12px 16px; font:inherit; color:var(--black);">
-              <button type="submit" class="button">Send lawn question</button>
-            </form>
-            <div id="lawnLogSuccess" style="display:none; padding: 20px; background: var(--green); color: var(--paper); border-radius: 16px; text-align: center; font-weight: 700;">
-              ✓ Question sent. We'll get back to you soon.
-            </div>
-
-            <div class="post">
-              <div class=”post-meta”>From a homeowner in Erie, CO</div>
-              <p><strong>”My front yard burns out every July no matter how much I water. What am I missing?”</strong><br>Nine times out of ten it's sprinkler coverage, not schedule. Before adjusting your timer, walk your yard while the system runs and look for dry gaps between heads. Fix the coverage first — then dial in the timing.</p>
-            </div>
-          </article>
+        <div style=”text-align:center; margin-top: 32px;”>
+          <a href=”/lawn-log.html” class=”button secondary”>Read the Lawn Log →</a>
         </div>
       </section>
 
