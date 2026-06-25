@@ -472,6 +472,88 @@
     }
 
 
+    .ll-posts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-bottom: 20px;
+    }
+
+    .ll-post-card {
+      display: flex;
+      flex-direction: column;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      overflow: hidden;
+      text-decoration: none;
+      color: var(--black);
+      transition: box-shadow .2s, transform .2s;
+    }
+
+    .ll-post-card:hover {
+      box-shadow: 0 16px 48px rgba(21,22,19,.12);
+      transform: translateY(-2px);
+    }
+
+    .ll-post-card img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+    }
+
+    .ll-post-body {
+      padding: 20px 22px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .ll-post-tag {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      background: var(--green);
+      color: var(--paper);
+      padding: 3px 9px;
+      border-radius: 100px;
+      align-self: flex-start;
+    }
+
+    .ll-post-card h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+      line-height: 1.25;
+      letter-spacing: -.025em;
+      margin: 0;
+      flex: 1;
+    }
+
+    .ll-post-link {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--green);
+    }
+
+    .ll-see-all {
+      display: block;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 40px;
+      opacity: .8;
+    }
+
+    .ll-see-all:hover { opacity: 1; }
+
     .lawn-log {
       display: grid;
       grid-template-columns: .95fr 1.05fr;
@@ -950,6 +1032,7 @@
       .section-head,
       .route,
       .lawn-log,
+      .ll-posts,
       .grid-3,
       .lawn-log-cta {
         grid-template-columns: 1fr;
@@ -1097,27 +1180,48 @@
 
       <section id="lawn-log">
         <div class="section-head">
-          <h2 style="white-space: nowrap;">The local lawn log.</h2>
-          <p>Your neighbors are already talking about their lawns. This is where those conversations happen — tips, questions, and real answers from someone who's out there every Saturday.</p>
+          <h2>The Lawn Log.</h2>
+          <p>Real jobs, local tips, and straight answers from the route every weekend.</p>
         </div>
 
+        <!-- Post highlights -->
+        <div class="ll-posts">
+          <a class="ll-post-card" href="/lawn-log/longmont-sod-property.html">
+            <img src="/lawn-log/photos/longmont-sod-3.jpg" alt="Sod repair and fresh mulch beds on 11-acre property south of Longmont">
+            <div class="ll-post-body">
+              <span class="ll-post-tag">Longmont</span>
+              <h3>11 acres south of Longmont — sod repair and fresh beds.</h3>
+              <span class="ll-post-link">Read the post →</span>
+            </div>
+          </a>
+          <a class="ll-post-card" href="/lawn-log/erie-lawn-recovery.html">
+            <img src="/lawn-log/photos/erie-after.jpg" alt="Erie front lawn fully recovered after warm winter and water restrictions">
+            <div class="ll-post-body">
+              <span class="ll-post-tag">Erie</span>
+              <h3>Bringing my own lawn back after a warm winter and water restrictions.</h3>
+              <span class="ll-post-link">Read the post →</span>
+            </div>
+          </a>
+        </div>
+        <a class="ll-see-all" href="/lawn-log.html">See all posts in the Lawn Log →</a>
+
+        <!-- Tips + Ask a question -->
         <div class="lawn-log">
           <article class="schedule-card">
-            <div class="card-label">Current routine</div>
-            <h3>Taylor’s weekly lawn schedule</h3>
-            <p class="card-copy">A practical Colorado routine people can copy, adjust, and discuss.</p>
-
+            <div class="card-label">Weekly tip</div>
+            <h3>Taylor’s Colorado lawn routine</h3>
+            <p class="card-copy" style="color:rgba(255,250,240,.72); font-size:15px; margin: 0 0 4px;">A practical routine for Erie and Lafayette yards, every season.</p>
             <ul class="schedule-list">
-              <li><strong>Water</strong><span>Early morning cycles before heat hits. Adjust by zone, sun exposure, and restrictions.</span></li>
-              <li><strong>Mow</strong><span>Cut high enough to protect the roots. Never scalp during hot, dry weeks.</span></li>
-              <li><strong>Edge</strong><span>Clean hard edges make the whole yard look sharper, even before upgrades.</span></li>
-              <li><strong>Recover</strong><span>Spot treat dry patches, watch sprinkler coverage, and repair weak areas before they spread.</span></li>
+              <li><strong>Water</strong><span>Early morning before heat hits. Calibrate for depth on restriction days, not just duration.</span></li>
+              <li><strong>Mow</strong><span>Keep the deck high during hot weeks. Never scalp — stressed turf takes weeks to bounce back.</span></li>
+              <li><strong>Edge</strong><span>Clean hard edges make the whole yard read as maintained, even between upgrades.</span></li>
+              <li><strong>Recover</strong><span>Spot seed bare areas early. Small patches are a one-day fix; ignored patches become a renovation.</span></li>
             </ul>
           </article>
 
           <article class="community-card">
             <h3>Ask a question. Share your lawn.</h3>
-            <p>Struggling with dry patches, uneven growth, or just not sure where to start? Ask us. Share a photo and we'll give you a straight answer — no sales pitch, no obligation.</p>
+            <p>Struggling with dry patches, uneven growth, or just not sure where to start? Ask us. Share a photo and we’ll give you a straight answer — no sales pitch, no obligation.</p>
 
             <form class="comment-box" name="lawn-log" method="POST" netlify netlify-honeypot="bot-field" enctype="multipart/form-data" id="lawnLogForm">
               <input type="hidden" name="form-name" value="lawn-log">
@@ -1129,12 +1233,12 @@
               <button type="submit" class="button">Send lawn question</button>
             </form>
             <div id="lawnLogSuccess" style="display:none; padding: 20px; background: var(--green); color: var(--paper); border-radius: 16px; text-align: center; font-weight: 700;">
-              ✓ Question sent. We'll get back to you soon.
+              ✓ Question sent. We’ll get back to you soon.
             </div>
 
             <div class="post">
               <div class="post-meta">From a homeowner in Erie, CO</div>
-              <p><strong>"My front yard burns out every July no matter how much I water. What am I missing?"</strong><br>Nine times out of ten it's sprinkler coverage, not schedule. Before adjusting your timer, walk your yard while the system runs and look for dry gaps between heads. Fix the coverage first — then dial in the timing.</p>
+              <p><strong>"My front yard burns out every July no matter how much I water. What am I missing?"</strong><br>Nine times out of ten it’s sprinkler coverage, not schedule. Before adjusting your timer, walk your yard while the system runs and look for dry gaps between heads. Fix the coverage first — then dial in the timing.</p>
             </div>
           </article>
         </div>
