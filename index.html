@@ -569,6 +569,77 @@
     }
 
 
+    .lawn-log-cta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: center;
+      background: var(--black);
+      color: var(--paper);
+      border-radius: 28px;
+      padding: 36px 40px;
+      margin-top: 22px;
+      text-decoration: none;
+      transition: box-shadow .2s;
+    }
+
+    .lawn-log-cta:hover {
+      box-shadow: 0 20px 60px rgba(21,22,19,.22);
+    }
+
+    .lawn-log-cta .card-label {
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .lawn-log-cta h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(22px, 3vw, 32px);
+      letter-spacing: -.03em;
+      margin: 0 0 10px;
+      color: var(--paper);
+    }
+
+    .lawn-log-cta p {
+      font-size: 15px;
+      color: rgba(255,250,240,.7);
+      margin: 0 0 18px;
+      line-height: 1.6;
+    }
+
+    .lawn-log-cta-link {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .lawn-log-cta-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .cta-photo-stack {
+      position: relative;
+      width: 200px;
+      height: 160px;
+    }
+
+    .cta-photo {
+      position: absolute;
+      width: 140px;
+      height: 110px;
+      border-radius: 14px;
+      background: rgba(255,250,240,.1);
+      border: 1px solid rgba(255,250,240,.15);
+    }
+
+    .cta-photo:nth-child(1) { top: 0; left: 0; transform: rotate(-6deg); background: rgba(185,134,47,.25); }
+    .cta-photo:nth-child(2) { top: 16px; left: 30px; transform: rotate(1deg); background: rgba(255,250,240,.08); }
+    .cta-photo:nth-child(3) { top: 32px; left: 58px; transform: rotate(5deg); background: rgba(74,122,84,.35); }
+
     /* Mobile menu button */
     .menu-toggle {
       display: none;
@@ -879,9 +950,12 @@
       .section-head,
       .route,
       .lawn-log,
-      .grid-3 {
+      .grid-3,
+      .lawn-log-cta {
         grid-template-columns: 1fr;
       }
+
+      .lawn-log-cta-visual { display: none; }
 
       .hero-card {
         min-height: 380px;
@@ -905,7 +979,7 @@
         <a href="#services">Services</a>
         <a href="#pricing">Pricing</a>
         <a href="#route">Route</a>
-        <a href="#lawn-log">Lawn Log</a>
+        <a href="/lawn-log.html">Lawn Log</a>
         <a href="#about">About</a>
         <button class="button" onclick="openIntake()">Get Started</button>
       </nav>
@@ -921,7 +995,7 @@
       <a href="#services" class="mobile-nav-link">Services</a>
       <a href="#pricing" class="mobile-nav-link">Pricing</a>
       <a href="#route" class="mobile-nav-link">Route</a>
-      <a href="#lawn-log" class="mobile-nav-link">Lawn Log</a>
+      <a href="/lawn-log.html" class="mobile-nav-link">Lawn Log</a>
       <a href="#about" class="mobile-nav-link">About</a>
       <button class="button" onclick="closeMenu(); openIntake();">Get Started</button>
     </div>
@@ -1065,9 +1139,21 @@
           </article>
         </div>
 
-        <div style=”text-align:center; margin-top:32px;”>
-          <a href=”/lawn-log.html” class=”button secondary”>See the Lawn Log →</a>
-        </div>
+        <a href=”/lawn-log.html” class=”lawn-log-cta”>
+          <div class=”lawn-log-cta-text”>
+            <div class=”card-label”>Lawn Log</div>
+            <h3>Real yards. Real results.</h3>
+            <p>Before and after shots, job notes, and tips from the route every weekend. See the work.</p>
+            <span class=”lawn-log-cta-link”>Read the Lawn Log →</span>
+          </div>
+          <div class=”lawn-log-cta-visual”>
+            <div class=”cta-photo-stack”>
+              <div class=”cta-photo”></div>
+              <div class=”cta-photo”></div>
+              <div class=”cta-photo”></div>
+            </div>
+          </div>
+        </a>
       </section>
 
       <section id="about">
