@@ -1312,14 +1312,7 @@
       leads.push(lead);
       localStorage.setItem('syc_leads', JSON.stringify(leads));
 
-      const size = data.get('yardSize') || '';
-      const msg = size === 'Large'
-        ? "We'll follow up within 24 hours to confirm pricing and get you on the route."
-        : "We'll be in touch within 24 hours to confirm your start date.";
-      document.getElementById('intakeSuccessMsg').textContent = msg;
-
-      document.getElementById('intakeFormWrap').style.display = 'none';
-      document.getElementById('intakeSuccess').style.display = 'block';
+      window.location.href = '/thank-you.html';
     });
 
     const toggle = document.getElementById('menuToggle');
