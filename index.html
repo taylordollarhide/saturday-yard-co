@@ -474,59 +474,33 @@
 
     .lawn-log {
       display: grid;
-      grid-template-columns: .95fr 1.05fr;
+      grid-template-columns: 1fr 1fr;
       gap: 22px;
-      align-items: stretch;
+      align-items: start;
     }
 
-    .schedule-card {
-      background: var(--black);
-      color: var(--paper);
-      border-radius: 28px;
-      padding: 30px;
-      box-shadow: 0 24px 60px rgba(21,22,19,.18);
-    }
-
-    .schedule-card h3,
-    .community-card h3 {
-      font-size: 26px;
-      margin: 0 0 16px;
-      letter-spacing: -.03em;
-    }
-
-    .schedule-list {
-      list-style: none;
-      padding: 0;
-      margin: 20px 0 0;
-      display: grid;
-      gap: 12px;
-    }
-
-    .schedule-list li {
-      display: grid;
-      grid-template-columns: 92px 1fr;
-      gap: 14px;
-      border-top: 1px solid rgba(255,250,240,.16);
-      padding-top: 12px;
-      color: rgba(255,250,240,.82);
-    }
-
-    .schedule-list strong {
-      color: var(--gold);
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      font-size: 13px;
-    }
-
-    .community-card {
-      background: rgba(255,250,240,.78);
+    .lawn-log-ask {
+      background: var(--paper);
       border: 1px solid var(--line);
       border-radius: 28px;
       padding: 30px;
+      position: sticky;
+      top: 90px;
+    }
+
+    .lawn-log-ask h3 {
+      font-size: 22px;
+      margin: 0 0 6px;
+      letter-spacing: -.03em;
+    }
+
+    .lawn-log-ask p {
+      color: var(--muted);
+      font-size: 15px;
+      margin: 0 0 18px;
     }
 
     .comment-box {
-      margin-top: 18px;
       display: grid;
       gap: 12px;
     }
@@ -539,12 +513,76 @@
       border-radius: 16px;
       padding: 14px 16px;
       font: inherit;
+      font-size: 15px;
       color: var(--black);
     }
 
     .comment-box textarea {
-      min-height: 118px;
+      min-height: 110px;
       resize: vertical;
+    }
+
+    .qa-feed {
+      display: grid;
+      gap: 16px;
+    }
+
+    .qa-post {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 26px 28px;
+    }
+
+    .qa-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .qa-neighborhood {
+      background: var(--green);
+      color: var(--paper);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+
+    .qa-date {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .qa-question {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--black);
+      margin: 0 0 14px;
+      line-height: 1.35;
+    }
+
+    .qa-answer {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--black);
+      margin: 0;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .qa-answer strong {
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 6px;
     }
 
     .comment-note {
@@ -883,6 +921,10 @@
         grid-template-columns: 1fr;
       }
 
+      .lawn-log-ask {
+        position: static;
+      }
+
       .hero-card {
         min-height: 380px;
       }
@@ -1027,42 +1069,87 @@
           <p>Your neighbors are already talking about their lawns. This is where those conversations happen — tips, questions, and real answers from someone who's out there every Saturday.</p>
         </div>
 
-        <div class="lawn-log">
-          <article class="schedule-card">
-            <div class="card-label">Current routine</div>
-            <h3>Taylor’s weekly lawn schedule</h3>
-            <p class="card-copy">A practical Colorado routine people can copy, adjust, and discuss.</p>
+        <div class=”lawn-log”>
 
-            <ul class="schedule-list">
-              <li><strong>Water</strong><span>Early morning cycles before heat hits. Adjust by zone, sun exposure, and restrictions.</span></li>
-              <li><strong>Mow</strong><span>Cut high enough to protect the roots. Never scalp during hot, dry weeks.</span></li>
-              <li><strong>Edge</strong><span>Clean hard edges make the whole yard look sharper, even before upgrades.</span></li>
-              <li><strong>Recover</strong><span>Spot treat dry patches, watch sprinkler coverage, and repair weak areas before they spread.</span></li>
-            </ul>
-          </article>
-
-          <article class="community-card">
-            <h3>Ask a question. Share your lawn.</h3>
-            <p>Struggling with dry patches, uneven growth, or just not sure where to start? Ask us. Share a photo and we'll give you a straight answer — no sales pitch, no obligation.</p>
-
-            <form class="comment-box" name="lawn-log" method="POST" netlify netlify-honeypot="bot-field" enctype="multipart/form-data" id="lawnLogForm">
-              <input type="hidden" name="form-name" value="lawn-log">
-              <input type="text" name="name" placeholder="Name" aria-label="Name" required>
-              <input type="email" name="email" placeholder="Email" aria-label="Email" required>
-              <textarea name="message" placeholder="What are you trying to fix or improve?" aria-label="Comment" required></textarea>
-              <label style="display:block; font-size:14px; font-weight:700; color:var(--muted); margin-bottom:4px;">Share a photo of your lawn (optional)</label>
-              <input type="file" name="photo" accept="image/*" aria-label="Lawn photo" style="width:100%; border:1px solid var(--line); background:#fffdf7; border-radius:16px; padding:12px 16px; font:inherit; color:var(--black);">
-              <button type="submit" class="button">Send lawn question</button>
+          <div class=”lawn-log-ask”>
+            <h3>Ask a lawn question.</h3>
+            <p>Struggling with your yard? Ask. We’ll answer here — no sales pitch, no obligation.</p>
+            <form class=”comment-box” name=”lawn-log” method=”POST” netlify netlify-honeypot=”bot-field” enctype=”multipart/form-data” id=”lawnLogForm”>
+              <input type=”hidden” name=”form-name” value=”lawn-log”>
+              <input type=”text” name=”bot-field” style=”display:none” aria-hidden=”true”>
+              <input type=”text” name=”name” placeholder=”Your name” aria-label=”Name” required>
+              <input type=”email” name=”email” placeholder=”Email (not published)” aria-label=”Email” required>
+              <textarea name=”message” placeholder=”What are you trying to fix or figure out?” aria-label=”Question” required></textarea>
+              <button type=”submit” class=”button”>Send question</button>
             </form>
-            <div id="lawnLogSuccess" style="display:none; padding: 20px; background: var(--green); color: var(--paper); border-radius: 16px; text-align: center; font-weight: 700;">
-              ✓ Question sent. We'll get back to you soon.
+            <div id=”lawnLogSuccess” style=”display:none; padding: 20px; background: var(--green); color: var(--paper); border-radius: 16px; text-align: center; font-weight: 700;”>
+              ✓ Question sent. We’ll get back to you soon.
             </div>
+          </div>
 
-            <div class="post">
-              <div class=”post-meta”>From a homeowner in Erie, CO</div>
-              <p><strong>”My front yard burns out every July no matter how much I water. What am I missing?”</strong><br>Nine times out of ten it's sprinkler coverage, not schedule. Before adjusting your timer, walk your yard while the system runs and look for dry gaps between heads. Fix the coverage first — then dial in the timing.</p>
-            </div>
-          </article>
+          <div class=”qa-feed”>
+
+            <article class=”qa-post”>
+              <div class=”qa-meta”>
+                <span class=”qa-neighborhood”>Erie Highlands</span>
+                <span class=”qa-date”>June 2025</span>
+              </div>
+              <p class=”qa-question”>”My front yard burns out every July no matter how much I water. What am I missing?”</p>
+              <div class=”qa-answer”>
+                <strong>Taylor’s answer</strong>
+                Nine times out of ten it’s coverage, not schedule. Walk your yard while the system runs and look for dry gaps between heads — you’ll usually find one or two zones that aren’t overlapping. Fix the coverage first, then adjust your timer. Adding more run time to a zone with a dead spot just wastes water everywhere else.
+              </div>
+            </article>
+
+            <article class=”qa-post”>
+              <div class=”qa-meta”>
+                <span class=”qa-neighborhood”>Colliers Hill</span>
+                <span class=”qa-date”>May 2025</span>
+              </div>
+              <p class=”qa-question”>”When’s the right time to overseed in Erie?”</p>
+              <div class=”qa-answer”>
+                <strong>Taylor’s answer</strong>
+                Late August through mid-September is the sweet spot for Colorado. Soil temps are still warm enough for germination but the brutal heat is gone. Aim for at least 6 weeks before your first frost. Aerate first if the soil is compacted — it makes a huge difference in how well the seed takes.
+              </div>
+            </article>
+
+            <article class=”qa-post”>
+              <div class=”qa-meta”>
+                <span class=”qa-neighborhood”>Lafayette</span>
+                <span class=”qa-date”>May 2025</span>
+              </div>
+              <p class=”qa-question”>”Is aerating every year worth it on a newer build?”</p>
+              <div class=”qa-answer”>
+                <strong>Taylor’s answer</strong>
+                Yes — especially on new construction. Builders compact the soil during the build process and most new lawns sit on heavy clay. Annual aeration for the first 3–4 years makes a noticeable difference in drainage, root depth, and how evenly the grass fills in. Once the lawn is established you can back off to every other year.
+              </div>
+            </article>
+
+            <article class=”qa-post”>
+              <div class=”qa-meta”>
+                <span class=”qa-neighborhood”>Erie</span>
+                <span class=”qa-date”>April 2025</span>
+              </div>
+              <p class=”qa-question”>”My grass never fully greens up in spring. It just looks tired all season.”</p>
+              <div class=”qa-answer”>
+                <strong>Taylor’s answer</strong>
+                Usually a fertilizer timing issue. A lot of people apply too early — before the soil hits 55°F the grass can’t actually use the nutrients. Wait until you’ve mowed twice, then put down a slow-release nitrogen fertilizer. If the yard still looks patchy, do a soil test. Low pH is common around here and lime is cheap.
+              </div>
+            </article>
+
+            <article class=”qa-post”>
+              <div class=”qa-meta”>
+                <span class=”qa-neighborhood”>Superior</span>
+                <span class=”qa-date”>October 2024</span>
+              </div>
+              <p class=”qa-question”>”How short should I cut before winter?”</p>
+              <div class=”qa-answer”>
+                <strong>Taylor’s answer</strong>
+                Drop to about 2–2.5 inches for your last cut of the season. Too tall and the grass mats down under snow, which invites mold. Too short and you stress the roots heading into dormancy. Do it gradually over the last two or three mows rather than one big scalp — your lawn will come back cleaner in spring.
+              </div>
+            </article>
+
+          </div>
         </div>
       </section>
 
