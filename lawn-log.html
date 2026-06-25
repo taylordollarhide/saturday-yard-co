@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2RC3EFX6QS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2RC3EFX6QS');
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lawn Log — Real Jobs. Real Results. | Saturday Yard Co.</title>
+  <meta name="description" content="See the work. Before and after shots from Erie and Lafayette lawns, with tips from the route every weekend." />
+  <link rel="canonical" href="https://getsaturdayyard.com/lawn-log.html" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="app-icon.png" />
+  <style>
+    :root {
+      --cream: #f6f1e7;
+      --paper: #fffaf0;
+      --black: #151613;
+      --green: #243c2a;
+      --gold: #b9862f;
+      --muted: #706b5e;
+      --line: rgba(21,22,19,.14);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--cream);
+      color: var(--black);
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+    .page { min-height: 100vh; background: linear-gradient(180deg, var(--paper), var(--cream)); }
+
+    /* ── Header ── */
+    .header-wrap {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(246,241,231,.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      transition: transform .3s ease;
+    }
+    .header-wrap.hidden { transform: translateY(-100%); }
+    header {
+      max-width: 1180px; margin: 0 auto;
+      padding: 22px 22px 24px;
+      display: flex; justify-content: space-between; align-items: center; gap: 24px;
+    }
+    .brand img { width: 220px; height: auto; display: block; }
+    nav {
+      display: flex; gap: 22px; align-items: center;
+      font-size: 14px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+    }
+    nav a { opacity: .72; }
+    nav a:hover { opacity: 1; }
+    nav a.active { opacity: 1; color: var(--green); }
+    .button {
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 2px solid var(--black); background: var(--black); color: var(--paper);
+      padding: 0 24px; height: 48px; border-radius: 999px;
+      font-size: 13px; font-family: inherit; font-weight: 900;
+      letter-spacing: .06em; text-transform: uppercase;
+      box-shadow: 0 10px 0 rgba(21,22,19,.12);
+      white-space: nowrap; cursor: pointer; text-decoration: none;
+    }
+    .menu-toggle {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .menu-toggle span { display: block; width: 24px; height: 2px; background: var(--black); border-radius: 2px; }
+    .mobile-nav {
+      display: none; position: fixed; inset: 0;
+      background: var(--paper); z-index: 100;
+      flex-direction: column; align-items: center; justify-content: center; gap: 28px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav-close { position: absolute; top: 22px; right: 22px; background: none; border: none; font-size: 22px; cursor: pointer; }
+    .mobile-nav-link { font-size: 22px; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; }
+
+    /* ── Hero ── */
+    .log-hero {
+      max-width: 1180px; margin: 0 auto;
+      padding: 64px 22px 48px;
+    }
+    .eyebrow {
+      display: inline-flex; gap: 10px; align-items: center;
+      font-size: 13px; font-weight: 900; letter-spacing: .16em;
+      color: var(--green); text-transform: uppercase; margin-bottom: 18px;
+    }
+    .eyebrow::before { content: ""; width: 44px; height: 3px; background: var(--gold); display: inline-block; }
+    .log-hero h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(42px, 6vw, 72px);
+      line-height: .95; letter-spacing: -.04em;
+      margin: 0 0 18px; max-width: 680px;
+    }
+    .log-hero p { font-size: 18px; color: var(--muted); max-width: 520px; margin: 0; }
+
+    /* ── Feed grid ── */
+    .log-feed {
+      max-width: 1180px; margin: 0 auto;
+      padding: 0 22px 80px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .log-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: box-shadow .2s, transform .2s;
+      text-decoration: none; color: var(--black);
+    }
+    .log-card:hover {
+      box-shadow: 0 16px 48px rgba(21,22,19,.12);
+      transform: translateY(-2px);
+    }
+    .log-card.featured {
+      grid-column: span 2;
+    }
+
+    .card-photo {
+      width: 100%; aspect-ratio: 4/3;
+      object-fit: cover;
+      background: #d8d4c8;
+      display: block;
+      position: relative;
+    }
+    .log-card.featured .card-photo { aspect-ratio: 16/9; }
+
+    /* Placeholder styling when no image */
+    .photo-placeholder {
+      width: 100%; aspect-ratio: 4/3;
+      background: linear-gradient(135deg, #d4cfc3 0%, #c4bfb3 100%);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 8px;
+    }
+    .log-card.featured .photo-placeholder { aspect-ratio: 16/9; }
+    .photo-placeholder svg { opacity: .35; }
+    .photo-placeholder span { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); opacity: .7; }
+
+    .card-body { padding: 22px 24px 26px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+
+    .card-meta { display: flex; align-items: center; gap: 10px; }
+    .card-tag {
+      background: var(--green); color: var(--paper);
+      font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 100px;
+    }
+    .card-date { color: var(--muted); font-size: 13px; }
+
+    .card-title {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 20px; line-height: 1.2; letter-spacing: -.025em;
+      margin: 0;
+    }
+    .log-card.featured .card-title { font-size: 26px; }
+
+    .card-blurb { font-size: 14px; line-height: 1.6; color: var(--muted); margin: 0; flex: 1; }
+
+    .card-cta {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 800; letter-spacing: .04em;
+      text-transform: uppercase; color: var(--green); margin-top: 4px;
+    }
+
+    /* ── CTA strip ── */
+    .log-cta {
+      background: var(--green); color: var(--paper);
+      text-align: center; padding: 56px 22px;
+    }
+    .log-cta h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(26px, 4vw, 42px); letter-spacing: -.03em; margin: 0 0 12px;
+    }
+    .log-cta p { color: rgba(255,250,240,.78); font-size: 17px; margin: 0 0 28px; }
+    .button.light { background: var(--paper); color: var(--black); border-color: var(--paper); box-shadow: none; }
+
+    /* ── Footer ── */
+    footer { text-align: center; padding: 32px 22px; font-size: 14px; color: var(--muted); border-top: 1px solid var(--line); }
+
+    /* ── Mobile ── */
+    @media (max-width: 860px) {
+      .menu-toggle { display: flex; }
+      nav { display: none; }
+      .brand img { width: 190px; }
+      .log-feed { grid-template-columns: 1fr; }
+      .log-card.featured { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="header-wrap" id="headerWrap">
+      <header>
+        <a class="brand" href="/" aria-label="Saturday Yard Co. home">
+          <img src="logo.png" alt="Saturday Yard Co. logo">
+        </a>
+        <nav>
+          <a href="/#services">Services</a>
+          <a href="/#pricing">Pricing</a>
+          <a href="/#route">Route</a>
+          <a href="/lawn-log.html" class="active">Lawn Log</a>
+          <a href="/#about">About</a>
+          <a href="/" class="button">Get Started</a>
+        </nav>
+        <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </header>
+    </div>
+
+    <div class="mobile-nav" id="mobileNav" role="dialog" aria-label="Mobile navigation">
+      <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">✕</button>
+      <a href="/#services" class="mobile-nav-link">Services</a>
+      <a href="/#pricing" class="mobile-nav-link">Pricing</a>
+      <a href="/#route" class="mobile-nav-link">Route</a>
+      <a href="/lawn-log.html" class="mobile-nav-link">Lawn Log</a>
+      <a href="/#about" class="mobile-nav-link">About</a>
+      <a href="/" class="button">Get Started</a>
+    </div>
+
+    <main>
+      <div class="log-hero">
+        <div class="eyebrow">Erie & Lafayette, CO</div>
+        <h1>Real yards.<br>Real results.</h1>
+        <p>Photos and notes from the route every weekend. This is what the work actually looks like.</p>
+      </div>
+
+      <div class="log-feed">
+
+        <!-- Post 1 — featured -->
+        <a class="log-card featured" href="/lawn-log/erie-highlands-cleanup.html">
+          <div class="photo-placeholder">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#706b5e" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            <span>Photo coming soon</span>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <span class="card-tag">Erie Highlands</span>
+              <span class="card-date">June 2025</span>
+            </div>
+            <h2 class="card-title">Overgrown corner lot back on track after a missed month</h2>
+            <p class="card-blurb">When we took this one on it was nearly 8 inches in some spots. Two passes, a full edge, and a cleanup of the flower beds got it back to where it should be. Here's what the process looked like.</p>
+            <span class="card-cta">Read the post →</span>
+          </div>
+        </a>
+
+        <!-- Post 2 -->
+        <a class="log-card" href="/lawn-log/colliers-hill-new-sod.html">
+          <div class="photo-placeholder">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#706b5e" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            <span>Photo coming soon</span>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <span class="card-tag">Colliers Hill</span>
+              <span class="card-date">May 2025</span>
+            </div>
+            <h2 class="card-title">New sod install — first season mowing tips</h2>
+            <p class="card-blurb">New sod needs to be mowed high and treated gently for the first 6–8 weeks. What we did differently on this route stop.</p>
+            <span class="card-cta">Read the post →</span>
+          </div>
+        </a>
+
+        <!-- Post 3 -->
+        <a class="log-card" href="/lawn-log/lafayette-spring-cleanup.html">
+          <div class="photo-placeholder">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#706b5e" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            <span>Photo coming soon</span>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <span class="card-tag">Lafayette</span>
+              <span class="card-date">April 2025</span>
+            </div>
+            <h2 class="card-title">Spring cleanup: what a full reset looks like</h2>
+            <p class="card-blurb">Debris clear, first edge of the year, bed cleanup. Before and after from a Lafayette yard that wintered rough.</p>
+            <span class="card-cta">Read the post →</span>
+          </div>
+        </a>
+
+      </div>
+    </main>
+
+    <div class="log-cta">
+      <h2>Want your yard to look like this?</h2>
+      <p>Weekend routes in Erie and Lafayette, starting at $45.</p>
+      <a href="/" class="button light">Get on the schedule</a>
+    </div>
+
+    <footer>
+      <a href="https://www.facebook.com/profile.php?id=61590394363803" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;color:var(--muted);text-decoration:none;font-weight:700;margin-bottom:14px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        Follow us on Facebook
+      </a>
+      <div>© 2026 Saturday Yard Co. Better lawns. Better weekends.</div>
+    </footer>
+  </div>
+
+  <script>
+    const headerWrap = document.getElementById('headerWrap');
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const cur = window.scrollY;
+      if (cur <= 60) headerWrap.classList.remove('hidden');
+      else if (cur > lastScroll) headerWrap.classList.add('hidden');
+      else headerWrap.classList.remove('hidden');
+      lastScroll = cur;
+    }, { passive: true });
+
+    document.getElementById('menuToggle').addEventListener('click', () => {
+      document.getElementById('mobileNav').classList.add('open');
+    });
+    document.getElementById('mobileNavClose').addEventListener('click', () => {
+      document.getElementById('mobileNav').classList.remove('open');
+    });
+  </script>
+</body>
+</html>
