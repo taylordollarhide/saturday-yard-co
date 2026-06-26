@@ -1429,6 +1429,10 @@
       document.body.style.overflow = 'hidden';
     }
 
+    if (new URLSearchParams(window.location.search).get('schedule') === '1') {
+      openIntake();
+    }
+
     function closeIntake() {
       document.getElementById('intakeBackdrop').classList.remove('open');
       document.body.style.overflow = '';
