@@ -331,6 +331,12 @@
       gap: 16px;
     }
 
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
     .tile {
       background: rgba(255,250,240,.72);
       border: 1px solid var(--line);
@@ -1034,6 +1040,7 @@
       .lawn-log,
       .ll-posts,
       .grid-3,
+      .grid-4,
       .lawn-log-cta {
         grid-template-columns: 1fr;
       }
@@ -1118,7 +1125,7 @@
           <p>Saturday Yard Co. is built around a focused service menu. That keeps costs low, scheduling clean, and the customer experience predictable.</p>
         </div>
 
-        <div class="grid-3">
+        <div class="grid-4">
           <article class="tile">
             <h3>Weekly Mowing</h3>
             <p>Best for homeowners who want the yard consistently maintained through the growing season.</p>
@@ -1130,6 +1137,10 @@
           <article class="tile">
             <h3>Seasonal Cleanup</h3>
             <p>Spring and fall cleanup add-ons without becoming a full landscaping commitment.</p>
+          </article>
+          <article class="tile">
+            <h3>Lawn Rx</h3>
+            <p>A targeted diagnosis and treatment plan for stressed, patchy, or struggling lawns. Quote-based.</p>
           </article>
         </div>
       </section>
@@ -1180,7 +1191,7 @@
 
       <section id="lawn-log">
         <div class="section-head">
-          <h2>The Lawn Log.</h2>
+          <h2 style="white-space: nowrap;">The Lawn Log.</h2>
           <p>Real jobs, local tips, and straight answers from the route every weekend.</p>
         </div>
 
