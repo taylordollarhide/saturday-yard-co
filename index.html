@@ -337,6 +337,12 @@
       gap: 16px;
     }
 
+    .grid-5 {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+
     .tile {
       background: rgba(255,250,240,.72);
       border: 1px solid var(--line);
@@ -363,6 +369,19 @@
       letter-spacing: -.06em;
       margin-bottom: 8px;
       font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .price-unit {
+      font-size: 20px;
+      font-weight: 400;
+      letter-spacing: -.02em;
+      color: var(--muted);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .tile.quote strong {
+      font-size: 28px;
+      color: var(--green);
     }
 
     .route {
@@ -1041,6 +1060,7 @@
       .ll-posts,
       .grid-3,
       .grid-4,
+      .grid-5,
       .lawn-log-cta {
         grid-template-columns: 1fr;
       }
@@ -1151,21 +1171,31 @@
           <p>Every quote is based on what your yard actually needs — size, access, slope, and condition. No guessing, no surprises.</p>
         </div>
 
-        <div class="grid-3">
+        <div class="grid-5">
           <article class="tile">
-            <strong>$45</strong>
+            <strong>$45<span class="price-unit">/mow</span></strong>
             <h3>Small Yard</h3>
             <p>Townhomes, compact lots, and straightforward mow/trim/blow service.</p>
           </article>
           <article class="tile">
-            <strong>$55</strong>
+            <strong>$55<span class="price-unit">/mow</span></strong>
             <h3>Standard Yard</h3>
             <p>Typical suburban lots with front and back lawn service.</p>
           </article>
           <article class="tile">
-            <strong>$65+</strong>
+            <strong>$65+<span class="price-unit">/mow</span></strong>
             <h3>Larger Yard</h3>
             <p>Corner lots, bigger backyards, tricky access, or heavier trimming requirements.</p>
+          </article>
+          <article class="tile quote">
+            <strong>Get a Quote</strong>
+            <h3>Seasonal Cleanup</h3>
+            <p>Spring and fall cleanups priced by yard size and condition. Submit the form to get a number.</p>
+          </article>
+          <article class="tile quote">
+            <strong>Get a Quote</strong>
+            <h3>Lawn Rx</h3>
+            <p>Diagnosis and treatment for stressed or struggling lawns. Priced after a quick assessment.</p>
           </article>
         </div>
       </section>
