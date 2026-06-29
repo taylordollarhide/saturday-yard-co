@@ -325,6 +325,12 @@
       max-width: 620px;
     }
 
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
     .grid-3 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -1058,6 +1064,7 @@
       .route,
       .lawn-log,
       .ll-posts,
+      .grid-2,
       .grid-3,
       .grid-4,
       .grid-5,
@@ -1171,7 +1178,7 @@
           <p>Every quote is based on what your yard actually needs — size, access, slope, and condition. No guessing, no surprises.</p>
         </div>
 
-        <div class="grid-5">
+        <div class="grid-3">
           <article class="tile">
             <strong>$45<span class="price-unit">/mow</span></strong>
             <h3>Small Yard</h3>
@@ -1187,6 +1194,8 @@
             <h3>Larger Yard</h3>
             <p>Corner lots, bigger backyards, tricky access, or heavier trimming requirements.</p>
           </article>
+        </div>
+        <div class="grid-2" style="margin-top: 16px;">
           <article class="tile quote">
             <strong>Get a Quote</strong>
             <h3>Seasonal Cleanup</h3>
