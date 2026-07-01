@@ -173,15 +173,17 @@
     window.addEventListener('scroll', () => { const c = window.scrollY; if (c <= 60) hw.classList.remove('hidden'); else if (c > ls) hw.classList.add('hidden'); else hw.classList.remove('hidden'); ls = c; }, { passive: true });
     document.getElementById('menuToggle').addEventListener('click', () => document.getElementById('mobileNav').classList.add('open'));
     document.getElementById('mobileNavClose').addEventListener('click', () => document.getElementById('mobileNav').classList.remove('open'));
-    const lbOverlay = document.getElementById('lbOverlay');
-    const lbImg = document.getElementById('lbImg');
-    document.querySelectorAll('.photo-pair img, .post-photo, .brand-moment img').forEach(img => {
-      img.addEventListener('click', () => { lbImg.src = img.src; lbImg.alt = img.alt; lbOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; });
+    document.addEventListener('DOMContentLoaded', function() {
+      const lbOverlay = document.getElementById('lbOverlay');
+      const lbImg = document.getElementById('lbImg');
+      document.querySelectorAll('.photo-pair img, .post-photo, .brand-moment img').forEach(img => {
+        img.addEventListener('click', () => { lbImg.src = img.src; lbImg.alt = img.alt; lbOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; });
+      });
+      function closeLb() { lbOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+      document.getElementById('lbClose').addEventListener('click', closeLb);
+      lbOverlay.addEventListener('click', e => { if (e.target === lbOverlay) closeLb(); });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
     });
-    function closeLb() { lbOverlay.classList.remove('open'); document.body.style.overflow = ''; }
-    document.getElementById('lbClose').addEventListener('click', closeLb);
-    lbOverlay.addEventListener('click', e => { if (e.target === lbOverlay) closeLb(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
   </script>
 
   <div class="lb-overlay" id="lbOverlay">
