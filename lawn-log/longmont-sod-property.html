@@ -71,6 +71,14 @@
       .menu-toggle { display: flex; } nav { display: none; } .brand img { width: 190px; }
       .photo-pair { grid-template-columns: 1fr; }
     }
+
+    /* ── Lightbox ── */
+    .lb-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,.92); align-items: center; justify-content: center; cursor: zoom-out; }
+    .lb-overlay.open { display: flex; }
+    .lb-overlay img { max-width: 92vw; max-height: 92vh; border-radius: 12px; object-fit: contain; box-shadow: 0 32px 80px rgba(0,0,0,.6); cursor: default; }
+    .lb-close { position: absolute; top: 20px; right: 24px; background: none; border: none; color: #fff; font-size: 32px; cursor: pointer; line-height: 1; opacity: .8; }
+    .lb-close:hover { opacity: 1; }
+    .photo-pair img, .post-photo, .brand-moment img { cursor: zoom-in; }
   </style>
 </head>
 <body>
@@ -171,5 +179,10 @@
     document.getElementById('menuToggle').addEventListener('click', () => document.getElementById('mobileNav').classList.add('open'));
     document.getElementById('mobileNavClose').addEventListener('click', () => document.getElementById('mobileNav').classList.remove('open'));
   </script>
+
+  <div class="lb-overlay" id="lbOverlay">
+    <button class="lb-close" id="lbClose">✕</button>
+    <img id="lbImg" src="" alt="">
+  </div>
 </body>
 </html>
