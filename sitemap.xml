@@ -25,4 +25,10 @@
     <priority>0.6</priority>
   </url>
 
+  <url>
+    <loc>https://getsaturdayyard.com/lawn-log/erie-commons-bush-cleanup.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
 </urlset>
