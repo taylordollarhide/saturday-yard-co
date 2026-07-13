@@ -11,48 +11,34 @@
   </script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lawn Mowing Erie CO & Lafayette CO | Saturday Yard Co.</title>
-  <meta name="description" content="Local lawn mowing in Erie, CO and Lafayette, CO. Weekly and bi-weekly service starting at $45. Saturday routes in Erie Highlands, Colliers Hill, and surrounding neighborhoods." />
+  <title>Lawn Health & Mowing Erie CO & Lafayette CO | Saturday Yard Co.</title>
+  <meta name="description" content="Saturday Yard Co. inspects, diagnoses, and builds healthier Colorado lawns. Lawn Rx assessments, weekly mowing, and seasonal care in Erie and Lafayette, CO." />
   <link rel="canonical" href="https://getsaturdayyard.com" />
   <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
   <link rel="apple-touch-icon" href="app-icon.png" />
 
-  <!-- Open Graph / Social sharing -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Lawn Mowing Erie CO & Lafayette CO | Saturday Yard Co." />
-  <meta property="og:description" content="Local lawn mowing in Erie, CO and Lafayette, CO. Weekly and bi-weekly service starting at $45. Saturday routes in Erie Highlands, Colliers Hill, and surrounding neighborhoods." />
-  <meta property="og:image" content="https://getsaturdayyard.com/SaturdayYardCompany_Logo.png" />
+  <meta property="og:title" content="Lawn Health & Mowing Erie CO | Saturday Yard Co." />
+  <meta property="og:description" content="Saturday Yard Co. inspects, diagnoses, and builds healthier Colorado lawns. Lawn Rx assessments, weekly mowing, and seasonal care in Erie and Lafayette, CO." />
+  <meta property="og:image" content="https://getsaturdayyard.com/lawn-log/photos/erie-after.jpg" />
   <meta property="og:url" content="https://getsaturdayyard.com" />
-
-  <!-- Twitter/X card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Lawn Mowing Erie CO & Lafayette CO | Saturday Yard Co." />
-  <meta name="twitter:description" content="Local lawn mowing in Erie, CO and Lafayette, CO. Weekly and bi-weekly service starting at $45. Saturday routes in Erie Highlands, Colliers Hill, and surrounding neighborhoods." />
-  <meta name="twitter:image" content="https://getsaturdayyard.com/SaturdayYardCompany_Logo.png" />
+  <meta name="twitter:title" content="Lawn Health & Mowing Erie CO | Saturday Yard Co." />
+  <meta name="twitter:description" content="Saturday Yard Co. inspects, diagnoses, and builds healthier Colorado lawns in Erie and Lafayette, CO." />
+  <meta name="twitter:image" content="https://getsaturdayyard.com/lawn-log/photos/erie-after.jpg" />
 
-  <!-- LocalBusiness structured data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "Saturday Yard Co.",
-    "description": "Local lawn mowing service in Erie, CO and Lafayette, CO. Weekly and bi-weekly mowing, trimming, edging, and seasonal cleanup.",
+    "description": "Lawn health service in Erie, CO and Lafayette, CO. Lawn Rx assessments, weekly mowing, seasonal cleanups, and weed control.",
     "url": "https://getsaturdayyard.com",
-    "telephone": "",
     "email": "hello@getsaturdayyard.com",
     "image": "https://getsaturdayyard.com/SaturdayYardCompany_Logo.png",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Erie",
-      "addressRegion": "CO",
-      "postalCode": "80516",
-      "addressCountry": "US"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 40.0503,
-      "longitude": -105.0477
-    },
+    "address": { "@type": "PostalAddress", "addressLocality": "Erie", "addressRegion": "CO", "postalCode": "80516", "addressCountry": "US" },
+    "geo": { "@type": "GeoCoordinates", "latitude": 40.0503, "longitude": -105.0477 },
     "areaServed": [
       { "@type": "City", "name": "Erie", "containedInPlace": { "@type": "State", "name": "Colorado" } },
       { "@type": "City", "name": "Lafayette", "containedInPlace": { "@type": "State", "name": "Colorado" } },
@@ -61,1521 +47,1161 @@
     ],
     "priceRange": "$45–$65+",
     "openingHours": "Sa 07:00-17:00",
-    "sameAs": [
-      "https://www.facebook.com/profile.php?id=61590394363803"
-    ]
+    "sameAs": ["https://www.facebook.com/profile.php?id=61590394363803"]
   }
   </script>
+
   <style>
     :root {
-      --cream: #f6f1e7;
+      --cream: #f5f0e6;
       --paper: #fffaf0;
       --black: #151613;
-      --green: #243c2a;
-      --green-2: #4f6934;
+      --green: #1e3322;
+      --green-mid: #2d4a35;
       --gold: #b9862f;
       --muted: #706b5e;
-      --line: rgba(21,22,19,.14);
+      --muted-2: #9b9488;
+      --line: rgba(21,22,19,.1);
+      --line-strong: rgba(21,22,19,.18);
     }
 
-    * { box-sizing: border-box; }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--cream);
-      color: var(--black);
-      line-height: 1.5;
-    }
-
+    body { font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--cream); color: var(--black); line-height: 1.55; -webkit-font-smoothing: antialiased; }
     a { color: inherit; text-decoration: none; }
+    img { display: block; }
 
-    .page {
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at 80% 10%, rgba(185,134,47,.18), transparent 30%),
-        linear-gradient(180deg, var(--paper), var(--cream));
+    /* ── Typography ── */
+    .serif { font-family: Georgia, "Times New Roman", serif; }
+
+    /* ── Eyebrow ── */
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 12px; font-weight: 900; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--gold);
     }
+    .eyebrow::before { content: ""; width: 32px; height: 2px; background: var(--gold); display: inline-block; flex-shrink: 0; }
 
-    .header-wrap {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(246,241,231,.92);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
-      transition: transform .3s ease;
-    }
-
-    .header-wrap.hidden {
-      transform: translateY(-100%);
-    }
-
-    header {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 22px 22px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 24px;
-    }
-
-    .brand img {
-      width: 220px;
-      height: auto;
-      display: block;
-    }
-
-    nav {
-      display: flex;
-      gap: 22px;
-      align-items: center;
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-
-    nav a { opacity: .72; }
-    nav a:hover { opacity: 1; }
-
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid var(--black);
-      background: var(--black);
-      color: var(--paper);
-      padding: 0 24px;
-      height: 48px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-family: inherit;
-      font-weight: 900;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      box-shadow: 0 10px 0 rgba(21,22,19,.12);
-      white-space: nowrap;
-      cursor: pointer;
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 0 32px; height: 56px; border-radius: 999px;
+      font-size: 13px; font-family: inherit; font-weight: 900; letter-spacing: .08em; text-transform: uppercase;
+      border: 2px solid var(--black); background: var(--black); color: var(--paper);
+      cursor: pointer; white-space: nowrap; transition: transform .15s, box-shadow .15s;
+      box-shadow: 0 8px 0 rgba(21,22,19,.15);
       text-decoration: none;
     }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 0 rgba(21,22,19,.13); }
+    .btn:active { transform: translateY(1px); box-shadow: 0 4px 0 rgba(21,22,19,.15); }
+    .btn-outline { background: transparent; color: var(--black); }
+    .btn-outline:hover { background: rgba(21,22,19,.05); }
+    .btn-green { background: var(--green); border-color: var(--green); box-shadow: 0 8px 0 rgba(21,22,19,.2); }
+    .btn-ghost { background: rgba(255,250,240,.15); border-color: rgba(255,250,240,.4); color: var(--paper); box-shadow: none; }
+    .btn-ghost:hover { background: rgba(255,250,240,.25); }
+    .btn-sm { height: 44px; padding: 0 22px; font-size: 12px; box-shadow: 0 5px 0 rgba(21,22,19,.12); }
+    /* Header nav button states */
+    .header-nav-btn { background: var(--gold); border-color: var(--gold); color: var(--black); transition: background .2s, border-color .2s, color .2s, transform .15s, box-shadow .15s; }
+    .header-wrap.scrolled .header-nav-btn { background: var(--black); border-color: var(--black); color: var(--paper); }
 
-    .button.secondary {
-      background: transparent;
-      color: var(--black);
-      box-shadow: none;
+    /* ── Header ── */
+    .header-wrap {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      transition: background .3s, box-shadow .3s, transform .3s;
     }
+    .header-wrap.scrolled {
+      background: rgba(245,240,230,.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 var(--line-strong);
+    }
+    .header-wrap.hidden { transform: translateY(-100%); }
+    header {
+      max-width: 1200px; margin: 0 auto;
+      padding: 20px 28px;
+      display: flex; justify-content: space-between; align-items: center; gap: 24px;
+    }
+    .brand img { width: 200px; height: auto; }
+    .logo-light { display: block; }
+    .logo-dark  { display: none; }
+    .header-wrap.scrolled .logo-light { display: none; }
+    .header-wrap.scrolled .logo-dark  { display: block; }
+    nav { display: flex; align-items: center; gap: 28px; }
+    nav a { font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; opacity: .8; color: var(--paper); transition: opacity .15s, color .2s; }
+    nav a:hover { opacity: 1; }
+    nav a.active { opacity: 1; }
+    .header-wrap.scrolled nav a { color: var(--black); opacity: .65; }
+    .header-wrap.scrolled nav a:hover { opacity: 1; }
+    .header-wrap.scrolled nav a.active { opacity: 1; color: var(--green); }
+    .menu-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+    .menu-toggle span { display: block; width: 24px; height: 2px; background: var(--black); border-radius: 2px; transition: .2s; }
+    .mobile-nav { display: none; position: fixed; inset: 0; background: var(--paper); z-index: 110; flex-direction: column; align-items: center; justify-content: center; gap: 32px; }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav-close { position: absolute; top: 24px; right: 24px; background: none; border: none; font-size: 24px; cursor: pointer; }
+    .mobile-nav-link { font-size: 24px; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; }
 
+    /* ── Hero ── */
     .hero {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 72px 22px 76px;
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 50px;
-      align-items: center;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      gap: 10px;
-      align-items: center;
-      font-size: 13px;
-      font-weight: 900;
-      letter-spacing: .16em;
-      color: var(--green);
-      text-transform: uppercase;
-      margin-bottom: 18px;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 44px;
-      height: 3px;
-      background: var(--gold);
-      display: inline-block;
-    }
-
-    h1 {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(48px, 7vw, 92px);
-      line-height: .92;
-      letter-spacing: -.055em;
-      margin: 0 0 24px;
-    }
-
-    .lead {
-      max-width: 650px;
-      font-size: clamp(18px, 2vw, 23px);
-      color: #34342e;
-      margin: 0 0 34px;
-    }
-
-    .actions {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .hero-card {
-      background: var(--black);
-      color: var(--paper);
-      border-radius: 30px;
-      padding: 30px;
-      min-height: 460px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-shadow: 0 30px 80px rgba(21,22,19,.2);
-      position: relative;
+      position: relative; min-height: 100svh;
+      display: flex; align-items: center;
       overflow: hidden;
     }
-
-    .hero-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(145deg, rgba(185,134,47,.2), transparent 45%),
-        repeating-linear-gradient(90deg, transparent, transparent 24px, rgba(255,250,240,.04) 24px, rgba(255,250,240,.04) 25px);
-      pointer-events: none;
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: var(--green);
     }
-
-    .hero-card > * { position: relative; }
-
-    .price {
+    .hero-photo {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: .45;
+    }
+    .hero-gradient {
+      position: absolute; inset: 0;
+      background: linear-gradient(105deg, rgba(21,30,20,.82) 0%, rgba(21,30,20,.45) 60%, rgba(21,30,20,.2) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 1200px; margin: 0 auto; padding: 140px 28px 80px;
+      width: 100%;
+    }
+    .hero-content .eyebrow { color: var(--gold); margin-bottom: 28px; }
+    .hero-content .eyebrow::before { background: var(--gold); }
+    .hero-h1 {
       font-family: Georgia, "Times New Roman", serif;
-      font-size: 74px;
-      line-height: 1;
-      letter-spacing: -.06em;
-      margin: 0;
+      font-size: clamp(52px, 7.5vw, 96px);
+      line-height: .95; letter-spacing: -.04em;
+      color: var(--paper);
+      max-width: 820px;
+      margin-bottom: 28px;
     }
-
-    .price span {
-      font-size: 18px;
-      font-family: inherit;
-      letter-spacing: 0;
-      color: rgba(255,250,240,.7);
+    .hero-sub {
+      font-size: clamp(16px, 2vw, 20px);
+      color: rgba(255,250,240,.78);
+      max-width: 520px;
+      line-height: 1.65;
+      margin-bottom: 44px;
     }
-
-    .card-label {
-      color: var(--gold);
-      font-weight: 900;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      font-size: 13px;
-      margin-bottom: 10px;
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .hero-scroll {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: rgba(255,250,240,.5); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
     }
+    .hero-scroll svg { animation: bounce 2s infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
 
-    .card-copy {
-      font-size: 22px;
-      max-width: 360px;
-      margin: 0;
-      color: rgba(255,250,240,.84);
+    /* ── Section wrapper ── */
+    .section { max-width: 1200px; margin: 0 auto; padding: 96px 28px; }
+    .section-sm { max-width: 1200px; margin: 0 auto; padding: 64px 28px; }
+    .section-label {
+      font-size: 12px; font-weight: 900; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
     }
-
-    .checklist {
-      display: grid;
-      gap: 12px;
-      padding: 0;
-      margin: 24px 0 0;
-      list-style: none;
-      color: rgba(255,250,240,.86);
-      font-weight: 700;
-    }
-
-    .checklist li::before {
-      content: "✓";
-      color: var(--gold);
-      margin-right: 10px;
-    }
-
-    section {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 72px 22px;
-      border-top: 1px solid var(--line);
-    }
-
-    .section-head {
-      display: grid;
-      grid-template-columns: .8fr 1.2fr;
-      gap: 40px;
-      align-items: end;
-      margin-bottom: 34px;
-    }
-
-    h2 {
+    .section-h2 {
       font-family: Georgia, "Times New Roman", serif;
       font-size: clamp(36px, 5vw, 64px);
-      line-height: .95;
-      letter-spacing: -.045em;
-      margin: 0;
-    }
-
-    .section-head p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 19px;
-      max-width: 620px;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .grid-4 {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
-
-    .grid-5 {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 16px;
-    }
-
-    .tile {
-      background: rgba(255,250,240,.72);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 26px;
-      min-height: 240px;
-    }
-
-    .tile h3 {
-      margin: 0 0 12px;
-      font-size: 22px;
-      letter-spacing: -.02em;
-    }
-
-    .tile p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 16px;
-    }
-
-    .tile strong {
-      display: block;
-      font-size: 42px;
-      letter-spacing: -.06em;
-      margin-bottom: 8px;
-      font-family: Georgia, "Times New Roman", serif;
-    }
-
-    .price-unit {
-      font-size: 20px;
-      font-weight: 400;
-      letter-spacing: -.02em;
-      color: var(--muted);
-      font-family: Georgia, "Times New Roman", serif;
-    }
-
-    .tile.quote strong {
-      font-size: 28px;
-      color: var(--green);
-    }
-
-    .route {
-      background: var(--green);
-      color: var(--paper);
-      border-radius: 32px;
-      padding: 44px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 34px;
-      align-items: center;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .route::after {
-      content: "";
-      position: absolute;
-      right: -90px;
-      bottom: -90px;
-      width: 280px;
-      height: 280px;
-      border-radius: 50%;
-      background: rgba(185,134,47,.24);
-    }
-
-    .route h2 { max-width: 520px; }
-    .route p { color: rgba(255,250,240,.78); font-size: 19px; margin: 18px 0 0; }
-
-    .areas {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .pill {
-      border: 1px solid rgba(255,250,240,.32);
-      border-radius: 999px;
-      padding: 12px 16px;
-      font-weight: 800;
-      color: rgba(255,250,240,.88);
-      background: rgba(255,250,240,.06);
-    }
-
-    /* About section */
-    .about {
-      display: grid;
-      grid-template-columns: 380px 1fr;
-      gap: 60px;
-      align-items: center;
-    }
-
-    .about-photo {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-      border-radius: 28px;
-      display: block;
-      box-shadow: 0 24px 60px rgba(21,22,19,.16);
-    }
-
-    .about-text .eyebrow {
-      margin-bottom: 16px;
-    }
-
-    .about-text h2 {
+      line-height: 1; letter-spacing: -.04em;
       margin-bottom: 20px;
     }
-
-    .about-text p {
-      color: var(--muted);
-      font-size: 18px;
-      margin: 0 0 16px;
+    .section-lead {
+      font-size: 18px; color: var(--muted); line-height: 1.65;
       max-width: 560px;
     }
 
-    .about-text p:last-child {
-      margin-bottom: 0;
+    /* ── Problem section ── */
+    .problem-wrap { background: var(--paper); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .problem-inner {
+      max-width: 1200px; margin: 0 auto; padding: 96px 28px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;
     }
-
-    @media (max-width: 860px) {
-      .about {
-        grid-template-columns: 1fr;
-      }
-
-      .about-photo {
-        max-width: 280px;
-        margin: 0 auto;
-      }
+    .problem-headline {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(32px, 4.5vw, 56px);
+      line-height: 1.05; letter-spacing: -.04em;
     }
-
-    .cta {
-      text-align: center;
-      padding-top: 72px;
-      padding-bottom: 90px;
+    .problem-headline em { color: var(--green); font-style: normal; }
+    .problem-sub { font-size: 17px; color: var(--muted); line-height: 1.7; margin-top: 20px; }
+    .problem-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .problem-card {
+      background: var(--cream); border: 1px solid var(--line);
+      border-radius: 18px; padding: 20px 22px;
     }
+    .problem-card-icon { margin-bottom: 8px; }
+    .problem-card-icon .material-icons { font-size: 22px; color: var(--green); }
+    .problem-card h4 { font-size: 14px; font-weight: 800; letter-spacing: -.01em; margin-bottom: 4px; }
+    .problem-card p { font-size: 13px; color: var(--muted); line-height: 1.5; }
 
-    .cta p {
-      color: var(--muted);
-      font-size: 20px;
-      margin: 18px auto 30px;
-      max-width: 640px;
+    /* ── Lawn Rx timeline ── */
+    .rx-wrap { background: var(--green); color: var(--paper); }
+    .rx-inner { max-width: 1200px; margin: 0 auto; padding: 96px 28px; }
+    .rx-inner .eyebrow { color: var(--gold); }
+    .rx-inner .eyebrow::before { background: var(--gold); }
+    .rx-h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(36px, 5vw, 64px);
+      line-height: 1; letter-spacing: -.04em;
+      margin: 20px 0 14px; color: var(--paper);
     }
-
-    footer {
-      border-top: 1px solid var(--line);
-      padding: 26px 22px;
-      color: var(--muted);
-      text-align: center;
-      font-size: 14px;
+    .rx-sub { font-size: 18px; color: rgba(255,250,240,.7); max-width: 520px; line-height: 1.6; margin-bottom: 64px; }
+    .rx-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; position: relative; }
+    .rx-step {
+      background: rgba(255,250,240,.07);
+      border: 1px solid rgba(255,250,240,.12);
+      border-radius: 20px; padding: 28px 24px;
+      position: relative;
     }
-
-
-    .ll-posts {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 22px;
-      margin-bottom: 20px;
+    .rx-step:hover { background: rgba(255,250,240,.11); }
+    .rx-step-num {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 42px; font-weight: 400; letter-spacing: -.04em;
+      color: var(--gold); line-height: 1; margin-bottom: 16px;
     }
+    .rx-step h3 { font-size: 18px; font-weight: 900; letter-spacing: -.01em; margin-bottom: 12px; color: var(--paper); }
+    .rx-step ul { list-style: none; padding: 0; }
+    .rx-step ul li { font-size: 13px; color: rgba(255,250,240,.65); line-height: 1.5; padding: 4px 0; border-top: 1px solid rgba(255,250,240,.08); }
+    .rx-step ul li:first-child { border-top: none; }
+    .rx-cta { margin-top: 48px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .rx-note { font-size: 14px; color: rgba(255,250,240,.55); }
 
+    /* ── Before/After gallery ── */
+    .gallery-wrap { background: var(--cream); }
+    .gallery-inner { max-width: 1200px; margin: 0 auto; padding: 96px 28px; }
+    .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 52px; }
+    .gallery-card {
+      border-radius: 24px; overflow: hidden; position: relative;
+      background: var(--black); cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .gallery-card:hover { transform: translateY(-3px); box-shadow: 0 24px 60px rgba(21,22,19,.2); }
+    .gallery-card.wide { grid-column: span 2; }
+    .gallery-split { display: grid; grid-template-columns: 1fr 1fr; height: 100%; }
+    .gallery-split img { width: 100%; height: 340px; object-fit: cover; display: block; }
+    .gallery-card.wide .gallery-split img { height: 420px; }
+    .gallery-split-label {
+      position: absolute; top: 14px;
+      background: rgba(21,22,19,.75); backdrop-filter: blur(6px);
+      color: var(--paper); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+      padding: 5px 10px; border-radius: 6px;
+    }
+    .gallery-split-label.before { left: 14px; }
+    .gallery-split-label.after { left: calc(50% + 14px); }
+    .gallery-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 32px 24px 24px;
+      background: linear-gradient(to top, rgba(21,22,19,.85) 0%, transparent 100%);
+      color: var(--paper);
+    }
+    .gallery-tag {
+      font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--paper); margin-bottom: 6px;
+    }
+    .gallery-title { font-family: Georgia, "Times New Roman", serif; font-size: 18px; letter-spacing: -.02em; }
+    .gallery-card.wide .gallery-title { font-size: 22px; }
+
+    /* ── Services ── */
+    .services-wrap { background: var(--paper); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .services-inner { max-width: 1200px; margin: 0 auto; padding: 96px 28px; }
+    .services-head { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; margin-bottom: 56px; }
+    .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .service-card {
+      background: var(--cream); border: 1px solid var(--line);
+      border-radius: 24px; padding: 28px 26px;
+      display: flex; flex-direction: column; gap: 12px;
+      transition: box-shadow .2s, transform .2s;
+      min-height: 220px;
+    }
+    .service-card:hover { box-shadow: 0 12px 40px rgba(21,22,19,.1); transform: translateY(-2px); }
+    .service-card.featured { background: var(--green); color: var(--paper); border-color: transparent; }
+    .service-icon .material-icons { font-size: 24px; color: var(--green); }
+    .service-card.featured .service-icon .material-icons { color: var(--gold); }
+    .service-card h3 { font-size: 17px; font-weight: 800; letter-spacing: -.02em; line-height: 1.2; }
+    .service-card p { font-size: 14px; color: var(--muted); line-height: 1.55; flex: 1; }
+    .service-card.featured p { color: rgba(255,250,240,.65); }
+    .service-price {
+      font-size: 13px; font-weight: 800; letter-spacing: .04em;
+      color: var(--green); text-transform: uppercase;
+    }
+    .service-card.featured .service-price { color: var(--gold); }
+
+    /* ── Lawn Log ── */
+    .lawn-log-wrap { background: var(--cream); }
+    .lawn-log-inner { max-width: 1200px; margin: 0 auto; padding: 96px 28px; }
+    .lawn-log-head { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; margin-bottom: 52px; }
+    .ll-posts { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
     .ll-post-card {
-      display: flex;
-      flex-direction: column;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      overflow: hidden;
-      text-decoration: none;
-      color: var(--black);
+      display: flex; flex-direction: column;
+      background: var(--paper); border: 1px solid var(--line);
+      border-radius: 24px; overflow: hidden;
+      text-decoration: none; color: var(--black);
       transition: box-shadow .2s, transform .2s;
     }
-
-    .ll-post-card:hover {
-      box-shadow: 0 16px 48px rgba(21,22,19,.12);
-      transform: translateY(-2px);
-    }
-
-    .ll-post-card img {
-      width: 100%;
-      aspect-ratio: 16/9;
-      object-fit: cover;
-      display: block;
-    }
-
-    .ll-post-body {
-      padding: 20px 22px 22px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      flex: 1;
-    }
-
+    .ll-post-card:hover { box-shadow: 0 16px 48px rgba(21,22,19,.12); transform: translateY(-2px); }
+    .ll-post-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+    .ll-post-body { padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
     .ll-post-tag {
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      background: var(--green);
-      color: var(--paper);
-      padding: 3px 9px;
-      border-radius: 100px;
-      align-self: flex-start;
+      font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+      background: var(--green); color: var(--paper);
+      padding: 3px 9px; border-radius: 100px; align-self: flex-start;
     }
-
-    .ll-post-card h3 {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 18px;
-      line-height: 1.25;
-      letter-spacing: -.025em;
-      margin: 0;
-      flex: 1;
-    }
-
-    .ll-post-link {
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-      color: var(--green);
-    }
-
-    .ll-see-all {
-      display: block;
-      text-align: center;
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--green);
-      margin-bottom: 40px;
-      opacity: .8;
-    }
-
+    .ll-post-card h3 { font-family: Georgia, "Times New Roman", serif; font-size: 18px; line-height: 1.25; letter-spacing: -.025em; flex: 1; }
+    .ll-post-link { font-size: 13px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--green); }
+    .ll-see-all { display: block; text-align: center; font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--green); margin-top: 4px; opacity: .75; }
     .ll-see-all:hover { opacity: 1; }
-
-    .lawn-log {
-      display: grid;
-      grid-template-columns: .95fr 1.05fr;
-      gap: 22px;
-      align-items: stretch;
+    .ll-bottom { display: grid; grid-template-columns: .95fr 1.05fr; gap: 20px; margin-top: 40px; align-items: stretch; }
+    .ll-tips {
+      background: var(--black); color: var(--paper);
+      border-radius: 28px; padding: 32px;
     }
-
-    .schedule-card {
-      background: var(--black);
-      color: var(--paper);
-      border-radius: 28px;
-      padding: 30px;
-      box-shadow: 0 24px 60px rgba(21,22,19,.18);
+    .ll-tips h3 { font-size: 22px; font-weight: 900; letter-spacing: -.02em; margin: 12px 0 20px; }
+    .ll-tips-card-label { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+    .tip-list { list-style: none; display: grid; gap: 0; }
+    .tip-list li { display: grid; grid-template-columns: 100px 1fr; gap: 12px; border-top: 1px solid rgba(255,250,240,.1); padding: 12px 0; font-size: 14px; color: rgba(255,250,240,.72); }
+    .tip-list li:first-child { border-top: none; }
+    .tip-list strong { color: var(--gold); text-transform: uppercase; letter-spacing: .08em; font-size: 12px; }
+    .ll-ask { background: rgba(255,250,240,.78); border: 1px solid var(--line); border-radius: 28px; padding: 32px; }
+    .ll-ask h3 { font-size: 22px; font-weight: 900; letter-spacing: -.02em; margin-bottom: 10px; }
+    .ll-ask p { font-size: 15px; color: var(--muted); line-height: 1.6; margin-bottom: 18px; }
+    .comment-box { display: grid; gap: 12px; }
+    .comment-box input, .comment-box textarea {
+      width: 100%; border: 1px solid var(--line); background: #fffdf7;
+      border-radius: 14px; padding: 13px 16px; font: inherit; color: var(--black); font-size: 15px;
     }
+    .comment-box textarea { min-height: 110px; resize: vertical; }
+    .ll-qa { border-top: 1px solid var(--line); padding-top: 18px; margin-top: 18px; }
+    .ll-qa-from { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--green); margin-bottom: 6px; }
+    .ll-qa p { font-size: 14px; line-height: 1.6; }
 
-    .schedule-card h3,
-    .community-card h3 {
-      font-size: 26px;
-      margin: 0 0 16px;
-      letter-spacing: -.03em;
-    }
-
-    .schedule-list {
-      list-style: none;
-      padding: 0;
-      margin: 20px 0 0;
-      display: grid;
-      gap: 12px;
-    }
-
-    .schedule-list li {
-      display: grid;
-      grid-template-columns: 92px 1fr;
-      gap: 14px;
-      border-top: 1px solid rgba(255,250,240,.16);
-      padding-top: 12px;
-      color: rgba(255,250,240,.82);
-    }
-
-    .schedule-list strong {
-      color: var(--gold);
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      font-size: 13px;
-    }
-
-    .community-card {
-      background: rgba(255,250,240,.78);
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      padding: 30px;
-    }
-
-    .comment-box {
-      margin-top: 18px;
-      display: grid;
-      gap: 12px;
-    }
-
-    .comment-box input,
-    .comment-box textarea {
-      width: 100%;
-      border: 1px solid var(--line);
-      background: #fffdf7;
-      border-radius: 16px;
-      padding: 14px 16px;
-      font: inherit;
-      color: var(--black);
-    }
-
-    .comment-box textarea {
-      min-height: 118px;
-      resize: vertical;
-    }
-
-    .comment-note {
-      margin: 12px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .post {
-      border-top: 1px solid var(--line);
-      padding-top: 16px;
-      margin-top: 18px;
-    }
-
-    .post-meta {
-      color: var(--green);
-      font-weight: 900;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      font-size: 12px;
-      margin-bottom: 6px;
-    }
-
-
-    .lawn-log-cta {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-      align-items: center;
-      background: var(--black);
-      color: var(--paper);
-      border-radius: 28px;
-      padding: 36px 40px;
-      margin-top: 22px;
-      text-decoration: none;
-      transition: box-shadow .2s;
-    }
-
-    .lawn-log-cta:hover {
-      box-shadow: 0 20px 60px rgba(21,22,19,.22);
-    }
-
-    .lawn-log-cta .card-label {
-      color: var(--gold);
-      margin-bottom: 10px;
-    }
-
-    .lawn-log-cta h3 {
+    /* ── Why us ── */
+    .why-wrap { background: var(--green); color: var(--paper); }
+    .why-inner { max-width: 1200px; margin: 0 auto; padding: 96px 28px; }
+    .why-inner .eyebrow { color: var(--gold); margin-bottom: 16px; }
+    .why-inner .eyebrow::before { background: var(--gold); }
+    .why-h2 {
       font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(22px, 3vw, 32px);
-      letter-spacing: -.03em;
-      margin: 0 0 10px;
-      color: var(--paper);
+      font-size: clamp(34px, 4.5vw, 58px);
+      line-height: 1.02; letter-spacing: -.04em;
+      color: var(--paper); margin-bottom: 56px; max-width: 680px;
     }
-
-    .lawn-log-cta p {
-      font-size: 15px;
-      color: rgba(255,250,240,.7);
-      margin: 0 0 18px;
-      line-height: 1.6;
+    .why-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .why-col {
+      background: rgba(255,250,240,.07); border: 1px solid rgba(255,250,240,.1);
+      border-radius: 20px; padding: 32px 28px;
     }
+    .why-col-num { font-family: Georgia, serif; font-size: 52px; color: var(--gold); line-height: 1; margin-bottom: 16px; opacity: .6; }
+    .why-col h3 { font-size: 20px; font-weight: 900; letter-spacing: -.02em; margin-bottom: 12px; color: var(--paper); }
+    .why-col p { font-size: 15px; color: rgba(255,250,240,.65); line-height: 1.65; }
 
-    .lawn-log-cta-link {
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      color: var(--gold);
+    /* ── Founder ── */
+    .founder-wrap { background: var(--paper); border-top: 1px solid var(--line); }
+    .founder-inner {
+      max-width: 1200px; margin: 0 auto; padding: 96px 28px;
+      display: grid; grid-template-columns: 380px 1fr; gap: 80px; align-items: center;
     }
-
-    .lawn-log-cta-visual {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .cta-photo-stack {
-      position: relative;
-      width: 200px;
-      height: 160px;
-    }
-
-    .cta-photo {
-      position: absolute;
-      width: 140px;
-      height: 110px;
-      border-radius: 14px;
-      background: rgba(255,250,240,.1);
-      border: 1px solid rgba(255,250,240,.15);
-    }
-
-    .cta-photo:nth-child(1) { top: 0; left: 0; transform: rotate(-6deg); background: rgba(185,134,47,.25); }
-    .cta-photo:nth-child(2) { top: 16px; left: 30px; transform: rotate(1deg); background: rgba(255,250,240,.08); }
-    .cta-photo:nth-child(3) { top: 32px; left: 58px; transform: rotate(5deg); background: rgba(74,122,84,.35); }
-
-    /* Mobile menu button */
-    .menu-toggle {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      gap: 5px;
-      width: 44px;
-      height: 44px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 6px;
-      border-radius: 10px;
-    }
-
-    .menu-toggle span {
-      display: block;
-      width: 24px;
-      height: 2px;
-      background: var(--black);
-      border-radius: 2px;
-      transition: transform .25s ease, opacity .25s ease;
-      transform-origin: center;
-    }
-
-    .menu-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .menu-toggle.open span:nth-child(2) { opacity: 0; }
-    .menu-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-    /* Mobile nav drawer */
-    .mobile-nav {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--cream);
-      z-index: 200;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 40px 24px;
-    }
-
-    .mobile-nav.open {
-      display: flex;
-    }
-
-    .mobile-nav a {
-      font-size: 28px;
-      font-weight: 900;
-      letter-spacing: -.02em;
-      opacity: .8;
-      padding: 10px 0;
-    }
-
-    .mobile-nav a:hover { opacity: 1; }
-
-    .mobile-nav .button {
-      margin-top: 16px;
-      font-size: 16px;
-      padding: 16px 32px;
-    }
-
-    .mobile-nav-close {
-      position: absolute;
-      top: 22px;
-      right: 22px;
-      background: none;
-      border: none;
-      font-size: 28px;
-      cursor: pointer;
-      color: var(--black);
-      line-height: 1;
-      padding: 6px;
-    }
-
-    /* ── Intake Modal ── */
-    .modal-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(21,22,19,.6);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      z-index: 300;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 24px 16px 40px;
-      overflow-y: auto;
-    }
-
-    .modal-backdrop.open { display: flex; }
-
-    .modal {
-      background: var(--paper);
+    .founder-photo {
+      width: 100%; aspect-ratio: 3/4; object-fit: cover;
       border-radius: 28px;
-      width: 100%;
-      max-width: 560px;
-      margin: auto;
-      box-shadow: 0 40px 100px rgba(21,22,19,.28);
-      overflow: hidden;
-      position: relative;
     }
+    .founder-text .eyebrow { margin-bottom: 20px; }
+    .founder-h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(36px, 4.5vw, 56px);
+      line-height: 1; letter-spacing: -.04em; margin-bottom: 24px;
+    }
+    .founder-text p { font-size: 17px; color: var(--muted); line-height: 1.7; margin-bottom: 18px; }
+    .founder-text p:last-of-type { margin-bottom: 32px; }
 
+    /* ── CTA strip ── */
+    .cta-wrap { background: var(--cream); border-top: 1px solid var(--line); }
+    .cta-inner { max-width: 1200px; margin: 0 auto; padding: 96px 28px; text-align: center; }
+    .cta-inner .eyebrow { justify-content: center; margin-bottom: 20px; }
+    .cta-h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(38px, 5.5vw, 72px);
+      line-height: .97; letter-spacing: -.04em; margin-bottom: 16px;
+    }
+    .cta-sub { font-size: 18px; color: var(--muted); max-width: 500px; margin: 0 auto 40px; line-height: 1.6; }
+    .cta-actions { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .cta-logo { width: 180px; margin: 0 auto 40px; }
+
+    /* ── Footer ── */
+    footer { background: var(--black); color: rgba(255,250,240,.55); padding: 48px 28px; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; }
+    .footer-brand img { width: 160px; opacity: .8; margin-bottom: 12px; }
+    .footer-copy { font-size: 13px; line-height: 1.6; }
+    .footer-links { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+    .footer-social {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 700; color: rgba(255,250,240,.55);
+      transition: color .15s;
+    }
+    .footer-social:hover { color: var(--paper); }
+    .footer-areas { font-size: 12px; text-align: right; line-height: 1.7; }
+
+    /* ── Pricing pills ── */
+    .price-section { background: var(--cream); }
+    .price-inner { max-width: 1200px; margin: 0 auto; padding: 96px 28px; }
+    .price-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 14px; }
+    .price-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .price-card {
+      background: var(--paper); border: 1px solid var(--line);
+      border-radius: 22px; padding: 26px 24px;
+      min-height: 180px; display: flex; flex-direction: column; gap: 8px;
+    }
+    .price-amount {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 44px; letter-spacing: -.06em; line-height: 1;
+    }
+    .price-unit { font-size: 18px; color: var(--muted); letter-spacing: -.01em; font-weight: 400; }
+    .price-card h3 { font-size: 16px; font-weight: 800; letter-spacing: -.01em; margin-top: 4px; }
+    .price-card p { font-size: 13px; color: var(--muted); line-height: 1.5; flex: 1; }
+    .price-card.quote .price-amount { font-size: 28px; color: var(--green); }
+
+    /* ── Modal ── */
+    .modal-backdrop {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(21,22,19,.7); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      background: var(--paper); border-radius: 28px;
+      width: 100%; max-width: 560px; max-height: 90vh;
+      overflow-y: auto; box-shadow: 0 40px 100px rgba(21,22,19,.35);
+    }
     .modal-header {
-      background: var(--green);
-      color: var(--paper);
-      padding: 28px 28px 24px;
-      position: relative;
+      padding: 28px 28px 0;
+      display: flex; justify-content: space-between; align-items: flex-start;
     }
-
-    .modal-header .card-label { color: var(--gold); margin-bottom: 6px; }
-
-    .modal-header h3 {
-      font-family: Georgia, serif;
-      font-size: 30px;
-      letter-spacing: -.04em;
-      line-height: 1.05;
-      margin: 0;
-      color: var(--paper);
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: rgba(255,250,240,.15);
-      border: none;
-      color: var(--paper);
-      font-size: 20px;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 1;
-    }
-
-    .modal-body { padding: 28px; }
-
-    .intake-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .intake-grid .full { grid-column: 1 / -1; }
-
-    .field-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .field-group label {
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .field-group input,
-    .field-group select,
-    .field-group textarea {
-      border: 1.5px solid var(--line);
-      background: #fffdf7;
-      border-radius: 12px;
-      padding: 12px 14px;
-      font: inherit;
-      font-size: 15px;
-      color: var(--black);
-      width: 100%;
+    .modal-header-text .card-label { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .modal-header-text h3 { font-size: 24px; font-weight: 900; letter-spacing: -.03em; }
+    .modal-close { background: rgba(21,22,19,.08); border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 4px; }
+    .modal-body { padding: 24px 28px 28px; }
+    .intake-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    .field-group { display: flex; flex-direction: column; gap: 6px; }
+    .field-group.full { grid-column: span 2; }
+    .field-group label { font-size: 13px; font-weight: 700; color: var(--black); }
+    .field-group input, .field-group textarea, .field-group select {
+      border: 1.5px solid var(--line-strong); background: #fffdf7;
+      border-radius: 12px; padding: 12px 14px; font: inherit; font-size: 15px; color: var(--black);
       transition: border-color .15s;
     }
-
-    .field-group input:focus,
-    .field-group select:focus,
-    .field-group textarea:focus {
-      outline: none;
-      border-color: var(--green);
-    }
-
+    .field-group input:focus, .field-group textarea:focus { outline: none; border-color: var(--green); }
     .field-group textarea { min-height: 90px; resize: vertical; }
-
-    .radio-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
+    .modal-divider { height: 1px; background: var(--line); margin: 16px 0; }
+    .radio-group { display: grid; gap: 8px; }
     .radio-option {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: #fffdf7;
-      border: 1.5px solid var(--line);
-      border-radius: 12px;
-      padding: 12px 14px;
-      cursor: pointer;
-      font-size: 15px;
-      font-weight: 600;
-      transition: border-color .15s, background .15s;
+      display: flex; align-items: center; justify-content: space-between;
+      border: 1.5px solid var(--line-strong); border-radius: 12px;
+      padding: 12px 14px; cursor: pointer; gap: 10px;
+      font-size: 14px; font-weight: 600; transition: border-color .15s, background .15s;
     }
-
-    .radio-option input[type="radio"] { accent-color: var(--green); width: 16px; height: 16px; }
-
-    .radio-option:has(input:checked) {
-      border-color: var(--green);
-      background: rgba(36,60,42,.06);
-    }
-
-    .radio-option .radio-price {
-      margin-left: auto;
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--muted);
-    }
-
-    .modal-divider {
-      height: 1px;
-      background: var(--line);
-      margin: 20px 0;
-    }
-
+    .radio-option:hover { border-color: var(--green); background: rgba(30,51,34,.04); }
+    .radio-option input { width: 16px; height: 16px; margin: 0; flex-shrink: 0; accent-color: var(--green); }
+    .radio-price { font-size: 13px; font-weight: 700; color: var(--muted); margin-left: auto; }
     .file-input-wrapper {
-      border: 1.5px dashed var(--line);
-      border-radius: 12px;
-      padding: 16px;
-      text-align: center;
-      background: #fffdf7;
-      cursor: pointer;
-      font-size: 14px;
-      color: var(--muted);
-      font-weight: 600;
+      border: 1.5px dashed var(--line-strong); border-radius: 12px;
+      padding: 14px 16px; display: flex; align-items: center; gap: 8px;
+      cursor: pointer; font-size: 14px; color: var(--muted);
     }
+    .file-input-wrapper input[type="file"] { display: none; }
+    .modal-actions { margin-top: 20px; }
+    .modal-actions .btn { width: 100%; }
+    .intake-success { display: none; padding: 48px 28px; text-align: center; }
+    .intake-success .check { font-size: 48px; color: var(--green); margin-bottom: 12px; }
+    .intake-success h3 { font-size: 26px; font-weight: 900; margin-bottom: 8px; }
+    .intake-success p { color: var(--muted); }
+    .card-label { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
 
-    .file-input-wrapper input[type="file"] {
-      display: none;
+    /* ── Animations ── */
+    .fade-up { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Mobile ── */
+    @media (max-width: 900px) {
+      .menu-toggle { display: flex; }
+      nav { display: none; }
+      .brand img { width: 170px; }
+      .problem-inner { grid-template-columns: 1fr; gap: 44px; }
+      .rx-steps { grid-template-columns: 1fr 1fr; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .gallery-card.wide { grid-column: span 1; }
+      .gallery-card.wide .gallery-split img { height: 280px; }
+      .gallery-split img { height: 240px; }
+      .services-head { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .lawn-log-head { grid-template-columns: 1fr; }
+      .ll-posts, .ll-bottom { grid-template-columns: 1fr; }
+      .why-cols { grid-template-columns: 1fr; }
+      .founder-inner { grid-template-columns: 1fr; }
+      .founder-photo { aspect-ratio: 4/3; max-width: 360px; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-links { align-items: flex-start; }
+      .footer-areas { text-align: left; }
+      .price-row { grid-template-columns: 1fr; }
+      .price-row-2 { grid-template-columns: 1fr; }
+      .hero-h1 { font-size: clamp(42px, 12vw, 72px); }
+      .intake-grid { grid-template-columns: 1fr; }
+      .field-group.full { grid-column: span 1; }
     }
-
-    .modal-actions {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      margin-top: 24px;
-    }
-
-    .modal-actions .button { flex: 1; padding: 16px; font-size: 15px; }
-
-    .intake-success {
-      display: none;
-      padding: 40px 28px;
-      text-align: center;
-    }
-
-    .intake-success .check {
-      width: 64px;
-      height: 64px;
-      background: var(--green);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 20px;
-      font-size: 28px;
-      color: var(--paper);
-    }
-
-    .intake-success h3 {
-      font-family: Georgia, serif;
-      font-size: 26px;
-      letter-spacing: -.03em;
-      margin: 0 0 10px;
-    }
-
-    .intake-success p { color: var(--muted); font-size: 16px; margin: 0; }
-
-    @media (max-width: 860px) {
-      header {
-        align-items: center;
-      }
-
-      .menu-toggle {
-        display: flex;
-      }
-
-      nav {
-        display: none;
-      }
-
-      .brand img {
-        width: 190px;
-      }
-
-      .hero {
-        grid-template-columns: 1fr;
-        padding-top: 46px;
-      }
-
-      .section-head,
-      .route,
-      .lawn-log,
-      .ll-posts,
-      .grid-2,
-      .grid-3,
-      .grid-4,
-      .grid-5,
-      .lawn-log-cta {
-        grid-template-columns: 1fr;
-      }
-
-      .lawn-log-cta-visual { display: none; }
-
-      .hero-card {
-        min-height: 380px;
-      }
-
-      .route {
-        padding: 30px;
-      }
+    @media (max-width: 600px) {
+      .section, .section-sm { padding: 64px 20px; }
+      .rx-steps { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .hero-actions { flex-direction: column; align-items: flex-start; }
+      .problem-cards { grid-template-columns: 1fr; }
     }
   </style>
 </head>
-
 <body>
-  <div class="page">
-    <div class="header-wrap" id="headerWrap">
+
+  <!-- ── Header ── -->
+  <div class="header-wrap" id="headerWrap">
     <header>
-      <a class="brand" href="#" aria-label="Saturday Yard Co. home">
-        <img src="logo.png" alt="Saturday Yard Co. logo">
+      <a class="brand" href="/" aria-label="Saturday Yard Co. home">
+        <img src="logo-light.png" alt="Saturday Yard Co." class="logo-light">
+        <img src="logo.png"       alt="Saturday Yard Co." class="logo-dark">
       </a>
       <nav>
         <a href="#services">Services</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#route">Route</a>
-        <a href="/lawn-log.html">Lawn Log</a>
+        <a href="#lawn-rx">Lawn Rx</a>
+        <a href="#lawn-log">Lawn Log</a>
         <a href="#about">About</a>
-        <button class="button" onclick="openIntake()">Get Started</button>
+        <button class="btn btn-sm header-nav-btn" onclick="openIntake()">Get Started</button>
       </nav>
       <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </header>
+  </div>
 
+  <!-- ── Mobile nav ── -->
+  <div class="mobile-nav" id="mobileNav" role="dialog" aria-label="Mobile navigation">
+    <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">✕</button>
+    <a href="#services" class="mobile-nav-link">Services</a>
+    <a href="#lawn-rx" class="mobile-nav-link">Lawn Rx</a>
+    <a href="#lawn-log" class="mobile-nav-link">Lawn Log</a>
+    <a href="#about" class="mobile-nav-link">About</a>
+    <button class="btn" onclick="closeMenu(); openIntake();">Get Started</button>
+  </div>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <img class="hero-photo" src="lawn-log/photos/erie-after-evening.jpg" alt="Lush green Erie Colorado lawn at dusk">
+    <div class="hero-gradient"></div>
+    <div class="hero-content">
+      <div class="eyebrow fade-up">Erie &amp; Lafayette, Colorado</div>
+      <h1 class="hero-h1 fade-up">Better Lawns.<br>Better Weekends.</h1>
+      <p class="hero-sub fade-up">Healthy lawns don't happen by accident. Saturday Yard Co. uses a proven Lawn Rx process to inspect, diagnose, treat, and monitor Colorado lawns season after season.</p>
+      <div class="hero-actions fade-up">
+        <button class="btn btn-green" onclick="openIntake()">Schedule Your Lawn Rx</button>
+        <a class="btn btn-ghost" href="#gallery">See Before &amp; After Results</a>
+      </div>
     </div>
-
-    <div class="mobile-nav" id="mobileNav" role="dialog" aria-label="Mobile navigation">
-      <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">✕</button>
-      <a href="#services" class="mobile-nav-link">Services</a>
-      <a href="#pricing" class="mobile-nav-link">Pricing</a>
-      <a href="#route" class="mobile-nav-link">Route</a>
-      <a href="/lawn-log.html" class="mobile-nav-link">Lawn Log</a>
-      <a href="#about" class="mobile-nav-link">About</a>
-      <button class="button" onclick="closeMenu(); openIntake();">Get Started</button>
+    <div class="hero-scroll">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
     </div>
+  </section>
 
-    <main>
-      <section class="hero">
+  <!-- ── Problem ── -->
+  <div class="problem-wrap">
+    <div class="problem-inner">
+      <div class="fade-up">
+        <div class="eyebrow" style="margin-bottom:20px;">The real problem</div>
+        <h2 class="problem-headline">Most homeowners don't have a <em>mowing</em> problem.<br>They have a lawn <em>health</em> problem.</h2>
+        <p class="problem-sub">Throwing products at your lawn rarely fixes it. Understanding what's actually wrong does. We diagnose before we prescribe.</p>
+      </div>
+      <div class="problem-cards fade-up">
+        <div class="problem-card">
+          <div class="problem-card-icon"><span class="material-icons">water_drop</span></div>
+          <h4>Poor Watering</h4>
+          <p>Too shallow, too frequent, or uneven coverage starves roots.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-card-icon"><span class="material-icons">terrain</span></div>
+          <h4>Compacted Soil</h4>
+          <p>Colorado clay blocks water and air from reaching the root zone.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-card-icon"><span class="material-icons">science</span></div>
+          <h4>Wrong Fertilization</h4>
+          <p>Too much nitrogen at the wrong time burns or overdrives growth.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-card-icon"><span class="material-icons">wb_sunny</span></div>
+          <h4>Seasonal Timing</h4>
+          <p>Colorado's seasons demand a different plan each quarter.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-card-icon"><span class="material-icons">grass</span></div>
+          <h4>Weed Pressure</h4>
+          <p>Weeds steal nutrients and crowd out healthy turf while it recovers.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-card-icon"><span class="material-icons">assignment</span></div>
+          <h4>No Long-Term Plan</h4>
+          <p>Reactive fixes never build lasting results. A lawn needs a strategy.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Lawn Rx ── -->
+  <div class="rx-wrap" id="lawn-rx">
+    <div class="rx-inner">
+      <div class="eyebrow fade-up">Our signature service</div>
+      <h2 class="rx-h2 fade-up">The Lawn Rx<br>Process.</h2>
+      <p class="rx-sub fade-up">A step-by-step approach to diagnosing what's wrong, treating it correctly, and building a healthier yard every season.</p>
+      <div class="rx-steps fade-up">
+        <div class="rx-step">
+          <div class="rx-step-num">01</div>
+          <h3>Inspect</h3>
+          <ul>
+            <li>Walk the full property</li>
+            <li>Identify stress zones</li>
+            <li>Evaluate irrigation coverage</li>
+            <li>Assess weeds and disease</li>
+            <li>Analyze turf density</li>
+          </ul>
+        </div>
+        <div class="rx-step">
+          <div class="rx-step-num">02</div>
+          <h3>Diagnose</h3>
+          <ul>
+            <li>Explain exactly what's happening</li>
+            <li>Prioritize problems by impact</li>
+            <li>Recommend targeted treatments</li>
+            <li>No guesswork, no upsells</li>
+          </ul>
+        </div>
+        <div class="rx-step">
+          <div class="rx-step-num">03</div>
+          <h3>Treat</h3>
+          <ul>
+            <li>Targeted fertilization</li>
+            <li>Weed control</li>
+            <li>Aeration if needed</li>
+            <li>Recovery seeding</li>
+            <li>Seasonal adjustments</li>
+          </ul>
+        </div>
+        <div class="rx-step">
+          <div class="rx-step-num">04</div>
+          <h3>Monitor</h3>
+          <ul>
+            <li>Return visit check-ins</li>
+            <li>Track turf progress</li>
+            <li>Adjust plan as needed</li>
+            <li>Document what works</li>
+          </ul>
+        </div>
+        <div class="rx-step">
+          <div class="rx-step-num">05</div>
+          <h3>Thrive</h3>
+          <ul>
+            <li>A healthier lawn each season</li>
+            <li>Consistent maintenance</li>
+            <li>Confident homeowner</li>
+            <li>Property value protected</li>
+          </ul>
+        </div>
+      </div>
+      <div class="rx-cta fade-up">
+        <button class="btn btn-ghost" onclick="openIntake()">Schedule a Lawn Rx</button>
+        <span class="rx-note">Quote-based · Erie & Lafayette, CO</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Before/After Gallery ── -->
+  <div class="gallery-wrap" id="gallery">
+    <div class="gallery-inner">
+      <div class="eyebrow fade-up" style="margin-bottom:16px;">Real results</div>
+      <h2 class="section-h2 fade-up">The work speaks<br>for itself.</h2>
+      <div class="gallery-grid fade-up">
+        <!-- Erie Commons — wide featured -->
+        <a class="gallery-card wide" href="lawn-log/erie-commons-bush-cleanup.html">
+          <div class="gallery-split">
+            <img src="lawn-log/photos/erie-commons-before.jpg" alt="Overgrown shrubs before cleanup in Erie Commons">
+            <img src="lawn-log/photos/erie-commons-after.jpg" alt="Clean defined landscape after bush cleanup in Erie Commons">
+            <span class="gallery-split-label before">Before</span>
+            <span class="gallery-split-label after">After</span>
+          </div>
+          <div class="gallery-info">
+            <div class="gallery-tag">Erie Commons · Seasonal Cleanup</div>
+            <div class="gallery-title">Overgrown shrubs reclaimed in a single visit.</div>
+          </div>
+        </a>
+        <!-- Erie lawn recovery -->
+        <a class="gallery-card" href="lawn-log/erie-lawn-recovery.html">
+          <div class="gallery-split">
+            <img src="lawn-log/photos/erie-before.jpg" alt="Brown dormant Erie lawn in April">
+            <img src="lawn-log/photos/erie-after.jpg" alt="Restored green Erie lawn">
+            <span class="gallery-split-label before">Apr 19</span>
+            <span class="gallery-split-label after">June</span>
+          </div>
+          <div class="gallery-info">
+            <div class="gallery-tag">Erie · Lawn Recovery</div>
+            <div class="gallery-title">Brought back from a warm winter and water restrictions.</div>
+          </div>
+        </a>
+        <!-- Longmont sod -->
+        <a class="gallery-card" href="lawn-log/longmont-sod-property.html">
+          <img src="lawn-log/photos/longmont-sod-3.jpg" alt="Clean sod and mulched beds on 11-acre Longmont property" style="width:100%;height:340px;object-fit:cover;">
+          <div class="gallery-info">
+            <div class="gallery-tag">Longmont · Sod Repair</div>
+            <div class="gallery-title">11 acres — sod repair and fresh beds.</div>
+          </div>
+        </a>
+      </div>
+      <div style="text-align:center;margin-top:28px;">
+        <a href="lawn-log.html" class="btn btn-outline btn-sm">See All Before &amp; Afters →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Services ── -->
+  <div class="services-wrap" id="services">
+    <div class="services-inner">
+      <div class="services-head">
+        <div class="fade-up">
+          <div class="eyebrow" style="margin-bottom:16px;">What we do</div>
+          <h2 class="section-h2" style="margin-bottom:0;">Services built around outcomes,<br>not just tasks.</h2>
+        </div>
+        <div class="fade-up" style="align-self:end;">
+          <p class="section-lead">Every service is designed to move your lawn forward — not just maintain the status quo.</p>
+        </div>
+      </div>
+      <div class="services-grid fade-up">
+        <div class="service-card featured">
+          <div class="service-icon"><span class="material-icons">medical_services</span></div>
+          <h3>Lawn Rx Assessment</h3>
+          <p>Inspect, diagnose, and build a seasonal treatment plan. The foundation of everything we do.</p>
+          <div class="service-price">Get a Quote</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><span class="material-icons">content_cut</span></div>
+          <h3>Weekly Mowing</h3>
+          <p>Consistent cuts at the right height, every week. Better for your turf than skipping cycles.</p>
+          <div class="service-price">From $45/mow</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><span class="material-icons">content_cut</span></div>
+          <h3>Bi-Weekly Mowing</h3>
+          <p>Reliable every-two-week service for slower-growing yards and off-season months.</p>
+          <div class="service-price">From $45/mow</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><span class="material-icons">park</span></div>
+          <h3>Shrub &amp; Bed Care</h3>
+          <p>Pruning, cleanup, and structure restoration for landscape beds that have gotten ahead of themselves.</p>
+          <div class="service-price">Get a Quote</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><span class="material-icons">yard</span></div>
+          <h3>Spring Cleanup</h3>
+          <p>Full reset after winter — debris, edges, bed cleanup, and first mow — to start the season right.</p>
+          <div class="service-price">Get a Quote</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><span class="material-icons">eco</span></div>
+          <h3>Fall Cleanup</h3>
+          <p>Leaf removal, final edge, and bed prep to protect the lawn through dormancy.</p>
+          <div class="service-price">Get a Quote</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><span class="material-icons">grass</span></div>
+          <h3>Weed Control</h3>
+          <p>Targeted treatment to stop weeds before they crowd out recovering or established turf.</p>
+          <div class="service-price">Get a Quote</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><span class="material-icons">article</span></div>
+          <h3>Property Health Plan</h3>
+          <p>A full-season roadmap — mowing, treatments, and check-ins — tailored to your specific yard.</p>
+          <div class="service-price">Get a Quote</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Pricing ── -->
+  <div class="price-section" id="pricing">
+    <div class="price-inner">
+      <div style="margin-bottom:36px;" class="fade-up">
+        <div class="eyebrow" style="margin-bottom:14px;">Simple pricing</div>
+        <h2 class="section-h2">No mystery.<br>No surprises.</h2>
+      </div>
+      <div class="price-row fade-up">
+        <div class="price-card">
+          <div class="price-amount">$45<span class="price-unit">/mow</span></div>
+          <h3>Small Yard</h3>
+          <p>Townhomes, compact lots, straightforward mow/trim/blow service.</p>
+        </div>
+        <div class="price-card">
+          <div class="price-amount">$55<span class="price-unit">/mow</span></div>
+          <h3>Standard Yard</h3>
+          <p>Typical suburban lots with front and back lawn service.</p>
+        </div>
+        <div class="price-card">
+          <div class="price-amount">$65+<span class="price-unit">/mow</span></div>
+          <h3>Larger Yard</h3>
+          <p>Corner lots, bigger backyards, tricky access, or heavier trimming.</p>
+        </div>
+      </div>
+      <div class="price-row-2 fade-up">
+        <div class="price-card quote">
+          <div class="price-amount">Get a Quote</div>
+          <h3>Seasonal Cleanup</h3>
+          <p>Spring and fall cleanups priced by yard size and condition.</p>
+        </div>
+        <div class="price-card quote">
+          <div class="price-amount">Get a Quote</div>
+          <h3>Lawn Rx</h3>
+          <p>Diagnosis and treatment plan priced after a property assessment.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Lawn Log / Ask a Question ── -->
+  <div class="lawn-log-wrap" id="lawn-log">
+    <div class="lawn-log-inner">
+      <div class="lawn-log-head fade-up">
         <div>
-          <div class="eyebrow">Lawn mowing in Erie & Lafayette, CO</div>
-          <h1>Your yard handled before the weekend disappears.</h1>
-          <p class="lead">Reliable mowing, trimming, edging, and cleanup for busy homeowners in Erie and Lafayette, Colorado — without giving up your Saturday.</p>
-          <div class="actions">
-            <button class="button" onclick="openIntake()">Get on the schedule</button>
-            <a class="button secondary" href="#pricing">See simple pricing</a>
+          <div class="eyebrow" style="margin-bottom:14px;">The Lawn Log</div>
+          <h2 class="section-h2" style="margin-bottom:0;">Real jobs.<br>Real results.</h2>
+        </div>
+        <p class="section-lead" style="align-self:end;">Photos and notes from the route every weekend. Real tips from someone who's out there every Saturday.</p>
+      </div>
+      <div class="ll-posts fade-up">
+        <a class="ll-post-card" href="lawn-log/erie-commons-bush-cleanup.html">
+          <img src="lawn-log/photos/erie-commons-after.jpg" alt="Erie Commons bush cleanup after">
+          <div class="ll-post-body">
+            <span class="ll-post-tag">Erie Commons</span>
+            <h3>Small cleanup. Big difference.</h3>
+            <span class="ll-post-link">Read the post →</span>
           </div>
-        </div>
-
-        <aside class="hero-card" aria-label="Starting price card">
-          <div>
-            <div class="card-label">Starting at</div>
-            <p class="price">$45 <span>/ mow</span></p>
+        </a>
+        <a class="ll-post-card" href="lawn-log/erie-lawn-recovery.html">
+          <img src="lawn-log/photos/erie-after.jpg" alt="Erie lawn recovered after warm winter">
+          <div class="ll-post-body">
+            <span class="ll-post-tag">Erie</span>
+            <h3>Bringing my own lawn back after a warm winter and water restrictions.</h3>
+            <span class="ll-post-link">Read the post →</span>
           </div>
-          <div>
-            <p class="card-copy">Simple, route-based lawn care. No bloated contracts. No landscaping upsell circus.</p>
-            <ul class="checklist">
-              <li>Weekly or bi-weekly mowing</li>
-              <li>Trim, edge, blow clean</li>
-              <li>Saturday route availability</li>
-              <li>Text-based scheduling</li>
-            </ul>
+        </a>
+      </div>
+      <a class="ll-see-all" href="lawn-log.html">See all posts in the Lawn Log →</a>
+
+      <div class="ll-bottom fade-up">
+        <div class="ll-tips">
+          <div class="ll-tips-card-label">Weekly tip</div>
+          <h3>Taylor's Colorado lawn routine</h3>
+          <ul class="tip-list">
+            <li><strong>Water</strong><span>Early morning before heat hits. Calibrate for depth on restriction days, not duration.</span></li>
+            <li><strong>Mow</strong><span>Keep the deck high in hot weeks. Never scalp — stressed turf takes weeks to bounce back.</span></li>
+            <li><strong>Edge</strong><span>Clean hard edges make the whole yard read as maintained, even between upgrades.</span></li>
+            <li><strong>Recover</strong><span>Spot seed bare areas early. Small patches are a one-day fix; ignored patches become a renovation.</span></li>
+          </ul>
+        </div>
+        <div class="ll-ask">
+          <h3>Ask a question. Share your lawn.</h3>
+          <p>Struggling with dry patches, uneven growth, or not sure where to start? Ask us. Share a photo and we'll give you a straight answer — no sales pitch.</p>
+          <form class="comment-box" name="lawn-log" method="POST" netlify netlify-honeypot="bot-field" enctype="multipart/form-data" id="lawnLogForm">
+            <input type="hidden" name="form-name" value="lawn-log">
+            <input type="text" name="name" placeholder="Name" aria-label="Name" required>
+            <input type="email" name="email" placeholder="Email" aria-label="Email" required>
+            <textarea name="message" placeholder="What are you trying to fix or improve?" aria-label="Question" required></textarea>
+            <label style="display:block;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:4px;">Share a photo (optional)</label>
+            <input type="file" name="photo" accept="image/*" style="width:100%;border:1px solid var(--line);background:#fffdf7;border-radius:12px;padding:11px 14px;font:inherit;color:var(--black);">
+            <button type="submit" class="btn" style="width:100%;">Send lawn question</button>
+          </form>
+          <div id="lawnLogSuccess" style="display:none;padding:20px;background:var(--green);color:var(--paper);border-radius:14px;text-align:center;font-weight:700;margin-top:12px;">
+            ✓ Question sent. We'll get back to you soon.
           </div>
-        </aside>
-      </section>
-
-      <section id="services">
-        <div class="section-head" style="grid-template-columns: 1fr;">
-          <h2>Simple service.<br>Serious results.</h2>
-          <p>Saturday Yard Co. is built around a focused service menu. That keeps costs low, scheduling clean, and the customer experience predictable.</p>
-        </div>
-
-        <div class="grid-4">
-          <article class="tile">
-            <h3>Weekly Mowing</h3>
-            <p>Best for homeowners who want the yard consistently maintained through the growing season.</p>
-          </article>
-          <article class="tile">
-            <h3>Bi-Weekly Mowing</h3>
-            <p>A practical option for slower-growing lawns or customers who want basic upkeep without overcommitting.</p>
-          </article>
-          <article class="tile">
-            <h3>Seasonal Cleanup</h3>
-            <p>Spring and fall cleanup add-ons without becoming a full landscaping commitment.</p>
-          </article>
-          <article class="tile">
-            <h3>Lawn Rx</h3>
-            <p>A targeted diagnosis and treatment plan for stressed, patchy, or struggling lawns. Quote-based.</p>
-          </article>
-        </div>
-      </section>
-
-      <section id="pricing">
-        <div class="section-head" style="grid-template-columns: 1fr;">
-          <h2>Simple pricing.<br>No mystery.</h2>
-          <p>Every quote is based on what your yard actually needs — size, access, slope, and condition. No guessing, no surprises.</p>
-        </div>
-
-        <div class="grid-3">
-          <article class="tile">
-            <strong>$45<span class="price-unit">/mow</span></strong>
-            <h3>Small Yard</h3>
-            <p>Townhomes, compact lots, and straightforward mow/trim/blow service.</p>
-          </article>
-          <article class="tile">
-            <strong>$55<span class="price-unit">/mow</span></strong>
-            <h3>Standard Yard</h3>
-            <p>Typical suburban lots with front and back lawn service.</p>
-          </article>
-          <article class="tile">
-            <strong>$65+<span class="price-unit">/mow</span></strong>
-            <h3>Larger Yard</h3>
-            <p>Corner lots, bigger backyards, tricky access, or heavier trimming requirements.</p>
-          </article>
-        </div>
-        <div class="grid-2" style="margin-top: 16px;">
-          <article class="tile quote">
-            <strong>Get a Quote</strong>
-            <h3>Seasonal Cleanup</h3>
-            <p>Spring and fall cleanups priced by yard size and condition. Submit the form to get a number.</p>
-          </article>
-          <article class="tile quote">
-            <strong>Get a Quote</strong>
-            <h3>Lawn Rx</h3>
-            <p>Diagnosis and treatment for stressed or struggling lawns. Priced after a quick assessment.</p>
-          </article>
-        </div>
-      </section>
-
-      <section id="route">
-        <div class="route">
-          <div>
-            <h2>Serving Erie and the surrounding neighborhoods.</h2>
-            <p>Routes are built around neighborhood clusters — Erie Highlands, Colliers Hill, Lafayette Meadows, and nearby subdivisions. Tight routes mean less driving and more consistent Saturday availability.</p>
-          </div>
-          <div class="areas" aria-label="Service areas">
-            <span class="pill">Erie, CO</span>
-            <span class="pill">Lafayette, CO</span>
-            <span class="pill">Erie Highlands</span>
-            <span class="pill">Colliers Hill</span>
-            <span class="pill">Louisville</span>
-            <span class="pill">Superior</span>
-            <span class="pill">Niwot</span>
-          </div>
-        </div>
-      </section>
-
-
-      <section id="lawn-log">
-        <div class="section-head">
-          <h2 style="white-space: nowrap;">The Lawn Log.</h2>
-          <p>Real jobs, local tips, and straight answers from the route every weekend.</p>
-        </div>
-
-        <!-- Post highlights -->
-        <div class="ll-posts">
-          <a class="ll-post-card" href="/lawn-log/longmont-sod-property.html">
-            <img src="/lawn-log/photos/longmont-sod-3.jpg" alt="Sod repair and fresh mulch beds on 11-acre property south of Longmont">
-            <div class="ll-post-body">
-              <span class="ll-post-tag">Longmont</span>
-              <h3>11 acres south of Longmont — sod repair and fresh beds.</h3>
-              <span class="ll-post-link">Read the post →</span>
-            </div>
-          </a>
-          <a class="ll-post-card" href="/lawn-log/erie-lawn-recovery.html">
-            <img src="/lawn-log/photos/erie-after.jpg" alt="Erie front lawn fully recovered after warm winter and water restrictions">
-            <div class="ll-post-body">
-              <span class="ll-post-tag">Erie</span>
-              <h3>Bringing my own lawn back after a warm winter and water restrictions.</h3>
-              <span class="ll-post-link">Read the post →</span>
-            </div>
-          </a>
-        </div>
-        <a class="ll-see-all" href="/lawn-log.html">See all posts in the Lawn Log →</a>
-
-        <!-- Tips + Ask a question -->
-        <div class="lawn-log">
-          <article class="schedule-card">
-            <div class="card-label">Weekly tip</div>
-            <h3>Taylor’s Colorado lawn routine</h3>
-            <p class="card-copy" style="color:rgba(255,250,240,.72); font-size:15px; margin: 0 0 4px;">A practical routine for Erie and Lafayette yards, every season.</p>
-            <ul class="schedule-list">
-              <li><strong>Water</strong><span>Early morning before heat hits. Calibrate for depth on restriction days, not just duration.</span></li>
-              <li><strong>Mow</strong><span>Keep the deck high during hot weeks. Never scalp — stressed turf takes weeks to bounce back.</span></li>
-              <li><strong>Edge</strong><span>Clean hard edges make the whole yard read as maintained, even between upgrades.</span></li>
-              <li><strong>Recover</strong><span>Spot seed bare areas early. Small patches are a one-day fix; ignored patches become a renovation.</span></li>
-            </ul>
-          </article>
-
-          <article class="community-card">
-            <h3>Ask a question. Share your lawn.</h3>
-            <p>Struggling with dry patches, uneven growth, or just not sure where to start? Ask us. Share a photo and we’ll give you a straight answer — no sales pitch, no obligation.</p>
-
-            <form class="comment-box" name="lawn-log" method="POST" netlify netlify-honeypot="bot-field" enctype="multipart/form-data" id="lawnLogForm">
-              <input type="hidden" name="form-name" value="lawn-log">
-              <input type="text" name="name" placeholder="Name" aria-label="Name" required>
-              <input type="email" name="email" placeholder="Email" aria-label="Email" required>
-              <textarea name="message" placeholder="What are you trying to fix or improve?" aria-label="Comment" required></textarea>
-              <label style="display:block; font-size:14px; font-weight:700; color:var(--muted); margin-bottom:4px;">Share a photo of your lawn (optional)</label>
-              <input type="file" name="photo" accept="image/*" aria-label="Lawn photo" style="width:100%; border:1px solid var(--line); background:#fffdf7; border-radius:16px; padding:12px 16px; font:inherit; color:var(--black);">
-              <button type="submit" class="button">Send lawn question</button>
-            </form>
-            <div id="lawnLogSuccess" style="display:none; padding: 20px; background: var(--green); color: var(--paper); border-radius: 16px; text-align: center; font-weight: 700;">
-              ✓ Question sent. We’ll get back to you soon.
-            </div>
-
-            <div class="post">
-              <div class="post-meta">From a homeowner in Erie, CO</div>
-              <p><strong>"My front yard burns out every July no matter how much I water. What am I missing?"</strong><br>Nine times out of ten it’s sprinkler coverage, not schedule. Before adjusting your timer, walk your yard while the system runs and look for dry gaps between heads. Fix the coverage first — then dial in the timing.</p>
-            </div>
-          </article>
-        </div>
-
-      </section>
-
-      <section id="about">
-        <div class="about">
-          <img class="about-photo" src="headshot-td.png" alt="Taylor Dollarhide, owner of Saturday Yard Co.">
-          <div class="about-text">
-            <div class="eyebrow">About the owner</div>
-            <h2>Hi, I'm Taylor.</h2>
-            <p>Saturday Yard Co. started because I love a great-looking lawn and I wanted to share that knowledge with my neighbors. I've spent years learning what Colorado turf actually needs — the right cut, the right timing, the right recovery when things go sideways — and I built this service to put that to work for homeowners who care about how their yard looks.</p>
-            <p>I run tight routes across Erie, Lafayette, Louisville, and the surrounding neighborhoods. No subcontractors. No surprises. Just a reliable cut, every week.</p>
-            <p>If you're tired of chasing down lawn crews or spending your Saturday behind a mower, I'd love to take that off your plate.</p>
-          </div>
-        </div>
-      </section>
-
-      <section id="quote" class="cta">
-        <img src="SaturdayYardCompany_Logo.png" alt="Saturday Yard Co." style="width: 275px; height: auto; margin: 24px auto 32px; display: block;">
-        <div class="eyebrow">Now booking routes</div>
-        <h2>Get your yard on the route.</h2>
-        <p>Tell us about your yard. Takes two minutes. You’ll get a straight quote back — no phone tag, no runaround.</p>
-        <button class="button" onclick="openIntake()">Get on the schedule</button>
-      </section>
-
-      <!-- Intake Modal -->
-      <div class="modal-backdrop" id="intakeBackdrop" role="dialog" aria-modal="true" aria-label="Get on the schedule">
-        <div class="modal" id="intakeModal">
-          <div class="modal-header">
-            <div class="card-label">New client intake</div>
-            <h3>Get on the schedule.</h3>
-            <button class="modal-close" onclick="closeIntake()" aria-label="Close">✕</button>
-          </div>
-
-          <div id="intakeFormWrap">
-            <div class="modal-body">
-              <form id="intakeForm" name="client-intake" method="POST" netlify netlify-honeypot="bot-field" enctype="multipart/form-data">
-                <input type="hidden" name="form-name" value="client-intake">
-                <input type="text" name="bot-field" style="display:none" aria-hidden="true">
-
-                <div class="intake-grid">
-                  <div class="field-group">
-                    <label for="if-first">First Name *</label>
-                    <input type="text" id="if-first" name="first" placeholder="Jane" required>
-                  </div>
-                  <div class="field-group">
-                    <label for="if-last">Last Name *</label>
-                    <input type="text" id="if-last" name="last" placeholder="Smith" required>
-                  </div>
-                  <div class="field-group full">
-                    <label for="if-address">Service Address *</label>
-                    <input type="text" id="if-address" name="address" placeholder="123 Main St, Erie, CO 80516" required>
-                  </div>
-                  <div class="field-group">
-                    <label for="if-phone">Phone *</label>
-                    <input type="tel" id="if-phone" name="phone" placeholder="(720) 555-0100" required>
-                  </div>
-                  <div class="field-group">
-                    <label for="if-email">Email *</label>
-                    <input type="email" id="if-email" name="email" placeholder="jane@email.com" required>
-                  </div>
-                </div>
-
-                <div class="modal-divider"></div>
-
-                <div class="field-group" style="margin-bottom:16px;">
-                  <label>Service Preference *</label>
-                  <div class="radio-group">
-                    <label class="radio-option">
-                      <input type="radio" name="service" value="Weekly" required onchange="updateIntakeService()">
-                      Weekly Mowing
-                      <span class="radio-price">Best value</span>
-                    </label>
-                    <label class="radio-option">
-                      <input type="radio" name="service" value="Bi-Weekly" onchange="updateIntakeService()">
-                      Bi-Weekly Mowing
-                      <span class="radio-price">Every 2 wks</span>
-                    </label>
-                    <label class="radio-option">
-                      <input type="radio" name="service" value="Seasonal Cleanup" onchange="updateIntakeService()">
-                      Seasonal Cleanup
-                      <span class="radio-price">One-time</span>
-                    </label>
-                    <label class="radio-option">
-                      <input type="radio" name="service" value="Lawn Rx" onchange="updateIntakeService()">
-                      Lawn Rx
-                      <span class="radio-price">Treatment plan</span>
-                    </label>
-                  </div>
-                </div>
-
-                <div class="field-group" style="margin-bottom:16px;">
-                  <label>Yard Size *</label>
-                  <div class="radio-group">
-                    <label class="radio-option">
-                      <input type="radio" name="yardSize" value="Small" required>
-                      Small — Townhome / compact lot
-                      <span class="radio-price" data-price="~$45">~$45</span>
-                    </label>
-                    <label class="radio-option">
-                      <input type="radio" name="yardSize" value="Standard">
-                      Standard — Typical suburban yard
-                      <span class="radio-price" data-price="~$55">~$55</span>
-                    </label>
-                    <label class="radio-option">
-                      <input type="radio" name="yardSize" value="Large">
-                      Large — Corner lot / big backyard
-                      <span class="radio-price" data-price="$65+">$65+</span>
-                    </label>
-                  </div>
-                </div>
-
-                <div class="field-group" style="margin-bottom:16px;">
-                  <label id="photoFieldLabel">Yard Photos (optional — helps with quoting)</label>
-                  <label class="file-input-wrapper" for="if-photos">
-                    <input type="file" id="if-photos" name="photos" accept="image/*" multiple>
-                    <span id="photoLabel">📷 Tap to add yard photos</span>
-                  </label>
-                </div>
-
-                <div class="field-group">
-                  <label for="if-notes">Anything else we should know?</label>
-                  <textarea id="if-notes" name="notes" placeholder="Gate code, dog in yard, specific areas to focus on…"></textarea>
-                </div>
-
-                <p style="font-size:13px; color:var(--muted); line-height:1.5; margin:0 0 4px; padding: 12px 16px; background: rgba(21,22,19,.04); border-radius:12px;">
-                  <strong style="color:var(--black);">Note on trees:</strong> We are not licensed arborists and cannot legally cut down, trim, or prune trees within city limits. Please do not include tree work in your request.
-                </p>
-
-                <div class="modal-actions">
-                  <button type="submit" class="button" id="intakeSubmitBtn">Get on the schedule</button>
-                </div>
-              </form>
-            </div>
-          </div>
-
-          <div class="intake-success" id="intakeSuccess">
-            <div class="check">✓</div>
-            <h3>You’re on the list.</h3>
-            <p id="intakeSuccessMsg"></p>
+          <div class="ll-qa">
+            <div class="ll-qa-from">From a homeowner in Erie, CO</div>
+            <p><strong>"My front yard burns out every July no matter how much I water. What am I missing?"</strong><br>Nine times out of ten it's sprinkler coverage, not schedule. Walk your yard while the system runs and look for dry gaps between heads. Fix coverage first — then dial in the timing.</p>
           </div>
         </div>
       </div>
-    </main>
-
-    <footer>
-      <a href="https://www.facebook.com/profile.php?id=61590394363803" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;color:var(--muted);text-decoration:none;font-weight:700;margin-bottom:14px;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-        Follow us on Facebook
-      </a>
-      <div>© 2026 Saturday Yard Co. Better lawns. Better weekends.</div>
-    </footer>
+    </div>
   </div>
-  <script>
-    // Lawn log form — submit via fetch, show success message
-    const lawnForm = document.getElementById('lawnLogForm');
-    const lawnSuccess = document.getElementById('lawnLogSuccess');
-    if (lawnForm) {
-      lawnForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const data = new FormData(lawnForm);
-        await fetch('/', { method: 'POST', body: data });
-        lawnForm.style.display = 'none';
-        lawnSuccess.style.display = 'block';
-      });
-    }
 
-    // Hide header on scroll down, show on scroll up
+  <!-- ── Why Saturday Yard Co. ── -->
+  <div class="why-wrap">
+    <div class="why-inner">
+      <div class="eyebrow fade-up">Why us</div>
+      <h2 class="why-h2 fade-up">The lawn company<br>that actually explains<br>what's happening.</h2>
+      <div class="why-cols fade-up">
+        <div class="why-col">
+          <div class="why-col-num">01</div>
+          <h3>We don't guess.</h3>
+          <p>Every recommendation has a reason grounded in what we observed at your property. No blanket treatments. No upsells that don't apply to your yard.</p>
+        </div>
+        <div class="why-col">
+          <div class="why-col-num">02</div>
+          <h3>We document progress.</h3>
+          <p>Every lawn has a story. We track what we did, what it cost, and what it fixed — so you always know what's working and why.</p>
+        </div>
+        <div class="why-col">
+          <div class="why-col-num">03</div>
+          <h3>We care for lawns like they're our own.</h3>
+          <p>Taylor's own yard in Erie is on the same program we offer customers. Relationships over transactions. Every time.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Founder ── -->
+  <div class="founder-wrap" id="about">
+    <div class="founder-inner">
+      <img class="founder-photo fade-up" src="headshot-td.png" alt="Taylor Dollarhide, founder of Saturday Yard Co.">
+      <div class="founder-text fade-up">
+        <div class="eyebrow">Meet the founder</div>
+        <h2 class="founder-h2">Hi, I'm Taylor.</h2>
+        <p>Saturday Yard Co. started because I love a great-looking lawn and I wanted to share that knowledge with my neighbors. I've spent years learning what Colorado turf actually needs — the right cut, the right timing, the right recovery when things go sideways.</p>
+        <p>I apply that same systems-thinking to every yard on the route. Every property gets a plan. Every recommendation has a purpose. Because a healthier lawn is built through consistency — not guesswork.</p>
+        <p>I run tight routes across Erie, Lafayette, Louisville, and the surrounding neighborhoods. No subcontractors. No surprises.</p>
+        <button class="btn btn-outline" onclick="openIntake()">Get on the route</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Final CTA ── -->
+  <div class="cta-wrap">
+    <div class="cta-inner fade-up">
+      <div class="eyebrow">Now booking routes</div>
+      <h2 class="cta-h2">Ready to stop<br>guessing?</h2>
+      <p class="cta-sub">Book a Lawn Rx assessment and build a healthier lawn this season. Takes two minutes to get started.</p>
+      <div class="cta-actions">
+        <button class="btn btn-green" onclick="openIntake()">Schedule My Lawn Rx</button>
+        <a class="btn btn-outline" href="lawn-log.html">See the work first →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Intake Modal ── -->
+  <div class="modal-backdrop" id="intakeBackdrop" role="dialog" aria-modal="true" aria-label="Get on the schedule">
+    <div class="modal" id="intakeModal">
+      <div class="modal-header">
+        <div class="modal-header-text">
+          <div class="card-label">New client intake</div>
+          <h3>Get on the schedule.</h3>
+        </div>
+        <button class="modal-close" onclick="closeIntake()" aria-label="Close">✕</button>
+      </div>
+
+      <div id="intakeFormWrap">
+        <div class="modal-body">
+          <form id="intakeForm" name="client-intake" method="POST" netlify netlify-honeypot="bot-field" enctype="multipart/form-data">
+            <input type="hidden" name="form-name" value="client-intake">
+            <input type="text" name="bot-field" style="display:none" aria-hidden="true">
+
+            <div class="intake-grid">
+              <div class="field-group">
+                <label for="if-first">First Name *</label>
+                <input type="text" id="if-first" name="first" placeholder="Jane" required>
+              </div>
+              <div class="field-group">
+                <label for="if-last">Last Name *</label>
+                <input type="text" id="if-last" name="last" placeholder="Smith" required>
+              </div>
+              <div class="field-group full">
+                <label for="if-address">Service Address *</label>
+                <input type="text" id="if-address" name="address" placeholder="123 Main St, Erie, CO 80516" required>
+              </div>
+              <div class="field-group">
+                <label for="if-phone">Phone *</label>
+                <input type="tel" id="if-phone" name="phone" placeholder="(720) 555-0100" required>
+              </div>
+              <div class="field-group">
+                <label for="if-email">Email *</label>
+                <input type="email" id="if-email" name="email" placeholder="jane@email.com" required>
+              </div>
+            </div>
+
+            <div class="modal-divider"></div>
+
+            <div class="field-group" style="margin-bottom:14px;">
+              <label>Service Preference *</label>
+              <div class="radio-group">
+                <label class="radio-option">
+                  <input type="radio" name="service" value="Weekly" required onchange="updateIntakeService()">
+                  Weekly Mowing
+                  <span class="radio-price">Best value</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="service" value="Bi-Weekly" onchange="updateIntakeService()">
+                  Bi-Weekly Mowing
+                  <span class="radio-price">Every 2 wks</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="service" value="Seasonal Cleanup" onchange="updateIntakeService()">
+                  Seasonal Cleanup
+                  <span class="radio-price">One-time</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="service" value="Lawn Rx" onchange="updateIntakeService()">
+                  Lawn Rx
+                  <span class="radio-price">Treatment plan</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="field-group" style="margin-bottom:14px;">
+              <label>Yard Size *</label>
+              <div class="radio-group">
+                <label class="radio-option">
+                  <input type="radio" name="yardSize" value="Small" required>
+                  Small — Townhome / compact lot
+                  <span class="radio-price" data-price="~$45">~$45</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="yardSize" value="Standard">
+                  Standard — Typical suburban yard
+                  <span class="radio-price" data-price="~$55">~$55</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="yardSize" value="Large">
+                  Large — Corner lot / big backyard
+                  <span class="radio-price" data-price="$65+">$65+</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="field-group" style="margin-bottom:14px;">
+              <label id="photoFieldLabel">Yard Photos (optional — helps with quoting)</label>
+              <label class="file-input-wrapper" for="if-photos">
+                <input type="file" id="if-photos" name="photos" accept="image/*" multiple>
+                <span id="photoLabel"><span class="material-icons" style="font-size:18px;vertical-align:middle;margin-right:4px;">photo_camera</span> Tap to add yard photos</span>
+              </label>
+            </div>
+
+            <div class="field-group" style="margin-bottom:14px;">
+              <label for="if-notes">Anything else we should know?</label>
+              <textarea id="if-notes" name="notes" placeholder="Gate code, dog in yard, specific areas to focus on…"></textarea>
+            </div>
+
+            <p style="font-size:13px;color:var(--muted);line-height:1.5;margin:0 0 14px;padding:12px 14px;background:rgba(21,22,19,.04);border-radius:10px;">
+              <strong style="color:var(--black);">Note on trees:</strong> We are not licensed arborists and cannot legally cut down, trim, or prune trees within city limits. Please do not include tree work in your request.
+            </p>
+
+            <div class="modal-actions">
+              <button type="submit" class="btn" id="intakeSubmitBtn" style="width:100%;">Get on the schedule</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="intake-success" id="intakeSuccess">
+        <div class="check">✓</div>
+        <h3>You're on the list.</h3>
+        <p id="intakeSuccessMsg"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="SaturdayYardCompany_Logo.png" alt="Saturday Yard Co.">
+        <div class="footer-copy">© 2026 Saturday Yard Co.<br>Better lawns. Better weekends.</div>
+      </div>
+      <div class="footer-links">
+        <a href="https://www.facebook.com/profile.php?id=61590394363803" target="_blank" rel="noopener noreferrer" class="footer-social">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          Follow on Facebook
+        </a>
+        <div class="footer-areas">Erie · Lafayette · Louisville · Superior · Longmont</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── Scroll header ──
     const headerWrap = document.getElementById('headerWrap');
     let lastScroll = 0;
     window.addEventListener('scroll', () => {
-      const current = window.scrollY;
-      if (current <= 60) {
-        headerWrap.classList.remove('hidden');
-      } else if (current > lastScroll) {
-        headerWrap.classList.add('hidden');
-      } else {
-        headerWrap.classList.remove('hidden');
-      }
-      lastScroll = current;
+      const cur = window.scrollY;
+      if (cur > 60) headerWrap.classList.add('scrolled');
+      else headerWrap.classList.remove('scrolled');
+      if (cur <= 60) headerWrap.classList.remove('hidden');
+      else if (cur > lastScroll) headerWrap.classList.add('hidden');
+      else headerWrap.classList.remove('hidden');
+      lastScroll = cur;
     }, { passive: true });
 
-    // ── Intake Modal ──
-    function openIntake() {
-      document.getElementById('intakeBackdrop').classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
+    // ── Fade-up on scroll ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-    if (new URLSearchParams(window.location.search).get('schedule') === '1') {
-      openIntake();
-    }
+    // ── Mobile nav ──
+    const toggle = document.getElementById('menuToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    const navClose = document.getElementById('mobileNavClose');
+    function openMenu() { mobileNav.classList.add('open'); toggle.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; }
+    function closeMenu() { mobileNav.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); document.body.style.overflow=''; }
+    toggle.addEventListener('click', () => mobileNav.classList.contains('open') ? closeMenu() : openMenu());
+    navClose.addEventListener('click', closeMenu);
+    document.querySelectorAll('.mobile-nav-link, .mobile-nav .btn').forEach(l => l.addEventListener('click', closeMenu));
 
-    function closeIntake() {
-      document.getElementById('intakeBackdrop').classList.remove('open');
-      document.body.style.overflow = '';
-    }
-
-    document.getElementById('intakeBackdrop').addEventListener('click', function(e) {
-      if (e.target === this) closeIntake();
-    });
-
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeIntake();
-    });
+    // ── Intake modal ──
+    function openIntake() { document.getElementById('intakeBackdrop').classList.add('open'); document.body.style.overflow='hidden'; }
+    function closeIntake() { document.getElementById('intakeBackdrop').classList.remove('open'); document.body.style.overflow=''; }
+    if (new URLSearchParams(window.location.search).get('schedule') === '1') openIntake();
+    document.getElementById('intakeBackdrop').addEventListener('click', function(e) { if (e.target === this) closeIntake(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeIntake(); closeMenu(); } });
 
     document.getElementById('if-photos').addEventListener('change', function() {
       const n = this.files.length;
-      document.getElementById('photoLabel').textContent = n ? `${n} photo${n > 1 ? 's' : ''} selected` : '📷 Tap to add yard photos';
+      document.getElementById('photoLabel').textContent = n ? `${n} photo${n > 1 ? 's' : ''} selected` : '<span class="material-icons" style="font-size:18px;vertical-align:middle;margin-right:4px;">photo_camera</span> Tap to add yard photos';
     });
 
     const QUOTE_SERVICES = ['Seasonal Cleanup', 'Lawn Rx'];
-
     function updateIntakeService() {
-      const selected = document.querySelector('input[name="service"]:checked');
-      const isQuote = selected && QUOTE_SERVICES.includes(selected.value);
-      const photosInput = document.getElementById('if-photos');
-      const photoLabel = document.getElementById('photoFieldLabel');
-      const submitBtn = document.getElementById('intakeSubmitBtn');
-
-      document.querySelectorAll('span.radio-price[data-price]').forEach(span => {
-        span.textContent = isQuote ? 'Get a Quote' : span.dataset.price;
-      });
-
-      photosInput.required = isQuote;
-      photoLabel.textContent = isQuote
-        ? 'Yard Photos * (required for quoting)'
-        : 'Yard Photos (optional — helps with quoting)';
-
-      submitBtn.textContent = isQuote ? 'Get Quote' : 'Get on the schedule';
+      const sel = document.querySelector('input[name="service"]:checked');
+      const isQ = sel && QUOTE_SERVICES.includes(sel.value);
+      document.querySelectorAll('span.radio-price[data-price]').forEach(s => { s.textContent = isQ ? 'Get a Quote' : s.dataset.price; });
+      document.getElementById('if-photos').required = isQ;
+      document.getElementById('photoFieldLabel').textContent = isQ ? 'Yard Photos * (required for quoting)' : 'Yard Photos (optional — helps with quoting)';
+      document.getElementById('intakeSubmitBtn').textContent = isQ ? 'Get Quote' : 'Get on the schedule';
     }
 
     document.getElementById('intakeForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const data = new FormData(this);
-
-      try {
-        await fetch('/', { method: 'POST', body: data });
-      } catch (_) {}
-
-      // Save to localStorage so leads.html can surface this submission
+      try { await fetch('/', { method: 'POST', body: data }); } catch(_) {}
       const lead = {
         id: Date.now().toString(36) + Math.random().toString(36).slice(2),
-        first:     (data.get('first') || '').trim(),
-        last:      (data.get('last') || '').trim(),
-        address:   (data.get('address') || '').trim(),
-        phone:     (data.get('phone') || '').trim(),
-        email:     (data.get('email') || '').trim(),
-        service:   data.get('service') || '',
-        yardSize:  data.get('yardSize') || '',
-        price:     ({ Small: 45, Standard: 55, Large: 65 })[data.get('yardSize')] || '',
-        notes:     (data.get('notes') || '').trim(),
-        submittedAt: new Date().toISOString(),
-        status: 'pending'
+        first: (data.get('first')||'').trim(), last: (data.get('last')||'').trim(),
+        address: (data.get('address')||'').trim(), phone: (data.get('phone')||'').trim(),
+        email: (data.get('email')||'').trim(), service: data.get('service')||'',
+        yardSize: data.get('yardSize')||'',
+        price: ({Small:45,Standard:55,Large:65})[data.get('yardSize')]||'',
+        notes: (data.get('notes')||'').trim(),
+        submittedAt: new Date().toISOString(), status: 'pending'
       };
-      const leads = JSON.parse(localStorage.getItem('syc_leads') || '[]');
+      const leads = JSON.parse(localStorage.getItem('syc_leads')||'[]');
       leads.push(lead);
       localStorage.setItem('syc_leads', JSON.stringify(leads));
-
       window.location.href = '/thank-you.html';
     });
 
-    const toggle = document.getElementById('menuToggle');
-    const nav = document.getElementById('mobileNav');
-    const close = document.getElementById('mobileNavClose');
-
-    function openMenu() {
-      nav.classList.add('open');
-      toggle.classList.add('open');
-      toggle.setAttribute('aria-expanded', 'true');
-      document.body.style.overflow = 'hidden';
+    // ── Lawn log form ──
+    const lawnForm = document.getElementById('lawnLogForm');
+    if (lawnForm) {
+      lawnForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        await fetch('/', { method: 'POST', body: new FormData(lawnForm) });
+        lawnForm.style.display = 'none';
+        document.getElementById('lawnLogSuccess').style.display = 'block';
+      });
     }
-
-    function closeMenu() {
-      nav.classList.remove('open');
-      toggle.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    }
-
-    toggle.addEventListener('click', () => nav.classList.contains('open') ? closeMenu() : openMenu());
-    close.addEventListener('click', closeMenu);
-
-    document.querySelectorAll('.mobile-nav-link, .mobile-nav .button').forEach(link => {
-      link.addEventListener('click', closeMenu);
-    });
   </script>
 </body>
 </html>

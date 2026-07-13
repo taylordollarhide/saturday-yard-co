@@ -425,7 +425,7 @@
       </div>
       <div class="modal-grid">
         <div class="field-group">
-          <label>Price / mow ($)</label>
+          <label id="confirmPriceLabel">Price / mow ($)</label>
           <input type="number" id="confirmPrice" min="1" placeholder="45">
         </div>
         <div class="field-group">
@@ -633,7 +633,12 @@
     confirmingLead = lead;
 
     document.getElementById('confirmName').textContent = `${lead.first} ${lead.last}`;
-    document.getElementById('confirmPrice').value = lead.price || '';
+    const needsQuote = ['Seasonal Cleanup', 'Lawn Rx'].includes(lead.service);
+    const priceInput = document.getElementById('confirmPrice');
+    const priceLabel = document.getElementById('confirmPriceLabel');
+    priceInput.value = needsQuote ? '' : (lead.price || '');
+    priceInput.placeholder = needsQuote ? 'Enter quote' : '45';
+    priceLabel.textContent = needsQuote ? `Price / ${lead.service.toLowerCase()} ($)` : 'Price / mow ($)';
 
     const today = new Date();
     const daysUntilSat = (6 - today.getDay() + 7) % 7 || 7;
