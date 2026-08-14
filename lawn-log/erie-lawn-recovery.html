@@ -78,6 +78,10 @@
     .lb-overlay img { max-width: 92vw; max-height: 92vh; border-radius: 12px; object-fit: contain; box-shadow: 0 32px 80px rgba(0,0,0,.6); cursor: default; }
     .lb-close { position: absolute; top: 20px; right: 24px; background: none; border: none; color: #fff; font-size: 32px; cursor: pointer; line-height: 1; opacity: .8; }
     .lb-close:hover { opacity: 1; }
+    .lb-prev, .lb-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,.15); border: none; color: #fff; font-size: 48px; line-height: 1; width: 56px; height: 80px; cursor: pointer; border-radius: 8px; opacity: .8; transition: opacity .15s, background .15s; display: flex; align-items: center; justify-content: center; }
+    .lb-prev:hover, .lb-next:hover { opacity: 1; background: rgba(255,255,255,.25); }
+    .lb-prev { left: 20px; }
+    .lb-next { right: 20px; }
     .photo-pair img, .post-photo, .brand-moment img { cursor: zoom-in; }
   </style>
 </head>
@@ -197,19 +201,28 @@
     document.addEventListener('DOMContentLoaded', function() {
       const lbOverlay = document.getElementById('lbOverlay');
       const lbImg = document.getElementById('lbImg');
-      document.querySelectorAll('.photo-pair img, .post-photo, .brand-moment img').forEach(img => {
-        img.addEventListener('click', () => { lbImg.src = img.src; lbImg.alt = img.alt; lbOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; });
-      });
+      const imgs = Array.from(document.querySelectorAll('.photo-pair img, .photo-trio img, .post-photo, .brand-moment img'));
+      let lbIdx = 0;
+      function openLb(i) { lbIdx = i; lbImg.src = imgs[i].src; lbImg.alt = imgs[i].alt; lbOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; updateArrows(); }
       function closeLb() { lbOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+      function updateArrows() {
+        document.getElementById('lbPrev').style.display = imgs.length > 1 ? '' : 'none';
+        document.getElementById('lbNext').style.display = imgs.length > 1 ? '' : 'none';
+      }
+      imgs.forEach((img, i) => img.addEventListener('click', () => openLb(i)));
       document.getElementById('lbClose').addEventListener('click', closeLb);
+      document.getElementById('lbPrev').addEventListener('click', e => { e.stopPropagation(); lbIdx = (lbIdx - 1 + imgs.length) % imgs.length; lbImg.src = imgs[lbIdx].src; lbImg.alt = imgs[lbIdx].alt; });
+      document.getElementById('lbNext').addEventListener('click', e => { e.stopPropagation(); lbIdx = (lbIdx + 1) % imgs.length; lbImg.src = imgs[lbIdx].src; lbImg.alt = imgs[lbIdx].alt; });
       lbOverlay.addEventListener('click', e => { if (e.target === lbOverlay) closeLb(); });
-      document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); else if (e.key === 'ArrowRight') { lbIdx = (lbIdx + 1) % imgs.length; lbImg.src = imgs[lbIdx].src; lbImg.alt = imgs[lbIdx].alt; } else if (e.key === 'ArrowLeft') { lbIdx = (lbIdx - 1 + imgs.length) % imgs.length; lbImg.src = imgs[lbIdx].src; lbImg.alt = imgs[lbIdx].alt; } });
     });
   </script>
 
   <div class="lb-overlay" id="lbOverlay">
     <button class="lb-close" id="lbClose">✕</button>
+    <button class="lb-prev" id="lbPrev">&#8249;</button>
     <img id="lbImg" src="" alt="">
+    <button class="lb-next" id="lbNext">&#8250;</button>
   </div>
 </body>
 </html>
