@@ -780,55 +780,55 @@
         </div>
       </div>
       <div class="services-grid fade-up">
-        <div class="service-card featured">
+        <div class="service-card featured" onclick="openIntake('Lawn Rx')" style="cursor:pointer;">
           <div class="service-icon"><span class="material-icons">medical_services</span></div>
           <h3>Lawn Rx Assessment</h3>
           <p>Inspect, diagnose, and build a seasonal treatment plan. The foundation of everything we do.</p>
           <div class="service-price">Get a Quote</div>
         </div>
-        <div class="service-card">
+        <div class="service-card" onclick="openIntake('Weekly')" style="cursor:pointer;">
           <div class="service-icon"><span class="material-icons">content_cut</span></div>
           <h3>Weekly Mowing</h3>
           <p>Consistent cuts at the right height, every week. Better for your turf than skipping cycles.</p>
           <div class="service-price">From $45/mow</div>
         </div>
-        <div class="service-card">
+        <div class="service-card" onclick="openIntake('Bi-Weekly')" style="cursor:pointer;">
           <div class="service-icon"><span class="material-icons">content_cut</span></div>
           <h3>Bi-Weekly Mowing</h3>
           <p>Reliable every-two-week service for slower-growing yards and off-season months.</p>
           <div class="service-price">From $45/mow</div>
         </div>
-        <div class="service-card">
+        <div class="service-card" onclick="openIntake()" style="cursor:pointer;">
           <div class="service-icon"><span class="material-icons">park</span></div>
           <h3>Shrub &amp; Bed Care</h3>
           <p>Pruning, cleanup, and structure restoration for landscape beds that have gotten ahead of themselves.</p>
           <div class="service-price">Get a Quote</div>
         </div>
-        <div class="service-card">
+        <div class="service-card" onclick="openIntake('Seasonal Cleanup')" style="cursor:pointer;">
           <div class="service-icon"><span class="material-icons">yard</span></div>
           <h3>Spring Cleanup</h3>
           <p>Full reset after winter — debris, edges, bed cleanup, and first mow — to start the season right.</p>
           <div class="service-price">Get a Quote</div>
         </div>
-        <div class="service-card">
+        <div class="service-card" onclick="openIntake('Fall Cleanup')" style="cursor:pointer;">
           <div class="service-icon"><span class="material-icons">eco</span></div>
           <h3>Fall Cleanup</h3>
           <p>Leaf removal, final edge, and bed prep to protect the lawn through dormancy.</p>
           <div class="service-price">Get a Quote</div>
         </div>
-        <div class="service-card">
+        <div class="service-card" onclick="openIntake('Winter Prep')" style="cursor:pointer;">
           <div class="service-icon"><span class="material-icons">ac_unit</span></div>
           <h3>Winter Prep</h3>
           <p>Get your lawn and landscape ready before the first freeze hits.</p>
           <div class="service-price">Get a Quote</div>
         </div>
-        <div class="service-card">
+        <div class="service-card" onclick="openIntake('Sprinkler Blowout')" style="cursor:pointer;">
           <div class="service-icon"><span class="material-icons">water_drop</span></div>
           <h3>Sprinkler Blowout</h3>
           <p>Compressed air winterization to protect your irrigation system from freeze damage. Up to 6 zones, $10/zone after.</p>
           <div class="service-price">From $85</div>
         </div>
-        <div class="service-card">
+        <div class="service-card" onclick="openIntake('Snow Removal')" style="cursor:pointer;">
           <div class="service-icon"><span class="material-icons">cloudy_snowing</span></div>
           <h3>Snow Removal</h3>
           <p>Driveway and walkway clearing after snowfall. Priced by property size, rates increase over 6".</p>
@@ -1211,7 +1211,14 @@
     document.querySelectorAll('.mobile-nav-link, .mobile-nav .btn').forEach(l => l.addEventListener('click', closeMenu));
 
     // ── Intake modal ──
-    function openIntake() { document.getElementById('intakeBackdrop').classList.add('open'); document.body.style.overflow='hidden'; }
+    function openIntake(service) {
+      if (service) {
+        const radio = document.querySelector(`input[name="service"][value="${service}"]`);
+        if (radio) { radio.checked = true; updateIntakeService(); }
+      }
+      document.getElementById('intakeBackdrop').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
     function closeIntake() { document.getElementById('intakeBackdrop').classList.remove('open'); document.body.style.overflow=''; }
     if (new URLSearchParams(window.location.search).get('schedule') === '1') openIntake();
     document.getElementById('intakeBackdrop').addEventListener('click', function(e) { if (e.target === this) closeIntake(); });
