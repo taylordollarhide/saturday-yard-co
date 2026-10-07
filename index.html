@@ -843,12 +843,36 @@
           <p>Corner lots, bigger backyards, tricky access, or heavier trimming.</p>
         </div>
       </div>
-      <div class="price-row-2 fade-up">
+      <div class="price-row fade-up">
         <div class="price-card quote">
           <div class="price-amount">Get a Quote</div>
           <h3>Seasonal Cleanup</h3>
           <p>Spring and fall cleanups priced by yard size and condition.</p>
         </div>
+        <div class="price-card quote">
+          <div class="price-amount">Get a Quote</div>
+          <h3>Fall Cleanup</h3>
+          <p>Leaf removal, bed cleanup, and end-of-season prep.</p>
+        </div>
+        <div class="price-card quote">
+          <div class="price-amount">Get a Quote</div>
+          <h3>Winter Prep</h3>
+          <p>Get your lawn and landscape ready before the first freeze.</p>
+        </div>
+      </div>
+      <div class="price-row-2 fade-up">
+        <div class="price-card quote">
+          <div class="price-amount">Get a Quote</div>
+          <h3>Sprinkler Blowout</h3>
+          <p>Compressed air purge to winterize your irrigation system before freeze.</p>
+        </div>
+        <div class="price-card quote">
+          <div class="price-amount">Get a Quote</div>
+          <h3>Snow Removal</h3>
+          <p>Driveway and walkway clearing after snowfall. Priced by property size.</p>
+        </div>
+      </div>
+      <div class="price-row-2 fade-up">
         <div class="price-card quote">
           <div class="price-amount">Get a Quote</div>
           <h3>Lawn Rx</h3>
@@ -1018,6 +1042,26 @@
                   <span class="radio-price">One-time</span>
                 </label>
                 <label class="radio-option">
+                  <input type="radio" name="service" value="Fall Cleanup" onchange="updateIntakeService()">
+                  Fall Cleanup
+                  <span class="radio-price">Get a Quote</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="service" value="Winter Prep" onchange="updateIntakeService()">
+                  Winter Prep
+                  <span class="radio-price">Get a Quote</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="service" value="Sprinkler Blowout" onchange="updateIntakeService()">
+                  Sprinkler Blowout
+                  <span class="radio-price">Get a Quote</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="service" value="Snow Removal" onchange="updateIntakeService()">
+                  Snow Removal
+                  <span class="radio-price">Get a Quote</span>
+                </label>
+                <label class="radio-option">
                   <input type="radio" name="service" value="Lawn Rx" onchange="updateIntakeService()">
                   Lawn Rx
                   <span class="radio-price">Treatment plan</span>
@@ -1137,7 +1181,7 @@
       document.getElementById('photoLabel').textContent = n ? `${n} photo${n > 1 ? 's' : ''} selected` : '<span class="material-icons" style="font-size:18px;vertical-align:middle;margin-right:4px;">photo_camera</span> Tap to add yard photos';
     });
 
-    const QUOTE_SERVICES = ['Seasonal Cleanup', 'Lawn Rx'];
+    const QUOTE_SERVICES = ['Seasonal Cleanup', 'Fall Cleanup', 'Winter Prep', 'Sprinkler Blowout', 'Snow Removal', 'Lawn Rx'];
     function updateIntakeService() {
       const sel = document.querySelector('input[name="service"]:checked');
       const isQ = sel && QUOTE_SERVICES.includes(sel.value);
