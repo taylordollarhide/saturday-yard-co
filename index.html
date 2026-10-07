@@ -813,8 +813,8 @@
         <div class="service-card" onclick="openIntake('Winter Prep')" style="cursor:pointer;">
           <div class="service-icon"><span class="material-icons">ac_unit</span></div>
           <h3>Winter Prep</h3>
-          <p>Get your lawn and landscape ready before the first freeze hits.</p>
-          <div class="service-price">Get a Quote</div>
+          <p>Final mow, core aeration, fall fertilizer, and sprinkler blowout — everything your lawn needs before the first freeze. From $249.</p>
+          <div class="service-price">From $249</div>
         </div>
         <div class="service-card" onclick="openIntake('Sprinkler Blowout')" style="cursor:pointer;">
           <div class="service-icon"><span class="material-icons">water_drop</span></div>
@@ -867,10 +867,10 @@
           <h3>Fall Cleanup</h3>
           <p>Leaf removal, bed cleanup, and end-of-season prep.</p>
         </div>
-        <div class="price-card quote">
-          <div class="price-amount">Get a Quote</div>
-          <h3>Winter Prep</h3>
-          <p>Get your lawn and landscape ready before the first freeze.</p>
+        <div class="price-card">
+          <div class="price-amount">$249<span class="price-unit"> – $379</span></div>
+          <h3>Winter Prep Package</h3>
+          <p>Small (up to 2,000 sq ft) $249 · Medium (2,001–4,000 sq ft) $299 · Large (4,001–6,000 sq ft) $379. Includes final mow, core aeration, fall fertilizer, and sprinkler blowout up to 6 zones.</p>
         </div>
       </div>
       <div class="price-row-2 fade-up">
@@ -1075,8 +1075,8 @@
                 </label>
                 <label class="radio-option">
                   <input type="radio" name="service" value="Winter Prep" onchange="updateIntakeService()">
-                  Winter Prep
-                  <span class="radio-price">Get a Quote</span>
+                  Winter Prep Package
+                  <span class="radio-price">From $249</span>
                 </label>
                 <label class="radio-option">
                   <input type="radio" name="service" value="Sprinkler Blowout" onchange="updateIntakeService()">
@@ -1102,22 +1102,28 @@
                 <label class="radio-option">
                   <input type="radio" name="yardSize" value="Small" required>
                   <span class="size-label-text">Small — Townhome / compact lot</span>
-                  <span class="radio-price" data-price="~$45" data-snow-price="$45">~$45</span>
+                  <span class="radio-price" data-price="~$45" data-snow-price="$45" data-winter-price="$249">~$45</span>
                 </label>
                 <label class="radio-option">
                   <input type="radio" name="yardSize" value="Standard">
                   <span class="size-label-text">Standard — Typical suburban yard</span>
-                  <span class="radio-price" data-price="~$55" data-snow-price="$65">~$55</span>
+                  <span class="radio-price" data-price="~$55" data-snow-price="$65" data-winter-price="$299">~$55</span>
                 </label>
                 <label class="radio-option">
                   <input type="radio" name="yardSize" value="Large">
                   <span class="size-label-text">Large — Corner lot / big backyard</span>
-                  <span class="radio-price" data-price="$65+" data-snow-price="$85">$65+</span>
+                  <span class="radio-price" data-price="$65+" data-snow-price="$85" data-winter-price="$379">$65+</span>
                 </label>
               </div>
               <p id="snowDepthNote" style="display:none;font-size:13px;color:var(--muted);margin-top:10px;padding:10px 14px;background:rgba(21,22,19,.04);border-radius:10px;line-height:1.5;">
                 <strong style="color:var(--black);">Snow depth pricing:</strong> Base rates apply up to 6". Rates increase over 6". Corner lots, steep driveways, packed snow, and ice need a separate quote. Extras: additional sidewalk +$15/50 ft · deicer from $15 · heavy street-plow pile +$15–$30.
               </p>
+            </div>
+
+            <div id="winterPrepNote" style="display:none;font-size:13px;color:var(--muted);margin-bottom:14px;padding:12px 14px;background:rgba(21,22,19,.04);border-radius:10px;line-height:1.7;">
+              <strong style="color:var(--black);display:block;margin-bottom:6px;">What's included</strong>
+              Final mow, trim, edge &amp; blow · Core aeration · Fall fertilizer (product + application) · Sprinkler blowout up to 6 zones (+$10/zone after)<br>
+              <span style="margin-top:6px;display:block;">Oversized yards over 6,000 sq ft get a custom quote. Leaf cleanup, overseeding, and sprinkler repairs are separate.</span>
             </div>
 
             <div id="sprinklerPricingNote" style="display:none;font-size:13px;color:var(--muted);margin-bottom:14px;padding:12px 14px;background:rgba(21,22,19,.04);border-radius:10px;line-height:1.7;">
@@ -1228,24 +1234,30 @@
     const QUOTE_SERVICES = ['Seasonal Cleanup', 'Winter Prep', 'Sprinkler Blowout', 'Snow Removal', 'Lawn Rx'];
     const YARD_LABELS = ['Small — Townhome / compact lot', 'Standard — Typical suburban yard', 'Large — Corner lot / big backyard'];
     const DRIVEWAY_LABELS = ['Small — 1-car driveway, short walkway ($45)', 'Medium — 2-car driveway, front walkway ($65)', 'Large — 3-car or long 2-car driveway ($85)'];
+    const WINTER_LABELS = ['Small — up to 2,000 sq ft', 'Medium — 2,001–4,000 sq ft', 'Large — 4,001–6,000 sq ft'];
     function updateIntakeService() {
       const sel = document.querySelector('input[name="service"]:checked');
       const isQ = sel && QUOTE_SERVICES.includes(sel.value);
       const isSnow = sel && sel.value === 'Snow Removal';
       const isBlowout = sel && sel.value === 'Sprinkler Blowout';
+      const isWinter = sel && sel.value === 'Winter Prep';
       document.querySelectorAll('span.radio-price[data-price]').forEach(s => {
         if (isSnow && s.dataset.snowPrice) { s.textContent = s.dataset.snowPrice; }
+        else if (isWinter && s.dataset.winterPrice) { s.textContent = s.dataset.winterPrice; }
         else { s.textContent = isQ ? 'Get a Quote' : s.dataset.price; }
       });
       document.getElementById('if-photos').required = isQ;
       document.getElementById('photoFieldLabel').textContent = isQ ? 'Yard Photos * (required for quoting)' : 'Yard Photos (optional — helps with quoting)';
       document.getElementById('intakeSubmitBtn').textContent = isQ ? 'Get Quote' : 'Get on the schedule';
-      document.getElementById('sizeSectionLabel').textContent = isSnow ? 'Driveway Size *' : 'Yard Size *';
+      document.getElementById('sizeSectionLabel').textContent = isSnow ? 'Driveway Size *' : isWinter ? 'Lawn Size *' : 'Yard Size *';
       document.getElementById('snowDepthNote').style.display = isSnow ? '' : 'none';
+      document.getElementById('winterPrepNote').style.display = isWinter ? '' : 'none';
       document.getElementById('sprinklerPricingNote').style.display = isBlowout ? '' : 'none';
       document.getElementById('sizeField').style.display = isBlowout ? 'none' : '';
       document.querySelectorAll('.size-label-text').forEach((el, i) => {
-        el.textContent = isSnow ? DRIVEWAY_LABELS[i] : YARD_LABELS[i];
+        if (isSnow) el.textContent = DRIVEWAY_LABELS[i];
+        else if (isWinter) el.textContent = WINTER_LABELS[i];
+        else el.textContent = YARD_LABELS[i];
       });
     }
 
