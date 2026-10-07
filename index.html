@@ -1069,25 +1069,28 @@
               </div>
             </div>
 
-            <div class="field-group" style="margin-bottom:14px;">
-              <label>Yard Size *</label>
+            <div class="field-group" style="margin-bottom:14px;" id="sizeField">
+              <label id="sizeSectionLabel">Yard Size *</label>
               <div class="radio-group">
                 <label class="radio-option">
                   <input type="radio" name="yardSize" value="Small" required>
-                  Small — Townhome / compact lot
+                  <span class="size-label-text">Small — Townhome / compact lot</span>
                   <span class="radio-price" data-price="~$45">~$45</span>
                 </label>
                 <label class="radio-option">
                   <input type="radio" name="yardSize" value="Standard">
-                  Standard — Typical suburban yard
+                  <span class="size-label-text">Standard — Typical suburban yard</span>
                   <span class="radio-price" data-price="~$55">~$55</span>
                 </label>
                 <label class="radio-option">
                   <input type="radio" name="yardSize" value="Large">
-                  Large — Corner lot / big backyard
+                  <span class="size-label-text">Large — Corner lot / big backyard</span>
                   <span class="radio-price" data-price="$65+">$65+</span>
                 </label>
               </div>
+              <p id="snowDepthNote" style="display:none;font-size:13px;color:var(--muted);margin-top:10px;padding:10px 14px;background:rgba(21,22,19,.04);border-radius:10px;line-height:1.5;">
+                <strong style="color:var(--black);">Snow depth pricing:</strong> Base price applies up to 6 inches. Rates increase for every inch over 6".
+              </p>
             </div>
 
             <div class="field-group" style="margin-bottom:14px;">
@@ -1182,13 +1185,21 @@
     });
 
     const QUOTE_SERVICES = ['Seasonal Cleanup', 'Fall Cleanup', 'Winter Prep', 'Sprinkler Blowout', 'Snow Removal', 'Lawn Rx'];
+    const YARD_LABELS = ['Small — Townhome / compact lot', 'Standard — Typical suburban yard', 'Large — Corner lot / big backyard'];
+    const DRIVEWAY_LABELS = ['Small — Single car / short driveway', 'Standard — Two car / typical driveway', 'Large — Long driveway / multiple areas'];
     function updateIntakeService() {
       const sel = document.querySelector('input[name="service"]:checked');
       const isQ = sel && QUOTE_SERVICES.includes(sel.value);
+      const isSnow = sel && sel.value === 'Snow Removal';
       document.querySelectorAll('span.radio-price[data-price]').forEach(s => { s.textContent = isQ ? 'Get a Quote' : s.dataset.price; });
       document.getElementById('if-photos').required = isQ;
       document.getElementById('photoFieldLabel').textContent = isQ ? 'Yard Photos * (required for quoting)' : 'Yard Photos (optional — helps with quoting)';
       document.getElementById('intakeSubmitBtn').textContent = isQ ? 'Get Quote' : 'Get on the schedule';
+      document.getElementById('sizeSectionLabel').textContent = isSnow ? 'Driveway Size *' : 'Yard Size *';
+      document.getElementById('snowDepthNote').style.display = isSnow ? '' : 'none';
+      document.querySelectorAll('.size-label-text').forEach((el, i) => {
+        el.textContent = isSnow ? DRIVEWAY_LABELS[i] : YARD_LABELS[i];
+      });
     }
 
     document.getElementById('intakeForm').addEventListener('submit', async function(e) {
