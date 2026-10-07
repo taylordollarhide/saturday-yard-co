@@ -832,7 +832,7 @@
           <div class="service-icon"><span class="material-icons">cloudy_snowing</span></div>
           <h3>Snow Removal</h3>
           <p>Driveway and walkway clearing after snowfall. Priced by property size, rates increase over 6".</p>
-          <div class="service-price">Get a Quote</div>
+          <div class="service-price">From $45/visit</div>
         </div>
       </div>
     </div>
@@ -885,10 +885,10 @@
           <h3>Sprinkler Blowout</h3>
           <p>Up to 6 zones included. Additional zones $10 each.</p>
         </div>
-        <div class="price-card quote">
-          <div class="price-amount">Get a Quote</div>
+        <div class="price-card">
+          <div class="price-amount">$45<span class="price-unit"> – $85</span></div>
           <h3>Snow Removal</h3>
-          <p>Driveway and walkway clearing after snowfall. Priced by property size.</p>
+          <p>Per visit, under 6". Small (1-car) $45 · Medium (2-car) $65 · Large (3-car) $85. Rates increase over 6". Corner lots, steep drives, and ice get a separate quote.</p>
         </div>
       </div>
       <div class="price-row-2 fade-up">
@@ -1127,7 +1127,7 @@
                 </label>
               </div>
               <p id="snowDepthNote" style="display:none;font-size:13px;color:var(--muted);margin-top:10px;padding:10px 14px;background:rgba(21,22,19,.04);border-radius:10px;line-height:1.5;">
-                <strong style="color:var(--black);">Snow depth pricing:</strong> Base price applies up to 6 inches. Rates increase for every inch over 6".
+                <strong style="color:var(--black);">Snow depth pricing:</strong> Base rates apply up to 6". Rates increase over 6". Corner lots, steep driveways, packed snow, and ice need a separate quote. Extras: additional sidewalk +$15/50 ft · deicer from $15 · heavy street-plow pile +$15–$30.
               </p>
             </div>
 
@@ -1224,7 +1224,7 @@
 
     const QUOTE_SERVICES = ['Seasonal Cleanup', 'Fall Cleanup', 'Winter Prep', 'Sprinkler Blowout', 'Snow Removal', 'Lawn Rx'];
     const YARD_LABELS = ['Small — Townhome / compact lot', 'Standard — Typical suburban yard', 'Large — Corner lot / big backyard'];
-    const DRIVEWAY_LABELS = ['Small — Single car / short driveway', 'Standard — Two car / typical driveway', 'Large — Long driveway / multiple areas'];
+    const DRIVEWAY_LABELS = ['Small — 1-car driveway, short walkway ($45)', 'Medium — 2-car driveway, front walkway ($65)', 'Large — 3-car or long 2-car driveway ($85)'];
     function updateIntakeService() {
       const sel = document.querySelector('input[name="service"]:checked');
       const isQ = sel && QUOTE_SERVICES.includes(sel.value);
