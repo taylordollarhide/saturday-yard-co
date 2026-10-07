@@ -633,7 +633,7 @@
     confirmingLead = lead;
 
     document.getElementById('confirmName').textContent = `${lead.first} ${lead.last}`;
-    const needsQuote = ['Seasonal Cleanup', 'Lawn Rx'].includes(lead.service);
+    const needsQuote = ['Seasonal Cleanup', 'Fall Cleanup', 'Winter Prep', 'Sprinkler Blowout', 'Snow Removal', 'Lawn Rx'].includes(lead.service);
     const priceInput = document.getElementById('confirmPrice');
     const priceLabel = document.getElementById('confirmPriceLabel');
     priceInput.value = needsQuote ? '' : (lead.price || '');
