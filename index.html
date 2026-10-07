@@ -1120,6 +1120,13 @@
               </p>
             </div>
 
+            <div id="sprinklerPricingNote" style="display:none;font-size:13px;color:var(--muted);margin-bottom:14px;padding:12px 14px;background:rgba(21,22,19,.04);border-radius:10px;line-height:1.7;">
+              <strong style="color:var(--black);display:block;margin-bottom:6px;">Zone pricing</strong>
+              Up to 6 zones — $95<br>
+              7 zones — $105 · 8 zones — $115 · each additional zone +$10<br>
+              <span style="margin-top:6px;display:block;">Existing mowing or Lawn Rx client — $85 up to 6 zones. Neighborhood bookings (3+ homes back-to-back) — $85/home.</span>
+            </div>
+
             <div class="field-group" style="margin-bottom:14px;">
               <label id="photoFieldLabel">Yard Photos (optional — helps with quoting)</label>
               <label class="file-input-wrapper" for="if-photos">
@@ -1225,6 +1232,7 @@
       const sel = document.querySelector('input[name="service"]:checked');
       const isQ = sel && QUOTE_SERVICES.includes(sel.value);
       const isSnow = sel && sel.value === 'Snow Removal';
+      const isBlowout = sel && sel.value === 'Sprinkler Blowout';
       document.querySelectorAll('span.radio-price[data-price]').forEach(s => {
         if (isSnow && s.dataset.snowPrice) { s.textContent = s.dataset.snowPrice; }
         else { s.textContent = isQ ? 'Get a Quote' : s.dataset.price; }
@@ -1234,6 +1242,8 @@
       document.getElementById('intakeSubmitBtn').textContent = isQ ? 'Get Quote' : 'Get on the schedule';
       document.getElementById('sizeSectionLabel').textContent = isSnow ? 'Driveway Size *' : 'Yard Size *';
       document.getElementById('snowDepthNote').style.display = isSnow ? '' : 'none';
+      document.getElementById('sprinklerPricingNote').style.display = isBlowout ? '' : 'none';
+      document.getElementById('sizeField').style.display = isBlowout ? 'none' : '';
       document.querySelectorAll('.size-label-text').forEach((el, i) => {
         el.textContent = isSnow ? DRIVEWAY_LABELS[i] : YARD_LABELS[i];
       });
