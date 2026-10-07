@@ -1028,13 +1028,6 @@
       });
 
       const dayKey = day.toLowerCase().replace(/\W/g, '');
-      html += `
-        <button class="btn btn-gold" style="width:100%;margin:8px 0 20px;" onclick="toggleEOD('${day}', '${dayKey}')">
-          <span class="material-icons" style="font-size:16px;vertical-align:-3px">mark_email_read</span> EOD Send — ${day}
-        </button>
-        <div id="eod-panel-${dayKey}" style="display:none;margin-bottom:16px;">
-          <div id="eod-list-${dayKey}"></div>
-        </div>`;
     });
 
     el.innerHTML = html;
