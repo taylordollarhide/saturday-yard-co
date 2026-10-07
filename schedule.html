@@ -1096,17 +1096,18 @@
     const weeklyVisitRev = weekly.reduce((s, c) => s + Number(c.price || 0), 0);
     const biwVisitRev = biweekly.reduce((s, c) => s + Number(c.price || 0), 0);
 
-    // revenue per hour by yard size
+    // revenue per hour by yard size (mowing clients only)
+    const mowingClients = clients.filter(c => c.service === 'Weekly' || c.service === 'Bi-Weekly');
     const sizeGroups = ['Small', 'Standard', 'Large'];
     const sizeData = sizeGroups.map(size => {
-      const group = clients.filter(c => c.yardSize === size);
+      const group = mowingClients.filter(c => c.yardSize === size);
       const totalRev = group.reduce((s, c) => s + Number(c.price || 0), 0);
-      const totalMins = group.length * JOB_DUR[size];
+      const totalMins = group.length * (JOB_DUR[size] || 28);
       const rph = totalMins > 0 ? (totalRev / totalMins) * 60 : 0;
       return { size, count: group.length, totalRev, rph };
     }).filter(d => d.count > 0);
 
-    const maxRph = Math.max(...sizeData.map(d => d.rph), 1);
+    const maxRph = Math.max(...sizeData.map(d => d.rph || 0), 1);
 
     // revenue by day
     const days = WEEK_DAYS.filter(d => clients.some(c => c.day === d));
@@ -1130,7 +1131,7 @@
       })
       .slice(0, 5);
 
-    const maxClientRev = Number(topClients[0]?.price || 0) * serviceMultiplier(topClients[0]?.service);
+    const maxClientRev = Math.max(Number(topClients[0]?.price || 0) * serviceMultiplier(topClients[0]?.service), 1);
 
     // insights
     const insights = [];
@@ -1250,7 +1251,7 @@
           <div style="display:flex;justify-content:space-between;align-items:center;">
             <div>
               <div class="stats-row-label">${c.first} ${c.last}</div>
-              <div class="stats-row-sub">${c.service} · ${c.yardSize} · $${c.price}/mow</div>
+              <div class="stats-row-sub">${c.service}${c.yardSize ? ' · ' + c.yardSize : ''} · $${c.price || '—'}</div>
             </div>
             <span class="stats-badge gold">$${monthRev}/mo</span>
           </div>
