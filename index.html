@@ -810,12 +810,6 @@
           <p>Full reset after winter — debris, edges, bed cleanup, and first mow — to start the season right.</p>
           <div class="service-price">Get a Quote</div>
         </div>
-        <div class="service-card" onclick="openIntake('Fall Cleanup')" style="cursor:pointer;">
-          <div class="service-icon"><span class="material-icons">eco</span></div>
-          <h3>Fall Cleanup</h3>
-          <p>Leaf removal, final edge, and bed prep to protect the lawn through dormancy.</p>
-          <div class="service-price">Get a Quote</div>
-        </div>
         <div class="service-card" onclick="openIntake('Winter Prep')" style="cursor:pointer;">
           <div class="service-icon"><span class="material-icons">ac_unit</span></div>
           <h3>Winter Prep</h3>
@@ -1080,11 +1074,6 @@
                   <span class="radio-price">One-time</span>
                 </label>
                 <label class="radio-option">
-                  <input type="radio" name="service" value="Fall Cleanup" onchange="updateIntakeService()">
-                  Fall Cleanup
-                  <span class="radio-price">Get a Quote</span>
-                </label>
-                <label class="radio-option">
                   <input type="radio" name="service" value="Winter Prep" onchange="updateIntakeService()">
                   Winter Prep
                   <span class="radio-price">Get a Quote</span>
@@ -1229,7 +1218,7 @@
       document.getElementById('photoLabel').textContent = n ? `${n} photo${n > 1 ? 's' : ''} selected` : '<span class="material-icons" style="font-size:18px;vertical-align:middle;margin-right:4px;">photo_camera</span> Tap to add yard photos';
     });
 
-    const QUOTE_SERVICES = ['Seasonal Cleanup', 'Fall Cleanup', 'Winter Prep', 'Sprinkler Blowout', 'Snow Removal', 'Lawn Rx'];
+    const QUOTE_SERVICES = ['Seasonal Cleanup', 'Winter Prep', 'Sprinkler Blowout', 'Snow Removal', 'Lawn Rx'];
     const YARD_LABELS = ['Small — Townhome / compact lot', 'Standard — Typical suburban yard', 'Large — Corner lot / big backyard'];
     const DRIVEWAY_LABELS = ['Small — 1-car driveway, short walkway ($45)', 'Medium — 2-car driveway, front walkway ($65)', 'Large — 3-car or long 2-car driveway ($85)'];
     function updateIntakeService() {
