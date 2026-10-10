@@ -439,8 +439,9 @@
     /* ── Pricing pills ── */
     .price-section { background: var(--cream); }
     .price-inner { max-width: 1200px; margin: 0 auto; padding: 96px 28px; }
-    .price-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 14px; }
-    .price-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .price-row { display: contents; }
+    .price-row-2 { display: contents; }
     .price-card {
       background: var(--paper); border: 1px solid var(--line);
       border-radius: 22px; padding: 26px 24px;
@@ -536,8 +537,7 @@
       .footer-inner { grid-template-columns: 1fr; }
       .footer-links { align-items: flex-start; }
       .footer-areas { text-align: left; }
-      .price-row { grid-template-columns: 1fr; }
-      .price-row-2 { grid-template-columns: 1fr; }
+      .price-grid { grid-template-columns: 1fr; }
       .hero-h1 { font-size: clamp(42px, 12vw, 72px); }
       .intake-grid { grid-template-columns: 1fr; }
       .field-group.full { grid-column: span 1; }
@@ -839,7 +839,7 @@
         <div class="eyebrow" style="margin-bottom:14px;">Simple pricing</div>
         <h2 class="section-h2">No mystery.<br>No surprises.</h2>
       </div>
-      <div class="price-row fade-up">
+      <div class="price-grid fade-up">
         <div class="price-card">
           <div class="price-amount">$45<span class="price-unit">/mow</span></div>
           <h3>Small Yard</h3>
@@ -855,8 +855,6 @@
           <h3>Larger Yard</h3>
           <p>Corner lots, bigger backyards, tricky access, or heavier trimming.</p>
         </div>
-      </div>
-      <div class="price-row fade-up">
         <div class="price-card quote">
           <div class="price-amount">Get a Quote</div>
           <h3>Seasonal Cleanup</h3>
@@ -867,8 +865,6 @@
           <h3>Winter Prep Package</h3>
           <p>Small (up to 2,000 sq ft) $249 · Medium (2,001–4,000 sq ft) $299 · Large (4,001–6,000 sq ft) $379. Includes final mow, core aeration, fall fertilizer, and sprinkler blowout up to 6 zones.</p>
         </div>
-      </div>
-      <div class="price-row-2 fade-up">
         <div class="price-card quote">
           <div class="price-amount">$95<span class="price-unit"> / 6 zones</span></div>
           <h3>Sprinkler Blowout</h3>
@@ -879,8 +875,6 @@
           <h3>Snow Removal</h3>
           <p>Per visit, under 6". Small (1-car) $45 · Medium (2-car) $65 · Large (3-car) $85. Rates increase over 6". Corner lots, steep drives, and ice get a separate quote.</p>
         </div>
-      </div>
-      <div class="price-row-2 fade-up">
         <div class="price-card quote">
           <div class="price-amount">Get a Quote</div>
           <h3>Lawn Rx</h3>
