@@ -208,6 +208,55 @@
       max-width: 560px;
     }
 
+    /* ── Winter Prep ── */
+    .wp-wrap { background: var(--cream); }
+    .wp-inner {
+      max-width: 1200px; margin: 0 auto; padding: 96px 28px;
+      display: grid; grid-template-columns: 5fr 7fr; gap: 72px; align-items: start;
+    }
+    .wp-lead { font-size: 17px; color: var(--muted); line-height: 1.7; margin: 20px 0 32px; }
+    .wp-prices { border-top: 1px solid var(--line-strong); margin-bottom: 32px; }
+    .wp-price-row {
+      display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+      padding: 14px 0; border-bottom: 1px solid var(--line);
+    }
+    .wp-price-row span { font-size: 14px; color: var(--muted); }
+    .wp-price-row strong { font-size: 15px; font-weight: 800; }
+    .wp-price-row b { font-family: Georgia, "Times New Roman", serif; font-size: 24px; letter-spacing: -.02em; color: var(--green); }
+    .wp-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .wp-step {
+      background: var(--paper); border: 1px solid var(--line);
+      border-radius: 24px; padding: 28px 26px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .wp-step-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .wp-step-top .material-icons { font-size: 26px; color: var(--green); }
+    .wp-step-num { font-size: 12px; font-weight: 900; letter-spacing: .14em; color: var(--gold); }
+    .wp-step h3 { font-size: 18px; font-weight: 800; letter-spacing: -.02em; line-height: 1.2; }
+    .wp-step p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+    .wp-note { grid-column: 1 / -1; font-size: 13px; color: var(--muted); line-height: 1.6; padding: 4px 4px 0; }
+
+    /* ── Next Season ── */
+    .ns-wrap { background: var(--green); color: var(--paper); }
+    .ns-inner { max-width: 1200px; margin: 0 auto; padding: 96px 28px; }
+    .ns-head { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; margin-bottom: 56px; }
+    .ns-head .section-h2 { color: var(--paper); margin-bottom: 0; }
+    .ns-lead { font-size: 17px; color: rgba(255,250,240,.7); line-height: 1.7; max-width: 520px; }
+    .ns-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 48px; }
+    .ns-card {
+      background: rgba(255,250,240,.06); border: 1px solid rgba(255,250,240,.14);
+      border-radius: 24px; padding: 28px 26px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .ns-card.now { background: rgba(185,134,47,.14); border-color: var(--gold); }
+    .ns-when { font-size: 12px; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
+    .ns-card h3 { font-family: Georgia, "Times New Roman", serif; font-size: 24px; font-weight: 400; letter-spacing: -.02em; line-height: 1.1; }
+    .ns-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .ns-card li { font-size: 14px; color: rgba(255,250,240,.72); line-height: 1.5; padding-left: 18px; position: relative; }
+    .ns-card li::before { content: ""; position: absolute; left: 0; top: .6em; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+    .ns-foot { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; padding-top: 32px; border-top: 1px solid rgba(255,250,240,.14); }
+    .ns-foot p { font-family: Georgia, "Times New Roman", serif; font-size: 24px; letter-spacing: -.02em; line-height: 1.25; max-width: 620px; }
+
     /* ── Problem section ── */
     .problem-wrap { background: var(--paper); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
     .problem-inner {
@@ -523,6 +572,9 @@
       nav { display: none; }
       .brand img { width: 170px; }
       .problem-inner { grid-template-columns: 1fr; gap: 44px; }
+      .wp-inner { grid-template-columns: 1fr; gap: 48px; }
+      .ns-head { grid-template-columns: 1fr; }
+      .ns-grid { grid-template-columns: 1fr 1fr; }
       .rx-steps { grid-template-columns: 1fr 1fr; }
       .gallery-grid { grid-template-columns: 1fr; }
       .gallery-card.wide { grid-column: span 1; }
@@ -544,11 +596,17 @@
       .field-group.full { grid-column: span 1; }
     }
     @media (max-width: 600px) {
+      .cta-h2 { font-size: 9vw; }
       .section, .section-sm { padding: 64px 20px; }
       .rx-steps { grid-template-columns: 1fr; }
       .services-grid { grid-template-columns: 1fr; }
       .hero-actions { flex-direction: column; align-items: flex-start; }
       .problem-cards { grid-template-columns: 1fr; }
+      .wp-inner { padding: 72px 20px; }
+      .wp-steps { grid-template-columns: 1fr; }
+      .ns-inner { padding: 72px 20px; }
+      .ns-grid { grid-template-columns: 1fr; }
+      .ns-foot p { font-size: 20px; }
     }
   </style>
 </head>
@@ -602,6 +660,103 @@
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
     </div>
   </section>
+
+  <!-- ── Winter Prep ── -->
+  <div class="wp-wrap" id="winter-prep">
+    <div class="wp-inner">
+      <div class="fade-up">
+        <div class="eyebrow" style="margin-bottom:16px;">Winter Prep Package</div>
+        <h2 class="section-h2" style="margin-bottom:0;">One visit.<br>Ready for the freeze.</h2>
+        <p class="wp-lead">What your lawn gets in the fall decides how it wakes up in spring. Winter Prep bundles the four things a Colorado lawn needs before the ground freezes into a single visit, so roots go dormant fed, breathing, and protected, and your sprinklers make it through without cracked lines.</p>
+        <div class="wp-prices">
+          <div class="wp-price-row"><div><strong>Small</strong> <span>up to 2,000 sq ft</span></div><b>$249</b></div>
+          <div class="wp-price-row"><div><strong>Medium</strong> <span>2,001–4,000 sq ft</span></div><b>$299</b></div>
+          <div class="wp-price-row"><div><strong>Large</strong> <span>4,001–6,000 sq ft</span></div><b>$379</b></div>
+        </div>
+        <button class="btn btn-gold" onclick="openIntake('Winter Prep')">Book Winter Prep</button>
+      </div>
+      <div class="wp-steps fade-up">
+        <div class="wp-step">
+          <div class="wp-step-top"><span class="material-icons">content_cut</span><span class="wp-step-num">01</span></div>
+          <h3>Final Mow, Trim, Edge &amp; Blow</h3>
+          <p>A last cut at the right winter height. Too long and it mats under snow and invites mold; too short and the crowns are left exposed to the cold.</p>
+        </div>
+        <div class="wp-step">
+          <div class="wp-step-top"><span class="material-icons">terrain</span><span class="wp-step-num">02</span></div>
+          <h3>Core Aeration</h3>
+          <p>Pulls plugs out of compacted Colorado clay so air, water, and fertilizer reach the root zone instead of running off.</p>
+        </div>
+        <div class="wp-step">
+          <div class="wp-step-top"><span class="material-icons">science</span><span class="wp-step-num">03</span></div>
+          <h3>Fall Fertilizer</h3>
+          <p>Product and application included. Feeds the roots while they store energy for winter, which means faster, thicker green-up in spring.</p>
+        </div>
+        <div class="wp-step">
+          <div class="wp-step-top"><span class="material-icons">water_drop</span><span class="wp-step-num">04</span></div>
+          <h3>Sprinkler Blowout</h3>
+          <p>Compressed air clears every line so trapped water can't freeze and crack pipes or heads. Up to 6 zones included, $10 per zone after.</p>
+        </div>
+        <p class="wp-note">Yards over 6,000 sq ft get a custom quote. Leaf cleanup, overseeding, and sprinkler repairs are quoted separately.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Next Season ── -->
+  <div class="ns-wrap" id="next-season">
+    <div class="ns-inner">
+      <div class="ns-head">
+        <div class="fade-up">
+          <div class="eyebrow" style="margin-bottom:16px;">Looking ahead</div>
+          <h2 class="section-h2">Next season<br>starts now.</h2>
+        </div>
+        <div class="fade-up">
+          <p class="ns-lead">The best spring lawns aren't built in spring. They're built by what happens between the last mow and the first one, and by having a plan ready before everyone else starts calling.</p>
+        </div>
+      </div>
+      <div class="ns-grid fade-up">
+        <div class="ns-card now">
+          <div class="ns-when">Now &middot; Oct&ndash;Nov</div>
+          <h3>Put it to bed right</h3>
+          <ul>
+            <li>Winter Prep: final mow, aeration, fall fertilizer</li>
+            <li>Sprinkler blowout before the first hard freeze</li>
+            <li>Clear leaves so they don't mat and smother turf</li>
+          </ul>
+        </div>
+        <div class="ns-card">
+          <div class="ns-when">Winter &middot; Dec&ndash;Feb</div>
+          <h3>Protect what you built</h3>
+          <ul>
+            <li>Water during long dry spells when it's above 40&deg; and the ground isn't frozen</li>
+            <li>Keep foot traffic off frozen or frosty grass</li>
+            <li>Snow removal so paths stay clear without piling on the lawn</li>
+          </ul>
+        </div>
+        <div class="ns-card">
+          <div class="ns-when">Early Spring &middot; Mar&ndash;Apr</div>
+          <h3>Diagnose first</h3>
+          <ul>
+            <li>Spring cleanup to clear winter debris and wake up beds</li>
+            <li>Lawn Rx assessment to see what survived and what needs help</li>
+            <li>A treatment plan built before growth takes off</li>
+          </ul>
+        </div>
+        <div class="ns-card">
+          <div class="ns-when">Late Spring &middot; May</div>
+          <h3>Hit the ground growing</h3>
+          <ul>
+            <li>Weekly mowing at the right height from the first cut</li>
+            <li>Targeted feeding and weed control from your Rx plan</li>
+            <li>Ongoing monitoring all season long</li>
+          </ul>
+        </div>
+      </div>
+      <div class="ns-foot fade-up">
+        <p>Spring routes fill up fast. Get on the list now and your lawn's plan is ready before the first mow.</p>
+        <button class="btn btn-gold" onclick="openIntake('Lawn Rx')">Reserve a Spring Spot</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ── Problem ── -->
   <div class="problem-wrap">
