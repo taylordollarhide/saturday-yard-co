@@ -12,7 +12,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Lawn Health & Mowing Erie CO & Lafayette CO | Saturday Yard Co.</title>
-  <meta name="description" content="Saturday Yard Co. inspects, diagnoses, and builds healthier Colorado lawns. Lawn Rx assessments, weekly mowing, and seasonal care in Erie and Lafayette, CO." />
+  <meta name="description" content="Saturday Yard Co. inspects, diagnoses, and builds healthier Colorado lawns. Winter prep, sprinkler blowouts, and Lawn Rx assessments in Erie and Lafayette, CO." />
   <link rel="canonical" href="https://getsaturdayyard.com" />
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
@@ -20,7 +20,7 @@
 
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Lawn Health & Mowing Erie CO | Saturday Yard Co." />
-  <meta property="og:description" content="Saturday Yard Co. inspects, diagnoses, and builds healthier Colorado lawns. Lawn Rx assessments, weekly mowing, and seasonal care in Erie and Lafayette, CO." />
+  <meta property="og:description" content="Saturday Yard Co. inspects, diagnoses, and builds healthier Colorado lawns. Winter prep, sprinkler blowouts, and Lawn Rx assessments in Erie and Lafayette, CO." />
   <meta property="og:image" content="https://getsaturdayyard.com/lawn-log/photos/erie-after.jpg" />
   <meta property="og:url" content="https://getsaturdayyard.com" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -586,15 +586,15 @@
   <!-- ── Hero ── -->
   <section class="hero">
     <div class="hero-bg"></div>
-    <img class="hero-photo" src="lawn-log/photos/erie-after-evening.jpg" alt="Lush green Erie Colorado lawn at dusk">
+    <img class="hero-photo" src="lawn-log/photos/eh-striped-yard-hero.jpg" alt="Freshly striped Erie Highlands front lawn on a sunny fall day">
     <div class="hero-gradient"></div>
     <div class="hero-content">
-      <div class="eyebrow fade-up">Erie &amp; Lafayette, Colorado</div>
-      <h1 class="hero-h1 fade-up">Better Lawns.<br>Better Weekends.</h1>
-      <p class="hero-sub fade-up">Healthy lawns don't happen by accident. Saturday Yard Co. uses a proven Lawn Rx process to inspect, diagnose, treat, and monitor Colorado lawns season after season.</p>
+      <div class="eyebrow fade-up">Winter is coming &middot; Erie &amp; Lafayette, CO</div>
+      <h1 class="hero-h1 fade-up">Summer's done.<br>Winter's coming.</h1>
+      <p class="hero-sub fade-up">Final winter prep visits run next week. Core aeration, fall fertilizer, a last mow, and a sprinkler blowout now set your lawn up to come back strong in spring.</p>
       <div class="hero-actions fade-up">
-        <button class="btn btn-green" onclick="openIntake()">Schedule Your Lawn Rx</button>
-        <a class="btn btn-ghost" href="#gallery">See Before &amp; After Results</a>
+        <button class="btn btn-green" onclick="openIntake('Winter Prep')">Book Winter Prep</button>
+        <button class="btn btn-ghost" onclick="openIntake('Sprinkler Blowout')">Sprinkler Blowout Only</button>
       </div>
     </div>
     <div class="hero-scroll">
@@ -776,11 +776,35 @@
           <h2 class="section-h2" style="margin-bottom:0;">Services built around outcomes,<br>not just tasks.</h2>
         </div>
         <div class="fade-up" style="align-self:end;">
-          <p class="section-lead">Every service is designed to move your lawn forward — not just maintain the status quo.</p>
+          <p class="section-lead">Mowing season is winding down. What you do in the next few weeks decides how your lawn looks in April.</p>
         </div>
       </div>
       <div class="services-grid fade-up">
-        <div class="service-card featured" onclick="openIntake('Lawn Rx')" style="cursor:pointer;">
+        <div class="service-card featured" onclick="openIntake('Winter Prep')" style="cursor:pointer;">
+          <div class="service-icon"><span class="material-icons">ac_unit</span></div>
+          <h3>Winter Prep</h3>
+          <p>Final mow, core aeration, fall fertilizer, and sprinkler blowout. Last visits of the season run next week.</p>
+          <div class="service-price">From $249</div>
+        </div>
+        <div class="service-card" onclick="openIntake('Sprinkler Blowout')" style="cursor:pointer;">
+          <div class="service-icon"><span class="material-icons">water_drop</span></div>
+          <h3>Sprinkler Blowout</h3>
+          <p>Compressed air winterization to protect your irrigation system from freeze damage. $95 up to 6 zones, $10/zone after. Existing clients $85.</p>
+          <div class="service-price">From $95</div>
+        </div>
+        <div class="service-card" onclick="openIntake('Seasonal Cleanup')" style="cursor:pointer;">
+          <div class="service-icon"><span class="material-icons">yard</span></div>
+          <h3>Fall Cleanup</h3>
+          <p>Leaves, debris, and beds cleared before the snow so nothing mats down and smothers your turf over winter.</p>
+          <div class="service-price">Get a Quote</div>
+        </div>
+        <div class="service-card" onclick="openIntake('Snow Removal')" style="cursor:pointer;">
+          <div class="service-icon"><span class="material-icons">cloudy_snowing</span></div>
+          <h3>Snow Removal</h3>
+          <p>Driveway and walkway clearing after snowfall. Priced by property size, rates increase over 6".</p>
+          <div class="service-price">From $45/visit</div>
+        </div>
+        <div class="service-card" onclick="openIntake('Lawn Rx')" style="cursor:pointer;">
           <div class="service-icon"><span class="material-icons">medical_services</span></div>
           <h3>Lawn Rx Assessment</h3>
           <p>Inspect, diagnose, and build a seasonal treatment plan. The foundation of everything we do.</p>
@@ -803,30 +827,6 @@
           <h3>Shrub &amp; Bed Care</h3>
           <p>Pruning, cleanup, and structure restoration for landscape beds that have gotten ahead of themselves.</p>
           <div class="service-price">Get a Quote</div>
-        </div>
-        <div class="service-card" onclick="openIntake('Seasonal Cleanup')" style="cursor:pointer;">
-          <div class="service-icon"><span class="material-icons">yard</span></div>
-          <h3>Spring Cleanup</h3>
-          <p>Full reset after winter — debris, edges, bed cleanup, and first mow — to start the season right.</p>
-          <div class="service-price">Get a Quote</div>
-        </div>
-        <div class="service-card" onclick="openIntake('Winter Prep')" style="cursor:pointer;">
-          <div class="service-icon"><span class="material-icons">ac_unit</span></div>
-          <h3>Winter Prep</h3>
-          <p>Final mow, core aeration, fall fertilizer, and sprinkler blowout — everything your lawn needs before the first freeze. From $249.</p>
-          <div class="service-price">From $249</div>
-        </div>
-        <div class="service-card" onclick="openIntake('Sprinkler Blowout')" style="cursor:pointer;">
-          <div class="service-icon"><span class="material-icons">water_drop</span></div>
-          <h3>Sprinkler Blowout</h3>
-          <p>Compressed air winterization to protect your irrigation system from freeze damage. $95 up to 6 zones, $10/zone after. Existing clients $85.</p>
-          <div class="service-price">From $95</div>
-        </div>
-        <div class="service-card" onclick="openIntake('Snow Removal')" style="cursor:pointer;">
-          <div class="service-icon"><span class="material-icons">cloudy_snowing</span></div>
-          <h3>Snow Removal</h3>
-          <p>Driveway and walkway clearing after snowfall. Priced by property size, rates increase over 6".</p>
-          <div class="service-price">From $45/visit</div>
         </div>
       </div>
     </div>
@@ -992,11 +992,11 @@
   <!-- ── Final CTA ── -->
   <div class="cta-wrap">
     <div class="cta-inner fade-up">
-      <div class="eyebrow">Now booking routes</div>
-      <h2 class="cta-h2">Ready to stop<br>guessing?</h2>
-      <p class="cta-sub">Book a Lawn Rx assessment and build a healthier lawn this season. Takes two minutes to get started.</p>
+      <div class="eyebrow">Last call before the freeze</div>
+      <h2 class="cta-h2">Winter is<br>coming.</h2>
+      <p class="cta-sub">Final winter prep visits run next week. Grab a spot now and your lawn heads into the cold ready to come back strong. Takes two minutes to book.</p>
       <div class="cta-actions">
-        <button class="btn btn-green" onclick="openIntake()">Schedule My Lawn Rx</button>
+        <button class="btn btn-green" onclick="openIntake('Winter Prep')">Book Winter Prep</button>
         <a class="btn btn-outline" href="lawn-log.html">See the work first →</a>
       </div>
     </div>
