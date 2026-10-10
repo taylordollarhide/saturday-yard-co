@@ -127,6 +127,7 @@
     .header-wrap.scrolled .logo-light { display: none; }
     .header-wrap.scrolled .logo-dark  { display: block; }
     nav { display: flex; align-items: center; gap: 28px; }
+    nav a { white-space: nowrap; }
     nav a { font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; opacity: .8; color: var(--paper); transition: opacity .15s, color .2s; }
     nav a:hover { opacity: 1; }
     nav a.active { opacity: 1; }
@@ -134,7 +135,7 @@
     .header-wrap.scrolled nav a:hover { opacity: 1; }
     .header-wrap.scrolled nav a.active { opacity: 1; color: var(--green); }
     .menu-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
-    .menu-toggle span { display: block; width: 24px; height: 2px; background: var(--black); border-radius: 2px; transition: .2s; }
+    .menu-toggle span { display: block; width: 24px; height: 2px; background: var(--gold); border-radius: 2px; transition: .2s; }
     .mobile-nav { display: none; position: fixed; inset: 0; background: var(--paper); z-index: 110; flex-direction: column; align-items: center; justify-content: center; gap: 32px; }
     .mobile-nav.open { display: flex; }
     .mobile-nav-close { position: absolute; top: 24px; right: 24px; background: none; border: none; font-size: 24px; cursor: pointer; }
@@ -608,6 +609,8 @@
       .ns-grid { grid-template-columns: 1fr; }
       .ns-foot p { font-size: 20px; }
     }
+    /* Collapse nav to menu before links run out of room */
+    @media (max-width: 980px) { .menu-toggle { display: flex; } nav { display: none; } }
   </style>
 </head>
 <body>
@@ -620,6 +623,7 @@
         <img src="logo.png"       alt="Saturday Yard Co." class="logo-dark">
       </a>
       <nav>
+        <a href="#winter-prep">Winter Prep</a>
         <a href="#services">Services</a>
         <a href="#lawn-rx">Lawn Rx</a>
         <a href="#lawn-log">Lawn Log</a>
@@ -635,6 +639,7 @@
   <!-- ── Mobile nav ── -->
   <div class="mobile-nav" id="mobileNav" role="dialog" aria-label="Mobile navigation">
     <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">✕</button>
+    <a href="#winter-prep" class="mobile-nav-link">Winter Prep</a>
     <a href="#services" class="mobile-nav-link">Services</a>
     <a href="#lawn-rx" class="mobile-nav-link">Lawn Rx</a>
     <a href="#lawn-log" class="mobile-nav-link">Lawn Log</a>

@@ -58,6 +58,7 @@
       display: flex; gap: 22px; align-items: center;
       font-size: 14px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
     }
+    nav a { white-space: nowrap; }
     nav a { opacity: .72; }
     nav a:hover { opacity: 1; }
     nav a.active { opacity: 1; color: var(--green); }
@@ -74,7 +75,7 @@
       display: none; flex-direction: column; gap: 5px;
       background: none; border: none; cursor: pointer; padding: 4px;
     }
-    .menu-toggle span { display: block; width: 24px; height: 2px; background: var(--black); border-radius: 2px; }
+    .menu-toggle span { display: block; width: 24px; height: 2px; background: var(--gold); border-radius: 2px; }
     .mobile-nav {
       display: none; position: fixed; inset: 0;
       background: var(--paper); z-index: 100;
@@ -194,6 +195,8 @@
       .log-card.hero .card-body { padding: 22px 24px 26px; }
       .log-card.hero .card-title { font-size: 24px; }
     }
+    /* Collapse nav to menu before links run out of room */
+    @media (max-width: 1040px) { .menu-toggle { display: flex; } nav { display: none; } }
   </style>
 </head>
 <body>
@@ -204,6 +207,7 @@
           <img src="logo.png" alt="Saturday Yard Co. logo">
         </a>
         <nav>
+          <a href="/#winter-prep">Winter Prep</a>
           <a href="/#services">Services</a>
           <a href="/#pricing">Pricing</a>
           <a href="/#route">Route</a>
@@ -219,6 +223,7 @@
 
     <div class="mobile-nav" id="mobileNav" role="dialog" aria-label="Mobile navigation">
       <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">✕</button>
+      <a href="/#winter-prep" class="mobile-nav-link">Winter Prep</a>
       <a href="/#services" class="mobile-nav-link">Services</a>
       <a href="/#pricing" class="mobile-nav-link">Pricing</a>
       <a href="/#route" class="mobile-nav-link">Route</a>
