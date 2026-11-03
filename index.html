@@ -1111,9 +1111,15 @@
             </div>
 
             <div id="sprinklerPricingNote" style="display:none;font-size:13px;color:var(--muted);margin-bottom:14px;padding:12px 14px;background:rgba(21,22,19,.04);border-radius:10px;line-height:1.7;">
-              <strong style="color:var(--black);display:block;margin-bottom:6px;">Zone pricing</strong>
-              2 zones — $65 · each additional zone +$10<br>
-              <span style="margin-top:6px;display:block;">Neighborhood bookings (3+ homes back-to-back) — ask about group rates.</span>
+              <strong style="color:var(--black);display:block;margin-bottom:6px;">How many zones?</strong>
+              <div style="display:flex;align-items:center;gap:12px;margin:10px 0;">
+                <button type="button" id="zoneDecBtn" onclick="adjustZones(-1)" style="width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--paper);font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;">−</button>
+                <span id="zoneCount" style="font-size:18px;font-weight:800;color:var(--black);min-width:24px;text-align:center;">2</span>
+                <button type="button" onclick="adjustZones(1)" style="width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--paper);font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;">+</button>
+                <span style="color:var(--muted);">zones</span>
+                <span id="blowoutPrice" style="margin-left:auto;font-size:18px;font-weight:800;color:var(--green);">$65</span>
+              </div>
+              <span style="display:block;margin-top:4px;">2 zones — $65 · each additional zone +$10. Neighborhood bookings (3+ homes back-to-back) — ask about group rates.</span>
             </div>
 
             <div class="field-group" style="margin-bottom:14px;">
@@ -1214,6 +1220,18 @@
       document.getElementById('photoLabel').textContent = n ? `${n} photo${n > 1 ? 's' : ''} selected` : '<span class="material-icons" style="font-size:18px;vertical-align:middle;margin-right:4px;">photo_camera</span> Tap to add yard photos';
     });
 
+    let blowoutZones = 2;
+    function updateBlowoutPrice() {
+      const price = 65 + Math.max(0, blowoutZones - 2) * 10;
+      document.getElementById('zoneCount').textContent = blowoutZones;
+      document.getElementById('blowoutPrice').textContent = '$' + price;
+      document.getElementById('zoneDecBtn').disabled = blowoutZones <= 2;
+    }
+    function adjustZones(delta) {
+      blowoutZones = Math.max(2, blowoutZones + delta);
+      updateBlowoutPrice();
+    }
+
     const QUOTE_SERVICES = ['Seasonal Cleanup', 'Winter Prep', 'Sprinkler Blowout', 'Snow Removal', 'Lawn Rx'];
     const YARD_LABELS = ['Small — Townhome / compact lot', 'Standard — Typical suburban yard', 'Large — Corner lot / big backyard'];
     const DRIVEWAY_LABELS = ['Small — 1-car driveway, short walkway ($45)', 'Medium — 2-car driveway, front walkway ($65)', 'Large — 3-car or long 2-car driveway ($85)'];
@@ -1237,6 +1255,7 @@
       document.getElementById('winterPrepNote').style.display = isWinter ? '' : 'none';
       document.getElementById('sprinklerPricingNote').style.display = isBlowout ? '' : 'none';
       document.getElementById('sizeField').style.display = isBlowout ? 'none' : '';
+      if (isBlowout) { blowoutZones = 2; updateBlowoutPrice(); }
       document.querySelectorAll('.size-label-text').forEach((el, i) => {
         if (isSnow) el.textContent = DRIVEWAY_LABELS[i];
         else if (isWinter) el.textContent = WINTER_LABELS[i];
@@ -1255,6 +1274,7 @@
         email: (data.get('email')||'').trim(), service: data.get('service')||'',
         yardSize: data.get('yardSize')||'',
         price: ({Small:45,Standard:55,Large:65})[data.get('yardSize')]||'',
+        zones: data.get('service') === 'Sprinkler Blowout' ? blowoutZones : '',
         notes: (data.get('notes')||'').trim(),
         submittedAt: new Date().toISOString(), status: 'pending'
       };
